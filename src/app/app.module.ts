@@ -11,6 +11,8 @@ import { PlaygroundComponent } from './components/api/playground/playground.comp
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './components/core/page-not-found/page-not-found.component';
 import { LoginComponent } from './components/api/login/login.component';
+import { SuccesDialogComponent } from './components/dialog/succes-dialog/succes-dialog.component';
+import { ErrorDialogComponent } from './components/dialog/error-dialog/error-dialog.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { LoginComponent } from './components/api/login/login.component';
     ToolbarComponent,
     PlaygroundComponent,
     PageNotFoundComponent,
-    LoginComponent
+    LoginComponent,
+    SuccesDialogComponent,
+    ErrorDialogComponent
   ],
   imports: [
     BrowserModule,

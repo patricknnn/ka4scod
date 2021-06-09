@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DialogService } from 'src/app/services/dialog.service';
 import { NodeRestApiService } from 'src/app/services/node-rest-api.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class LoginComponent {
    */
   constructor(
     private api: NodeRestApiService,
+    private dialog: DialogService,
     private router: Router
   ) { }
 
@@ -30,9 +32,17 @@ export class LoginComponent {
    * Login to api
    */
   login(): void {
-    this.api.login(this.email.value, this.password.value).then((res) => {
-      if (res == 'succes') this.router.navigate(['/apiplayground']);
-    });
+    this.api.login(this.email.value, this.password.value)
+      .then((res) => {
+        if (res == 'succes') {
+          this.router.navigate(['/apiplayground'])
+        } else {
+          this.dialog.errorDialog('Error', res);
+        };
+      })
+      .catch((err) => {
+        this.dialog.errorDialog('Error', err);
+      });
   }
 
 }
