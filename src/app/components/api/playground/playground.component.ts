@@ -9,8 +9,6 @@ import { CodApiPlatform, CodApiGame, CodApiGameType, CodApiPlayer, NodeRestApiSe
   styleUrls: ['./playground.component.scss']
 })
 export class PlaygroundComponent implements OnInit {
-  email = new FormControl('patrickniewold@gmail.com', [Validators.required]);
-  password = new FormControl('', [Validators.required]);
   resultTitle?: string;
   resultContent?: any;
   appearance: MatFormFieldAppearance = "standard";
@@ -38,10 +36,6 @@ export class PlaygroundComponent implements OnInit {
 
   isLoggedIn(): boolean {
     return this.api.isLoggedIn;
-  }
-
-  login(): void {
-    this.api.login(this.email.value, this.password.value)
   }
 
   getLifetimeStats(): void {

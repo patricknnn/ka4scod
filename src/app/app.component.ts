@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { routeAnimation } from './animations/route-animations';
 import { Navlink } from './models/navlink';
 import { NavlinkService } from './services/navlink.service';
+import { NodeRestApiService } from './services/node-rest-api.service';
 
 @Component({
   selector: 'app-root',
