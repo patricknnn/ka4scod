@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+import { LifetimeStats } from '../models/lifetime-stats';
 
 export declare type CodApiPlayer = { name: string, gamertag: string, platform: CodApiPlatform };
 export declare type CodApiPlatform = 'battle' | 'steam' | 'psn' | 'xbl' | 'acti' | 'uno' | 'all';
@@ -36,7 +37,6 @@ export class NodeRestApiService {
       this.postRequest(`${this.apiURL}login`, body)
         .toPromise()
         .then((result: any) => {
-          console.log(result);
           if (result.search('200') >= 0) {
             this.isLoggedIn = true;
             resolve('succes');
@@ -50,7 +50,7 @@ export class NodeRestApiService {
     })
   }
 
-  getLifetimeStats(type: CodApiGameType, player: CodApiPlayer): Promise<any> {
+  getLifetimeStats(type: CodApiGameType, player: CodApiPlayer): Promise<LifetimeStats> {
     return new Promise((resolve, reject) => {
       let gamertag = encodeURIComponent(player.gamertag);
       let platform = player.platform;
@@ -174,6 +174,8 @@ export class NodeRestApiService {
     return [
       { name: 'BENNIEMAN', gamertag: 'BENNIEMAN#21282', platform: 'battle' },
       { name: 'Kuberoal', gamertag: 'Lamberg1#2207', platform: 'battle' },
+      { name: 'MARTINZIKI', gamertag: 'MARTINZIKI#2452', platform: 'battle' },
+      //{ name: 'BlokTastic', gamertag: 'BlokTastic#6891668', platform: 'battle' },
     ];
   }
 
