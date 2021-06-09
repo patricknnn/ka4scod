@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { LifetimeStats } from '../models/lifetime-stats';
+import { WarzoneStats } from '../models/warzone-stats';
 
 export declare type CodApiPlayer = { name: string, gamertag: string, platform: CodApiPlatform };
 export declare type CodApiPlatform = 'battle' | 'steam' | 'psn' | 'xbl' | 'acti' | 'uno' | 'all';
@@ -59,7 +60,7 @@ export class NodeRestApiService {
     });
   };
 
-  getBattleRoyaleStats(player: CodApiPlayer): Promise<any> {
+  getWarzoneStats(player: CodApiPlayer): Promise<WarzoneStats> {
     return new Promise((resolve, reject) => {
       let gamertag = encodeURIComponent(player.gamertag);
       let platform = player.platform;

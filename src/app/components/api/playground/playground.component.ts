@@ -43,8 +43,8 @@ export class PlaygroundComponent implements OnInit {
     this.resultTitle = 'Lifetime stats';
   }
 
-  getBattleRoyaleStats(): void {
-    this.api.getBattleRoyaleStats(this.player).then(result => this.resultContent = JSON.stringify(result));
+  getWarzoneStats(): void {
+    this.api.getWarzoneStats(this.player).then(result => this.resultContent = JSON.stringify(result));
     this.resultTitle = 'Battle Royale Stats';
   }
 
