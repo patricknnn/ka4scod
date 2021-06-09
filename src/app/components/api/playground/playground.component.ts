@@ -13,7 +13,7 @@ export class PlaygroundComponent implements OnInit {
   password = new FormControl('', [Validators.required]);
   content?: any;
   appearance: MatFormFieldAppearance = "standard";
-  color: string = "accent";
+  color: string = "primary";
   platform: CodApiPlatform = "battle";
   platforms?: CodApiPlatform[];
   game: CodApiGame = 'mw';
@@ -25,7 +25,7 @@ export class PlaygroundComponent implements OnInit {
     { name: "BENNIEMAN", gamertag: "BENNIEMAN#21282", platform: "battle" },
     { name: "Kuberoal", gamertag: "Lamberg1#2207", platform: "battle" },
   ];
-  season: number = 4;
+  season: number = 3;
   resultTitle?: string;
 
   constructor(private api: NodeRestApiService) { }

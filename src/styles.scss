@@ -69,6 +69,11 @@ body {
   padding: 0 4px;
 }
 
+.button-row .column button {
+  width: 100%;
+  margin: 8px 0;
+}
+
 // Small devices (landscape phones, 576px and up)
 @media (min-width: 576px) {
   .column {
