@@ -16,6 +16,8 @@ import { DynamicFormsModule } from './modules/dynamic-forms/dynamic-forms.module
 import { DynamicTablesModule } from './modules/dynamic-tables/dynamic-tables.module';
 import { TitleSectionComponent } from './components/core/title-section/title-section.component';
 import { LoadingComponent } from './components/core/loading/loading.component';
+import { StatsMpTableComponent } from './components/tables/stats-mp-table/stats-mp-table.component';
+import { StatsWzTableComponent } from './components/tables/stats-wz-table/stats-wz-table.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { LoadingComponent } from './components/core/loading/loading.component';
     KillsTableComponent,
     DashboardComponent,
     TitleSectionComponent,
-    LoadingComponent
+    LoadingComponent,
+    StatsMpTableComponent,
+    StatsWzTableComponent
   ],
   imports: [
     SharedModule,
