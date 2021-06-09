@@ -169,6 +169,17 @@ export class NodeRestApiService {
    * Returnes platforms
    * @returns CodApiPlatform[]
    */
+  getPlayers(): CodApiPlayer[] {
+    return [
+      { name: "BENNIEMAN", gamertag: "BENNIEMAN#21282", platform: "battle" },
+      { name: "Kuberoal", gamertag: "Lamberg1#2207", platform: "battle" },
+    ];
+  }
+
+  /**
+   * Returnes platforms
+   * @returns CodApiPlatform[]
+   */
   getPlatforms(): CodApiPlatform[] {
     return ['battle', 'steam', 'psn', 'xbl', 'acti', 'uno', 'all'];
   }
