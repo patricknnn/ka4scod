@@ -15,6 +15,7 @@ export class NavlinkService {
    */
   getNavlinks(): Observable<Navlink[]> {
     const navlinks: Navlink[] = [
+      new Navlink('Dashboard', 'dashboard', '/dashboard'),
       new Navlink('API Playground', 'play_arrow', '/apiplayground'),
       new Navlink('Page Not Found', 'search_off', '/404'),
     ];

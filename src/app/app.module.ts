@@ -13,6 +13,10 @@ import { PageNotFoundComponent } from './components/core/page-not-found/page-not
 import { LoginComponent } from './components/api/login/login.component';
 import { SuccesDialogComponent } from './components/dialog/succes-dialog/succes-dialog.component';
 import { ErrorDialogComponent } from './components/dialog/error-dialog/error-dialog.component';
+import { RankCardComponent } from './components/cards/rank-card/rank-card.component';
+import { RankBpCardComponent } from './components/cards/rank-bp-card/rank-bp-card.component';
+import { KillsTableComponent } from './components/tables/kills-table/kills-table.component';
+import { DashboardComponent } from './components/core/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,11 @@ import { ErrorDialogComponent } from './components/dialog/error-dialog/error-dia
     PageNotFoundComponent,
     LoginComponent,
     SuccesDialogComponent,
-    ErrorDialogComponent
+    ErrorDialogComponent,
+    RankCardComponent,
+    RankBpCardComponent,
+    KillsTableComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

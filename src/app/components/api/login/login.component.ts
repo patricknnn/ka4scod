@@ -35,7 +35,7 @@ export class LoginComponent {
     this.api.login(this.email.value, this.password.value)
       .then((res) => {
         if (res == 'succes') {
-          this.router.navigate(['/apiplayground'])
+          this.router.navigate([this.api.redirectUrl])
         } else {
           this.dialog.errorDialog('Error', res);
         };

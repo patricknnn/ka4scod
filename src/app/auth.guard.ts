@@ -28,18 +28,20 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot
   ): boolean {
     const url: string = state.url;
-    return this.checkLogin();
+    return this.checkLogin(url);
   }
 
   /**
    * Checks login status
    * @returns boolean
    */
-  checkLogin(): boolean {
+  checkLogin(url: string): boolean {
     if (this.api.isLoggedIn) {
       return true;
     } else {
-      // Navigate to the login page with extras
+      // Save url for redirect 
+      this.api.redirectUrl = url;
+      // Navigate to login 
       this.router.navigate(['/login']);
       return false;
     }
