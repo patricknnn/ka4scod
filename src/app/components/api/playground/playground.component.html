@@ -1,0 +1,117 @@
+<!-- Login -->
+<mat-card *ngIf="!isLoggedIn()">
+  <mat-card-header>
+    <mat-icon mat-card-avatar>lock</mat-icon>
+    <mat-card-title>Login</mat-card-title>
+    <mat-card-subtitle>COD API</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <form (ngSubmit)="login()">
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput type="text" [formControl]="email">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" [formControl]="password">
+      </mat-form-field>
+      <button mat-raised-button type="submit" color="primary">Log in</button>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<!-- Content -->
+<mat-card *ngIf="isLoggedIn()" style="margin-top: 16px;">
+  <mat-card-header>
+    <mat-icon mat-card-avatar>play_arrow</mat-icon>
+    <mat-card-title>Playground</mat-card-title>
+    <mat-card-subtitle>Call of duty API</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row">
+      <div class="column">
+        <mat-form-field [appearance]="appearance" [color]="color" class="form-field">
+          <mat-label>Player</mat-label>
+          <mat-select name="player" [(ngModel)]="player">
+            <mat-option *ngFor="let player of players" [value]="player">
+              {{player.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="column">
+        <mat-form-field [appearance]="appearance" [color]="color" class="form-field">
+          <mat-label>Game</mat-label>
+          <mat-select name="game" [(ngModel)]="game">
+            <mat-option *ngFor="let game of games" [value]="game">{{game}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="column">
+        <mat-form-field [appearance]="appearance" [color]="color" class="form-field">
+          <mat-label>Game Type</mat-label>
+          <mat-select name="gameType" [(ngModel)]="gameType">
+            <mat-option *ngFor="let type of gameTypes" [value]="type">{{type}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row button-row">
+      <div class="column">
+        <button mat-flat-button color="accent" (click)="getAccounts()">Accounts</button>
+      </div>
+      <div class="column">
+        <button mat-flat-button color="accent" (click)="getAnalysis()">Analysis</button>
+      </div>
+      <div class="column">
+        <button mat-flat-button color="accent" (click)="getBattlePassLoot()">BattlePass Loot</button>
+      </div>
+      <div class="column">
+        <button mat-flat-button color="accent" (click)="getBattlePassTiers()">BattlePass Tiers</button>
+      </div>
+      <div class="column">
+        <button mat-flat-button color="accent" (click)="getBattleRoyaleStats()">Battle Royale Stats</button>
+      </div>
+      <div class="column">
+        <button mat-flat-button color="accent" (click)="getCodPoints()">Cod Points</button>
+      </div>
+      <div class="column">
+        <button mat-flat-button color="accent" (click)="getEvents()">Events</button>
+      </div>
+      <div class="column">
+        <button mat-flat-button color="accent" (click)="getIdentities()">Identities</button>
+      </div>
+      <div class="column">
+        <button mat-flat-button color="accent" (click)="getLifetimeStats()">Lifetime Stats</button>
+      </div>
+      <div class="column">
+        <button mat-flat-button color="accent" (click)="getMaps()">Maps</button>
+      </div>
+      <div class="column">
+        <button mat-flat-button color="accent" (click)="getRecentMatches()">Recent Matches</button>
+      </div>
+      <div class="column">
+        <button mat-flat-button color="accent" (click)="getSettings()">Settings</button>
+      </div>
+      <div class="column">
+        <button mat-flat-button color="accent" (click)="getUserinfo()">User Info</button>
+      </div>
+      <div class="column">
+        <button mat-flat-button color="accent" (click)="getWeeklyStats()">Weekly Stats</button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- Result -->
+<mat-card *ngIf="isLoggedIn()" style="margin-top: 16px;">
+  <mat-card-header>
+    <mat-icon mat-card-avatar>info</mat-icon>
+    <mat-card-title>{{resultTitle}}</mat-card-title>
+    <mat-card-subtitle>COD API</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    {{content}}
+  </mat-card-content>
+</mat-card>

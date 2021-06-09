@@ -1,0 +1,8 @@
+<mat-nav-list>
+  <h3 matSubheader>Pages</h3>
+  <mat-divider></mat-divider>
+  <a mat-list-item *ngFor="let link of navLinks" [routerLink]="link.routerLink" routerLinkActive="active">
+    <mat-icon matListIcon> {{link.icon}} </mat-icon>
+    <h3 matLine> {{link.text}} </h3>
+  </a>
+</mat-nav-list>

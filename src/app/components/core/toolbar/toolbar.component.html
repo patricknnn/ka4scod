@@ -1,0 +1,13 @@
+<mat-toolbar class="toolbar" [color]="'primary'">
+  <button mat-icon-button (click)="emitSidebarChange('toggle')">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <h1 class="example-app-name">{{title}}</h1>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="emitThemeChange('light')">
+    <mat-icon>light_mode</mat-icon>
+  </button>
+  <button mat-icon-button (click)="emitThemeChange('dark')">
+    <mat-icon>dark_mode</mat-icon>
+  </button>
+</mat-toolbar>

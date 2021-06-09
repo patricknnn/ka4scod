@@ -1,0 +1,39 @@
+// Imports
+@import "~@angular/material/theming";
+
+// Includes
+@include mat-core();
+
+// Define default theme
+$color-primary: mat-palette($mat-deep-purple);
+$color-accent: mat-palette($mat-amber, A200, A100, A400);
+$color-theme: mat-light-theme(
+  (
+    color: (
+      primary: $color-primary,
+      accent: $color-accent,
+    ),
+  )
+);
+
+// Include default theme
+@include angular-material-theme($color-theme);
+
+// Define dark theme
+$dark-primary: mat-palette($mat-deep-purple);
+$dark-accent: mat-palette($mat-amber, A200, A100, A400);
+$dark-warn: mat-palette($mat-deep-orange);
+$dark-theme: mat-dark-theme(
+  (
+    color: (
+      primary: $dark-primary,
+      accent: $dark-accent,
+      warn: $dark-warn,
+    ),
+  )
+);
+
+// Include the dark theme only if parant has '.theme-dark' class
+.theme-dark {
+  @include angular-material-color($dark-theme);
+}
