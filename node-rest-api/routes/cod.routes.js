@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const codRoute = express.Router();
-const API = require('call-of-duty-api')({ platform: "battle" });
+const API = require('call-of-duty-api')({ platform: 'battle' });
 
 // Login
 codRoute.route('/login').post((req, res, next) => {
@@ -16,7 +16,7 @@ codRoute.route('/login').post((req, res, next) => {
 
 // Get lifetime stats
 codRoute.route('/lifetime/:gametype/:gamertag/:platform').get((req, res) => {
-  if (req.params.gametype == "mp") {
+  if (req.params.gametype == 'mp') {
     API.MWmp(req.params.gamertag, req.params.platform)
       .then((data) => {
         res.json(data);
@@ -37,7 +37,7 @@ codRoute.route('/lifetime/:gametype/:gamertag/:platform').get((req, res) => {
 
 // Get recent match details
 codRoute.route('/recentmatches/:gametype/:gamertag/:platform').get((req, res) => {
-  if (req.params.gametype == "mp") {
+  if (req.params.gametype == 'mp') {
     API.MWcombatmp(req.params.gamertag, req.params.platform)
       .then((data) => {
         res.json(data);

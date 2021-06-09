@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { routeAnimation } from './animations/route-animations';
 import { Navlink } from './models/navlink';
 import { NavlinkService } from './services/navlink.service';
-import { NodeRestApiService } from './services/node-rest-api.service';
 
 @Component({
   selector: 'app-root',
@@ -52,7 +51,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 768px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addEventListener<"change">("change", this._mobileQueryListener);
+    this.mobileQuery.addEventListener<'change'>('change', this._mobileQueryListener);
     this.navLinks$ = navlinkService.getNavlinks();
   }
 
@@ -67,7 +66,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * Called on component destroy
    */
   ngOnDestroy(): void {
-    this.mobileQuery.removeEventListener<"change">("change", this._mobileQueryListener);
+    this.mobileQuery.removeEventListener<'change'>('change', this._mobileQueryListener);
   }
 
   /**
@@ -101,7 +100,7 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * Returns activated route
    * @param outlet Router outlet
-   * @returns Activated route if activated, "" otherwise
+   * @returns Activated route if activated, '' otherwise
    */
   public getActivatedRoute(outlet: RouterOutlet): ActivatedRoute | undefined {
     return outlet.isActivated ? outlet.activatedRoute : undefined;

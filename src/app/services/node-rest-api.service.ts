@@ -36,9 +36,9 @@ export class NodeRestApiService {
         .toPromise()
         .then((result: any) => {
           console.log(result);
-          if (result.search("200") >= 0) {
+          if (result.search('200') >= 0) {
             this.isLoggedIn = true;
-            resolve('Succesfully logged in');
+            resolve('succes');
           } else {
             reject(result);
           }
@@ -171,8 +171,8 @@ export class NodeRestApiService {
    */
   getPlayers(): CodApiPlayer[] {
     return [
-      { name: "BENNIEMAN", gamertag: "BENNIEMAN#21282", platform: "battle" },
-      { name: "Kuberoal", gamertag: "Lamberg1#2207", platform: "battle" },
+      { name: 'BENNIEMAN', gamertag: 'BENNIEMAN#21282', platform: 'battle' },
+      { name: 'Kuberoal', gamertag: 'Lamberg1#2207', platform: 'battle' },
     ];
   }
 

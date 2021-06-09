@@ -11,9 +11,9 @@ import { CodApiPlatform, CodApiGame, CodApiGameType, CodApiPlayer, NodeRestApiSe
 export class PlaygroundComponent implements OnInit {
   resultTitle?: string;
   resultContent?: any;
-  appearance: MatFormFieldAppearance = "standard";
-  color: string = "primary";
-  platform: CodApiPlatform = "battle";
+  appearance: MatFormFieldAppearance = 'standard';
+  color: string = 'primary';
+  platform: CodApiPlatform = 'battle';
   platforms: CodApiPlatform[];
   game: CodApiGame = 'mw';
   games: CodApiGame[];

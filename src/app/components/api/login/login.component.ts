@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NodeRestApiService } from 'src/app/services/node-rest-api.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { NodeRestApiService } from 'src/app/services/node-rest-api.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   /**
    * Email form control
    */
@@ -17,17 +18,21 @@ export class LoginComponent implements OnInit {
    */
   password = new FormControl('', [Validators.required]);
 
-
   /**
    * Initialize login component
    */
-  constructor(private api: NodeRestApiService) { }
+  constructor(
+    private api: NodeRestApiService,
+    private router: Router
+  ) { }
 
-  ngOnInit(): void {
-  }
-
+  /**
+   * Login to api
+   */
   login(): void {
-    this.api.login(this.email.value, this.password.value);
+    this.api.login(this.email.value, this.password.value).then((res) => {
+      if (res == 'succes') this.router.navigate(['/apiplayground']);
+    });
   }
 
 }
