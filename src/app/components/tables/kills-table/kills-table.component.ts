@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { LifetimeStats } from 'src/app/models/lifetime-stats';
-import { DynamicTableButton } from 'src/app/modules/dynamic-tables/models/dynamic-table-button';
 import { DynamicTableColumnConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-column-config';
 import { DynamicTableConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-config';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -52,17 +51,35 @@ export class KillsTableComponent implements OnInit {
       }),
       new DynamicTableColumnConfig({
         key: 'mk2',
-        header: 'MK-2 Carbine',
+        header: 'Gouveneur',
+        sortable: true,
+        draggable: true
+      }),
+      new DynamicTableColumnConfig({
+        key: 'sks',
+        header: 'SKS',
+        sortable: true,
+        draggable: true
+      }),
+      new DynamicTableColumnConfig({
+        key: 'cross',
+        header: 'Crossbow',
+        sortable: true,
+        draggable: true
+      }),
+      new DynamicTableColumnConfig({
+        key: 'garand',
+        header: 'Garand 2.0',
         sortable: true,
         draggable: true
       }),
     ];
-    this.getKillData().then((res: any) => {
+    this.getMarksmanKillData().then((res: any) => {
       this.data = res;
     });
   }
 
-  getKillData(): Promise<any[]> {
+  getMarksmanKillData(): Promise<any[]> {
     return new Promise((resolve, reject) => {
       let data: any[] = [];
       let count = 0;
@@ -79,7 +96,10 @@ export class KillsTableComponent implements OnInit {
             let kar = res.lifetime.itemData.weapon_marksman.iw8_sn_kilo98.properties.kills;
             let spr = res.lifetime.itemData.weapon_marksman.iw8_sn_romeo700.properties.kills;
             let mk2 = res.lifetime.itemData.weapon_marksman.iw8_sn_sbeta.properties.kills;
-            data.push({ name: name, total: total, kar: kar, spr: spr, mk2: mk2 });
+            let sks = res.lifetime.itemData.weapon_marksman.iw8_sn_sksierra.properties.kills;
+            let cross = res.lifetime.itemData.weapon_marksman.iw8_sn_crossbow.properties.kills;
+            let garand = res.lifetime.itemData.weapon_marksman.iw8_sn_mike14.properties.kills;
+            data.push({ name: name, total: total, kar: kar, spr: spr, mk2: mk2, sks: sks, cross: cross, grand: garand });
             count++;
             if (count == players.length) {
               resolve(data);
