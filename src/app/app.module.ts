@@ -1,14 +1,8 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
-import { MaterialModule } from './modules/material/material.module';
 import { SidenavComponent } from './components/core/sidenav/sidenav.component';
 import { ToolbarComponent } from './components/core/toolbar/toolbar.component';
 import { PlaygroundComponent } from './components/api/playground/playground.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './components/core/page-not-found/page-not-found.component';
 import { LoginComponent } from './components/api/login/login.component';
 import { SuccesDialogComponent } from './components/dialog/succes-dialog/succes-dialog.component';
@@ -17,6 +11,11 @@ import { RankCardComponent } from './components/cards/rank-card/rank-card.compon
 import { RankBpCardComponent } from './components/cards/rank-bp-card/rank-bp-card.component';
 import { KillsTableComponent } from './components/tables/kills-table/kills-table.component';
 import { DashboardComponent } from './components/core/dashboard/dashboard.component';
+import { SharedModule } from './modules/shared/shared.module';
+import { DynamicFormsModule } from './modules/dynamic-forms/dynamic-forms.module';
+import { DynamicTablesModule } from './modules/dynamic-tables/dynamic-tables.module';
+import { TitleSectionComponent } from './components/core/title-section/title-section.component';
+import { LoadingComponent } from './components/core/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -31,16 +30,14 @@ import { DashboardComponent } from './components/core/dashboard/dashboard.compon
     RankCardComponent,
     RankBpCardComponent,
     KillsTableComponent,
-    DashboardComponent
+    DashboardComponent,
+    TitleSectionComponent,
+    LoadingComponent
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MaterialModule,
-    FormsModule,
-    ReactiveFormsModule
+    SharedModule,
+    DynamicFormsModule,
+    DynamicTablesModule
   ],
   providers: [],
   bootstrap: [AppComponent]

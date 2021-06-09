@@ -1,0 +1,14 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <div class="row">
+    <div *ngFor="let control of formControls" [ngClass]="control.class">
+      <app-dynamic-form-control [appearance]="appearance" [color]="color" [control]="control" [form]="form">
+      </app-dynamic-form-control>
+    </div>
+  </div>
+  <div class="row">
+    <button mat-raised-button color="primary" type="submit" class="w-100"
+      [disabled]="!allowInvalidSubmit && !form.valid">
+      Save
+    </button>
+  </div>
+</form>
