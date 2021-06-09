@@ -64,9 +64,9 @@ export class KillsTableComponent implements OnInit {
 
   getKillData(): Promise<any[]> {
     return new Promise((resolve, reject) => {
-      let data: any[] = []; // { player: '', total: '', kar: '', spr: ''};
-      let players = this.api.getPlayers();
+      let data: any[] = [];
       let count = 0;
+      let players = this.api.getPlayers();
       players.forEach((player) => {
         this.api.getLifetimeStats("mp", player)
           .then((res: LifetimeStats) => {

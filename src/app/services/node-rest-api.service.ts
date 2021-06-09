@@ -175,6 +175,7 @@ export class NodeRestApiService {
       { name: 'BENNIEMAN', gamertag: 'BENNIEMAN#21282', platform: 'battle' },
       { name: 'Kuberoal', gamertag: 'Lamberg1#2207', platform: 'battle' },
       { name: 'MARTINZIKI', gamertag: 'MARTINZIKI#2452', platform: 'battle' },
+      { name: 'NanoHakuro', gamertag: 'NanoHakuro#2526', platform: 'battle' },
       //{ name: 'BlokTastic', gamertag: 'BlokTastic#6891668', platform: 'battle' },
     ];
   }
