@@ -56,6 +56,15 @@ body {
   padding: 15px;
 }
 
+// Buttons
+.button-toggle-full-width {
+  display: flex !important;
+  flex-wrap: wrap !important;
+}
+.button-toggle-full-width .mat-button-toggle {
+  flex-grow: 1 !important;
+}
+
 // Flex layout
 .row {
   display: flex;

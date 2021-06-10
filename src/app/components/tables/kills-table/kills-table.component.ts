@@ -1,5 +1,4 @@
-import { CssSelector } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { LifetimeStats } from 'src/app/models/lifetime-stats';
 import { DynamicTableColumnConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-column-config';
 import { DynamicTableConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-config';
@@ -13,13 +12,21 @@ import { TableService } from 'src/app/services/table.service';
   styleUrls: ['./kills-table.component.scss']
 })
 export class KillsTableComponent implements OnInit {
+  tableTitle: string = '';
+  tableData: any[] = [];
   tableConfig?: DynamicTableConfig;
   columnConfig: DynamicTableColumnConfig[] = [];
   data: { name: string, data: any }[] = [];
-  marksmanData: { name: string, total: number, kar: number, spr: number, mk2: number, sks: number, cross: number, mbr: number }[] = [];
-  sniperdata: { name: string, total: number, ax50: number, delta: number, hdr: number, xm: number }[] = [];
-  assaultData: { name: string, total: number, ak: number, an: number, as12: number, fal: number, fala: number, gal: number, kilo: number, mc: number, m4: number, sc: number, s5: number, m21: number, valp: number }[] = [];
+  isLoading: boolean = true;
+  @ViewChild("outlet", { read: ViewContainerRef }) outletRef?: ViewContainerRef;
+  @ViewChild("content", { read: TemplateRef }) contentRef?: TemplateRef<any>;
 
+  /**
+   * Initialize
+   * @param tables TableService
+   * @param api NodeRestApiService
+   * @param dialog DialogService
+   */
   constructor(
     private tables: TableService,
     private api: NodeRestApiService,
@@ -28,63 +35,36 @@ export class KillsTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.tableConfig = this.tables.getTableConfig();
-    this.columnConfig = [
-      new DynamicTableColumnConfig({
-        key: 'name',
-        header: 'Player',
-        sortable: true,
-        draggable: true
-      }),
-      new DynamicTableColumnConfig({
-        key: 'total',
-        header: 'Total',
-        sortable: true,
-        draggable: true
-      }),
-      new DynamicTableColumnConfig({
-        key: 'kar',
-        header: 'Kar98k',
-        sortable: true,
-        draggable: true
-      }),
-      new DynamicTableColumnConfig({
-        key: 'spr',
-        header: 'SPR-208',
-        sortable: true,
-        draggable: true
-      }),
-      new DynamicTableColumnConfig({
-        key: 'mk2',
-        header: 'Gouveneur',
-        sortable: true,
-        draggable: true
-      }),
-      new DynamicTableColumnConfig({
-        key: 'sks',
-        header: 'SKS',
-        sortable: true,
-        draggable: true
-      }),
-      new DynamicTableColumnConfig({
-        key: 'cross',
-        header: 'Crossbow',
-        sortable: true,
-        draggable: true
-      }),
-      new DynamicTableColumnConfig({
-        key: 'mbr',
-        header: 'Garand 2.0',
-        sortable: true,
-        draggable: true
-      }),
-    ];
-    this.getData().then((res) => {
+    this.getLifetimeData().then((res) => {
       this.data = res;
       this.getMarksmanKillData();
     });
   }
 
-  getData(): Promise<{ name: string, data: any }[]> {
+  renderTable(): void {
+    if (this.outletRef && this.contentRef) {
+      this.isLoading = true;
+      this.outletRef.clear();
+      this.outletRef.createEmbeddedView(this.contentRef);
+      this.isLoading = false;
+    }
+  }
+
+  buildColumns(): void {
+    this.columnConfig = [];
+    for (const property in this.tableData[0]) {
+      this.columnConfig.push(
+        new DynamicTableColumnConfig({
+          key: property,
+          header: property,
+          sortable: true,
+          draggable: true
+        }),
+      );
+    }
+  }
+
+  getLifetimeData(): Promise<{ name: string, data: any }[]> {
     return new Promise((resolve, reject) => {
       let data: any[] = [];
       let count = 0;
@@ -98,14 +78,6 @@ export class KillsTableComponent implements OnInit {
             }
             let name = player.name;
             let lifetime = res.lifetime;
-            // weapons
-            let smg = res.lifetime.itemData.weapon_smg;
-            let shotty = res.lifetime.itemData.weapon_shotgun;
-            let melee = res.lifetime.itemData.weapon_melee;
-            let launcher = res.lifetime.itemData.weapon_launcher;
-            let other = res.lifetime.itemData.weapon_other;
-            let pistol = res.lifetime.itemData.weapon_pistol
-            let lmg = res.lifetime.itemData.weapon_lmg;
             data.push({ name: name, data: lifetime });
             count++;
             if (count == players.length) {
@@ -119,100 +91,218 @@ export class KillsTableComponent implements OnInit {
     });
   }
 
-  getMarksmanKillData(): void {
+  getShottyData(): void {
     // empty
-    this.columnConfig = [];
-    this.marksmanData = [];
+    this.tableData = [];
+    this.tableTitle = 'Kills: Shotty';
     // data
     this.data.forEach((entry) => {
-      let name = entry.name;
-      let total = entry.data.all.properties.kills;
-      let kar = entry.data.itemData.weapon_marksman.iw8_sn_kilo98.properties.kills;
-      let spr = entry.data.itemData.weapon_marksman.iw8_sn_romeo700.properties.kills;
-      let mk2 = entry.data.itemData.weapon_marksman.iw8_sn_sbeta.properties.kills;
-      let sks = entry.data.itemData.weapon_marksman.iw8_sn_sksierra.properties.kills;
-      let cross = entry.data.itemData.weapon_marksman.iw8_sn_crossbow.properties.kills;
-      let mbr = entry.data.itemData.weapon_marksman.iw8_sn_mike14.properties.kills;
-      this.marksmanData.push({ name: name, total: total, kar: kar, spr: spr, mk2: mk2, sks: sks, cross: cross, mbr: mbr });
+      this.tableData.push({
+        Name: entry.name,
+        Total: entry.data.all.properties.kills,
+        AA12: entry.data.itemData.weapon_shotgun.iw8_sh_aalpha12.properties.kills,
+        C725: entry.data.itemData.weapon_shotgun.iw8_sh_charlie725.properties.kills,
+        DP12: entry.data.itemData.weapon_shotgun.iw8_sh_dpapa12.properties.kills,
+        M26: entry.data.itemData.weapon_shotgun.iw8_sh_mike26.properties.kills,
+        OC12: entry.data.itemData.weapon_shotgun.iw8_sh_oscar12.properties.kills,
+        R870: entry.data.itemData.weapon_shotgun.iw8_sh_romeo870.properties.kills
+      });
     });
     // columns
-    for (const property in this.marksmanData[0]) {
-      this.columnConfig.push(
-        new DynamicTableColumnConfig({
-          key: property,
-          header: property,
-          sortable: true,
-          draggable: true
-        }),
-      );
-    }
+    this.buildColumns();
+    // render table
+    this.renderTable();
+  }
 
+  getLmgData(): void {
+    // empty
+    this.tableData = [];
+    this.tableTitle = 'Kills: LMG';
+    // data
+    this.data.forEach((entry) => {
+      this.tableData.push({
+        Name: entry.name,
+        Total: entry.data.all.properties.kills,
+        K121: entry.data.itemData.weapon_lmg.iw8_lm_kilo121.properties.kills,
+        L86: entry.data.itemData.weapon_lmg.iw8_lm_lima86.properties.kills,
+        M34: entry.data.itemData.weapon_lmg.iw8_lm_mgolf34.properties.kills,
+        G36: entry.data.itemData.weapon_lmg.iw8_lm_mgolf36.properties.kills,
+        MK3: entry.data.itemData.weapon_lmg.iw8_lm_mkilo3.properties.kills,
+        PKM: entry.data.itemData.weapon_lmg.iw8_lm_pkilo.properties.kills,
+        SX: entry.data.itemData.weapon_lmg.iw8_lm_sierrax.properties.kills
+      });
+    });
+    // columns
+    this.buildColumns();
+    // render table
+    this.renderTable();
+  }
+
+  getPistolData(): void {
+    // empty
+    this.tableData = [];
+    this.tableTitle = 'Kills: Pistol';
+    // data
+    this.data.forEach((entry) => {
+      this.tableData.push({
+        Name: entry.name,
+        Total: entry.data.all.properties.kills,
+        CP: entry.data.itemData.weapon_pistol.iw8_pi_cpapa.properties.kills,
+        DE: entry.data.itemData.weapon_pistol.iw8_pi_decho.properties.kills,
+        G21: entry.data.itemData.weapon_pistol.iw8_pi_golf21.properties.kills,
+        M1911: entry.data.itemData.weapon_pistol.iw8_pi_mike1911.properties.kills,
+        M9: entry.data.itemData.weapon_pistol.iw8_pi_mike9.properties.kills,
+        P320: entry.data.itemData.weapon_pistol.iw8_pi_papa320.properties.kills
+      });
+    });
+    // columns
+    this.buildColumns();
+    // render table
+    this.renderTable();
+  }
+
+  getLauncherData(): void {
+    // empty
+    this.tableData = [];
+    this.tableTitle = 'Kills: Launcher';
+    // data
+    this.data.forEach((entry) => {
+      this.tableData.push({
+        Name: entry.name,
+        Total: entry.data.all.properties.kills,
+        GR: entry.data.itemData.weapon_launcher.iw8_la_gromeo.properties.kills,
+        JL: entry.data.itemData.weapon_launcher.iw8_la_juliet.properties.kills,
+        KG: entry.data.itemData.weapon_launcher.iw8_la_kgolf.properties.kills,
+        M32: entry.data.itemData.weapon_launcher.iw8_la_mike32.properties.kills,
+        RPG: entry.data.itemData.weapon_launcher.iw8_la_rpapa7.properties.kills
+      });
+    });
+    // columns
+    this.buildColumns();
+    // render table
+    this.renderTable();
+  }
+
+  getMeleeKillData(): void {
+    // empty
+    this.tableData = [];
+    this.tableTitle = 'Kills: Melee';
+    // data
+    this.data.forEach((entry) => {
+      this.tableData.push({
+        Name: entry.name,
+        Total: entry.data.all.properties.kills,
+        Knife: entry.data.itemData.weapon_melee.iw8_knife.properties.kills,
+        Blade: entry.data.itemData.weapon_melee.iw8_me_akimboblades.properties.kills,
+        Blunt: entry.data.itemData.weapon_melee.iw8_me_akimboblunt.properties.kills,
+        Riot: entry.data.itemData.weapon_other.iw8_me_riotshield.properties.kills
+      });
+    });
+    // columns
+    this.buildColumns();
+    // render table
+    this.renderTable();
+  }
+
+  getSmgKillData(): void {
+    // empty
+    this.tableData = [];
+    this.tableTitle = 'Kills: SMG';
+    // data
+    this.data.forEach((entry) => {
+      this.tableData.push({
+        name: entry.name,
+        total: entry.data.all.properties.kills,
+        AUG: entry.data.itemData.weapon_smg.iw8_sm_augolf.properties.kills,
+        beta: entry.data.itemData.weapon_smg.iw8_sm_beta.properties.kills,
+        C9: entry.data.itemData.weapon_smg.iw8_sm_charlie9.properties.kills,
+        MP5: entry.data.itemData.weapon_smg.iw8_sm_mpapa5.properties.kills,
+        MP7: entry.data.itemData.weapon_smg.iw8_sm_mpapa7.properties.kills,
+        P90: entry.data.itemData.weapon_smg.iw8_sm_papa90.properties.kills,
+        SMG45: entry.data.itemData.weapon_smg.iw8_sm_smgolf45.properties.kills,
+        UZI: entry.data.itemData.weapon_smg.iw8_sm_uzulu.properties.kills,
+        VICTOR: entry.data.itemData.weapon_smg.iw8_sm_victor.properties.kills
+      });
+    });
+    // columns
+    this.buildColumns();
+    // render table
+    this.renderTable();
+  }
+
+  getMarksmanKillData(): void {
+    // empty
+    this.tableData = [];
+    this.tableTitle = 'Kills: Marksman';
+    // data
+    this.data.forEach((entry) => {
+      this.tableData.push({
+        name: entry.name,
+        total: entry.data.all.properties.kills,
+        kar: entry.data.itemData.weapon_marksman.iw8_sn_kilo98.properties.kills,
+        spr: entry.data.itemData.weapon_marksman.iw8_sn_romeo700.properties.kills,
+        mk2: entry.data.itemData.weapon_marksman.iw8_sn_sbeta.properties.kills,
+        sks: entry.data.itemData.weapon_marksman.iw8_sn_sksierra.properties.kills,
+        cross: entry.data.itemData.weapon_marksman.iw8_sn_crossbow.properties.kills,
+        mbr: entry.data.itemData.weapon_marksman.iw8_sn_mike14.properties.kills
+      });
+    });
+    // columns
+    this.buildColumns();
+    // render table
+    this.renderTable();
   }
 
   getSniperKillData(): void {
     // empty
-    this.columnConfig = [];
-    this.sniperdata = [];
+    this.tableData = [];
+    this.tableTitle = 'Kills: Sniper';
     // data
     this.data.forEach((entry) => {
-      let name = entry.name;
-      let total = entry.data.all.properties.kills;
-      let ax50 = entry.data.itemData.weapon_sniper.iw8_sn_alpha50;
-      let delta = entry.data.itemData.weapon_sniper.iw8_sn_delta;
-      let hdr = entry.data.itemData.weapon_sniper.iw8_sn_hdromeo;
-      let xm = entry.data.itemData.weapon_sniper.iw8_sn_xmike109;
-      this.sniperdata.push({ name: name, total: total, ax50: ax50, delta: delta, hdr: hdr, xm: xm });
+      this.tableData.push({
+        Name: entry.name,
+        Total: entry.data.all.properties.kills,
+        AX50: entry.data.itemData.weapon_sniper.iw8_sn_alpha50.properties.kills,
+        DE: entry.data.itemData.weapon_sniper.iw8_sn_delta.properties.kills,
+        HDR: entry.data.itemData.weapon_sniper.iw8_sn_hdromeo.properties.kills,
+        XM109: entry.data.itemData.weapon_sniper.iw8_sn_xmike109.properties.kills
+      });
     });
     // columns
-    for (const property in this.sniperdata[0]) {
-      this.columnConfig.push(
-        new DynamicTableColumnConfig({
-          key: property,
-          header: property,
-          sortable: true,
-          draggable: true
-        }),
-      );
-    }
+    this.buildColumns();
+    // render table
+    this.renderTable();
   }
 
   getAssaultKillData(): void {
     // empty
-    this.columnConfig = [];
-    this.assaultData = [];
+    this.tableData = [];
+    this.tableTitle = 'Kills: Assault';
     // data
     this.data.forEach((entry) => {
-      let name = entry.name;
-      let total = entry.data.all.properties.kills;
-      let ak = entry.data.itemData.weapon_assault_rifle.iw8_ar_akilo47;
-      let an = entry.data.itemData.weapon_assault_rifle.iw8_ar_anovember94;
-      let as12 = entry.data.itemData.weapon_assault_rifle.iw8_ar_asierra12;
-      let fal = entry.data.itemData.weapon_assault_rifle.iw8_ar_falima;
-      let fala = entry.data.itemData.weapon_assault_rifle.iw8_ar_falpha;
-      let gal = entry.data.itemData.weapon_assault_rifle.iw8_ar_galima;
-      let kilo = entry.data.itemData.weapon_assault_rifle.iw8_ar_kilo433;
-      let mc = entry.data.itemData.weapon_assault_rifle.iw8_ar_mcharlie;
-      let m4 = entry.data.itemData.weapon_assault_rifle.iw8_ar_mike4;
-      let sc = entry.data.itemData.weapon_assault_rifle.iw8_ar_scharlie;
-      let s5 = entry.data.itemData.weapon_assault_rifle.iw8_ar_sierra552;
-      let m21 = entry.data.itemData.weapon_assault_rifle.iw8_ar_tango21;
-      let valp = entry.data.itemData.weapon_assault_rifle.iw8_ar_valpha;
-      this.assaultData.push({ name: name, total: total, ak: ak, an: an, as12: as12, fal: fal, fala: fala, gal: gal, kilo: kilo, mc: mc, m4: m4, sc: sc, s5: s5, m21: m21, valp: valp });
+      this.tableData.push({
+        name: entry.name,
+        total: entry.data.all.properties.kills,
+        ak: entry.data.itemData.weapon_assault_rifle.iw8_ar_akilo47.properties.kills,
+        an: entry.data.itemData.weapon_assault_rifle.iw8_ar_anovember94.properties.kills,
+        as12: entry.data.itemData.weapon_assault_rifle.iw8_ar_asierra12.properties.kills,
+        fal: entry.data.itemData.weapon_assault_rifle.iw8_ar_falima.properties.kills,
+        fala: entry.data.itemData.weapon_assault_rifle.iw8_ar_falpha.properties.kills,
+        gal: entry.data.itemData.weapon_assault_rifle.iw8_ar_galima.properties.kills,
+        kilo: entry.data.itemData.weapon_assault_rifle.iw8_ar_kilo433.properties.kills,
+        mc: entry.data.itemData.weapon_assault_rifle.iw8_ar_mcharlie.properties.kills,
+        m4: entry.data.itemData.weapon_assault_rifle.iw8_ar_mike4.properties.kills,
+        sc: entry.data.itemData.weapon_assault_rifle.iw8_ar_scharlie.properties.kills,
+        s5: entry.data.itemData.weapon_assault_rifle.iw8_ar_sierra552.properties.kills,
+        m21: entry.data.itemData.weapon_assault_rifle.iw8_ar_tango21.properties.kills,
+        valp: entry.data.itemData.weapon_assault_rifle.iw8_ar_valpha.properties.kills
+      });
     });
     // columns
-    for (const property in this.assaultData[0]) {
-      this.columnConfig.push(
-        new DynamicTableColumnConfig({
-          key: property,
-          header: property,
-          sortable: true,
-          draggable: true
-        }),
-      );
-    }
+    this.buildColumns();
+    // render table
+    this.renderTable();
   }
-
-
 
   handleSelectionChangeEvent(event: any): void {
     console.log(event);
