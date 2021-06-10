@@ -13,7 +13,7 @@ export class LoginComponent {
   /**
    * Email form control
    */
-  email = new FormControl('patrickniewold@gmail.com', [Validators.required]);
+  email = new FormControl('', [Validators.required]);
   /**
    * Password form control
    */

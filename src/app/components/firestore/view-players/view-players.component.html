@@ -1,0 +1,10 @@
+<!-- Title -->
+<app-title-section [title]="'Kills'"></app-title-section>
+
+<!-- Loading -->
+<app-loading *ngIf="isLoading"></app-loading>
+
+<!-- Table -->
+<app-dynamic-table *ngIf="!isLoading" [tableConfig]="(tableConfig)!" [columnConfig]="columnConfig" [data]="tableData"
+    (selectionChange)="handleSelectionChangeEvent($event)" (buttonClick)="handleButtonClickEvent($event)">
+</app-dynamic-table>

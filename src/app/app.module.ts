@@ -20,6 +20,11 @@ import { StatsMpTableComponent } from './components/tables/stats-mp-table/stats-
 import { StatsWzTableComponent } from './components/tables/stats-wz-table/stats-wz-table.component';
 import { IconCardComponent } from './components/cards/icon-card/icon-card.component';
 import { ImageCardComponent } from './components/cards/image-card/image-card.component';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from 'src/environments/environment';
+import { EditPlayerComponent } from './components/firestore/edit-player/edit-player.component';
+import { ViewPlayersComponent } from './components/firestore/view-players/view-players.component';
 
 @NgModule({
   declarations: [
@@ -40,12 +45,16 @@ import { ImageCardComponent } from './components/cards/image-card/image-card.com
     StatsMpTableComponent,
     StatsWzTableComponent,
     IconCardComponent,
-    ImageCardComponent
+    ImageCardComponent,
+    EditPlayerComponent,
+    ViewPlayersComponent
   ],
   imports: [
     SharedModule,
     DynamicFormsModule,
-    DynamicTablesModule
+    DynamicTablesModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

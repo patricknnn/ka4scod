@@ -5,7 +5,7 @@ import { catchError, retry } from 'rxjs/operators';
 import { LifetimeStats } from '../models/lifetime-stats';
 import { WarzoneStats } from '../models/warzone-stats';
 
-export declare type CodApiPlayer = { name: string, gamertag: string, platform: CodApiPlatform };
+export declare type CodApiPlayer = { key?: string, name: string, gamertag: string, platform: CodApiPlatform };
 export declare type CodApiPlatform = 'battle' | 'steam' | 'psn' | 'xbl' | 'acti' | 'uno' | 'all';
 export declare type CodApiGame = 'mw' | 'cw' | 'wwii' | 'bo4';
 export declare type CodApiGameType = 'mp' | 'wz' | 'zm';
