@@ -18,6 +18,8 @@ import { TitleSectionComponent } from './components/core/title-section/title-sec
 import { LoadingComponent } from './components/core/loading/loading.component';
 import { StatsMpTableComponent } from './components/tables/stats-mp-table/stats-mp-table.component';
 import { StatsWzTableComponent } from './components/tables/stats-wz-table/stats-wz-table.component';
+import { IconCardComponent } from './components/cards/icon-card/icon-card.component';
+import { ImageCardComponent } from './components/cards/image-card/image-card.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { StatsWzTableComponent } from './components/tables/stats-wz-table/stats-
     TitleSectionComponent,
     LoadingComponent,
     StatsMpTableComponent,
-    StatsWzTableComponent
+    StatsWzTableComponent,
+    IconCardComponent,
+    ImageCardComponent
   ],
   imports: [
     SharedModule,

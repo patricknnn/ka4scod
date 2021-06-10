@@ -33,6 +33,9 @@ export class KillsTableComponent implements OnInit {
     private dialog: DialogService
   ) { }
 
+  /***
+   * Get data
+   */
   ngOnInit(): void {
     this.tableConfig = this.tables.getTableConfig();
     this.getLifetimeData().then((res) => {
@@ -41,6 +44,9 @@ export class KillsTableComponent implements OnInit {
     });
   }
 
+  /**
+   * Renders dynamic table
+   */
   renderTable(): void {
     if (this.outletRef && this.contentRef) {
       this.isLoading = true;
@@ -50,6 +56,9 @@ export class KillsTableComponent implements OnInit {
     }
   }
 
+  /**
+   * Builds column config based on tableData
+   */
   buildColumns(): void {
     this.columnConfig = [];
     for (const property in this.tableData[0]) {
@@ -64,6 +73,26 @@ export class KillsTableComponent implements OnInit {
     }
   }
 
+  /**
+   * Handles SelectionChangeEvent
+   * @param event SelectionChangeEvent
+   */
+  handleSelectionChangeEvent(event: any): void {
+    console.log(event);
+  }
+
+  /**
+   * Handles ButtonClickEvent
+   * @param event ButtonClickEvent
+   */
+  handleButtonClickEvent(event: any): void {
+    console.log(event);
+  }
+
+  /**
+   * Get lifetime data
+   * @returns Promise<{ name: string, data: any }[]> 
+   */
   getLifetimeData(): Promise<{ name: string, data: any }[]> {
     return new Promise((resolve, reject) => {
       let data: any[] = [];
@@ -74,7 +103,7 @@ export class KillsTableComponent implements OnInit {
           .then((res: LifetimeStats) => {
             if (!res.lifetime) {
               this.dialog.errorDialog('Error', JSON.stringify(res));
-              reject("An error occured");
+              reject(res);
             }
             let name = player.name;
             let lifetime = res.lifetime;
@@ -91,6 +120,9 @@ export class KillsTableComponent implements OnInit {
     });
   }
 
+  /**
+   * Shotgun
+   */
   getShottyData(): void {
     // empty
     this.tableData = [];
@@ -114,6 +146,9 @@ export class KillsTableComponent implements OnInit {
     this.renderTable();
   }
 
+  /**
+   * LMG
+   */
   getLmgData(): void {
     // empty
     this.tableData = [];
@@ -138,6 +173,9 @@ export class KillsTableComponent implements OnInit {
     this.renderTable();
   }
 
+  /**
+   * Pistol
+   */
   getPistolData(): void {
     // empty
     this.tableData = [];
@@ -161,6 +199,9 @@ export class KillsTableComponent implements OnInit {
     this.renderTable();
   }
 
+  /**
+   * Launcher
+   */
   getLauncherData(): void {
     // empty
     this.tableData = [];
@@ -183,6 +224,9 @@ export class KillsTableComponent implements OnInit {
     this.renderTable();
   }
 
+  /**
+   * Melee
+   */
   getMeleeKillData(): void {
     // empty
     this.tableData = [];
@@ -204,6 +248,9 @@ export class KillsTableComponent implements OnInit {
     this.renderTable();
   }
 
+  /**
+   * SMG
+   */
   getSmgKillData(): void {
     // empty
     this.tableData = [];
@@ -230,6 +277,9 @@ export class KillsTableComponent implements OnInit {
     this.renderTable();
   }
 
+  /**
+   * Marksman
+   */
   getMarksmanKillData(): void {
     // empty
     this.tableData = [];
@@ -244,7 +294,7 @@ export class KillsTableComponent implements OnInit {
         MK2Carbine: entry.data.itemData.weapon_marksman.iw8_sn_sbeta.properties.kills,
         SKS: entry.data.itemData.weapon_marksman.iw8_sn_sksierra.properties.kills,
         Crossbow: entry.data.itemData.weapon_marksman.iw8_sn_crossbow.properties.kills,
-        RBR14: entry.data.itemData.weapon_marksman.iw8_sn_mike14.properties.kills
+        EBR14: entry.data.itemData.weapon_marksman.iw8_sn_mike14.properties.kills
       });
     });
     // columns
@@ -253,6 +303,9 @@ export class KillsTableComponent implements OnInit {
     this.renderTable();
   }
 
+  /**
+   * Sniper
+   */
   getSniperKillData(): void {
     // empty
     this.tableData = [];
@@ -265,7 +318,7 @@ export class KillsTableComponent implements OnInit {
         AX50: entry.data.itemData.weapon_sniper.iw8_sn_alpha50.properties.kills,
         Dragunov: entry.data.itemData.weapon_sniper.iw8_sn_delta.properties.kills,
         HDR: entry.data.itemData.weapon_sniper.iw8_sn_hdromeo.properties.kills,
-        RytecAMR: entry.data.itemData.weapon_sniper.iw8_sn_xmike109.properties.kills
+        Rytec: entry.data.itemData.weapon_sniper.iw8_sn_xmike109.properties.kills
       });
     });
     // columns
@@ -274,6 +327,9 @@ export class KillsTableComponent implements OnInit {
     this.renderTable();
   }
 
+  /**
+   * Assault
+   */
   getAssaultKillData(): void {
     // empty
     this.tableData = [];
@@ -302,14 +358,6 @@ export class KillsTableComponent implements OnInit {
     this.buildColumns();
     // render table
     this.renderTable();
-  }
-
-  handleSelectionChangeEvent(event: any): void {
-    console.log(event);
-  }
-
-  handleButtonClickEvent(event: any): void {
-    console.log(event);
   }
 
 }
