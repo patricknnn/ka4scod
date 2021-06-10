@@ -1,3 +1,6 @@
+<!-- Title -->
+<app-title-section [title]="'Kills'"></app-title-section>
+
 <!-- Button toggle -->
 <mat-button-toggle-group class="button-toggle-full-width">
   <mat-button-toggle (click)="getMeleeKillData()">Melee</mat-button-toggle>
@@ -7,12 +10,11 @@
   <mat-button-toggle (click)="getSmgKillData()">SMG</mat-button-toggle>
   <mat-button-toggle (click)="getAssaultKillData()">Assault</mat-button-toggle>
   <mat-button-toggle (click)="getLmgData()">LMG</mat-button-toggle>
-  <mat-button-toggle (click)="getMarksmanKillData()">Marksman</mat-button-toggle>
+  <mat-button-toggle (click)="getMarksmanKillData()" [checked]="true">Marksman</mat-button-toggle>
   <mat-button-toggle (click)="getSniperKillData()">Sniper</mat-button-toggle>
 </mat-button-toggle-group>
 
-<!-- Title -->
-<!-- <app-title-section [title]="tableTitle"></app-title-section> -->
+
 
 <!-- Loading -->
 <app-loading *ngIf="isLoading"></app-loading>

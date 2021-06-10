@@ -50,8 +50,8 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="!tableConfig.sorting || !column.sortable"
               cdkDragLockAxis="x" cdkDrag [cdkDragData]="column.key" [cdkDragDisabled]="!column.draggable"
               class="dynamic-tables-sort-header">
-              <mat-icon cdkDragHandle *ngIf="tableConfig.dragging && column.draggable"
-                class="dynamic-table-column-draghandle">
+              <mat-icon cdkDragHandle
+                [ngClass]="tableConfig.dragging && column.draggable ? 'dynamic-table-column-draghandle' : 'dynamic-table-column-draghandle-hidden'">
                 drag_handle
               </mat-icon>
               {{column.header}}

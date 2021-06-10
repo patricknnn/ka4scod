@@ -104,7 +104,7 @@ export class KillsTableComponent implements OnInit {
         C725: entry.data.itemData.weapon_shotgun.iw8_sh_charlie725.properties.kills,
         DP12: entry.data.itemData.weapon_shotgun.iw8_sh_dpapa12.properties.kills,
         M26: entry.data.itemData.weapon_shotgun.iw8_sh_mike26.properties.kills,
-        OC12: entry.data.itemData.weapon_shotgun.iw8_sh_oscar12.properties.kills,
+        Origin12: entry.data.itemData.weapon_shotgun.iw8_sh_oscar12.properties.kills,
         R870: entry.data.itemData.weapon_shotgun.iw8_sh_romeo870.properties.kills
       });
     });
@@ -123,10 +123,10 @@ export class KillsTableComponent implements OnInit {
       this.tableData.push({
         Name: entry.name,
         Total: entry.data.all.properties.kills,
-        K121: entry.data.itemData.weapon_lmg.iw8_lm_kilo121.properties.kills,
-        L86: entry.data.itemData.weapon_lmg.iw8_lm_lima86.properties.kills,
-        M34: entry.data.itemData.weapon_lmg.iw8_lm_mgolf34.properties.kills,
-        G36: entry.data.itemData.weapon_lmg.iw8_lm_mgolf36.properties.kills,
+        M91: entry.data.itemData.weapon_lmg.iw8_lm_kilo121.properties.kills,
+        SA87: entry.data.itemData.weapon_lmg.iw8_lm_lima86.properties.kills,
+        MG34: entry.data.itemData.weapon_lmg.iw8_lm_mgolf34.properties.kills,
+        Holger: entry.data.itemData.weapon_lmg.iw8_lm_mgolf36.properties.kills,
         MK3: entry.data.itemData.weapon_lmg.iw8_lm_mkilo3.properties.kills,
         PKM: entry.data.itemData.weapon_lmg.iw8_lm_pkilo.properties.kills,
         SX: entry.data.itemData.weapon_lmg.iw8_lm_sierrax.properties.kills
@@ -173,8 +173,8 @@ export class KillsTableComponent implements OnInit {
         GR: entry.data.itemData.weapon_launcher.iw8_la_gromeo.properties.kills,
         JL: entry.data.itemData.weapon_launcher.iw8_la_juliet.properties.kills,
         KG: entry.data.itemData.weapon_launcher.iw8_la_kgolf.properties.kills,
-        M32: entry.data.itemData.weapon_launcher.iw8_la_mike32.properties.kills,
-        RPG: entry.data.itemData.weapon_launcher.iw8_la_rpapa7.properties.kills
+        MGL32: entry.data.itemData.weapon_launcher.iw8_la_mike32.properties.kills,
+        RPG7: entry.data.itemData.weapon_launcher.iw8_la_rpapa7.properties.kills
       });
     });
     // columns
@@ -193,8 +193,8 @@ export class KillsTableComponent implements OnInit {
         Name: entry.name,
         Total: entry.data.all.properties.kills,
         Knife: entry.data.itemData.weapon_melee.iw8_knife.properties.kills,
-        Blade: entry.data.itemData.weapon_melee.iw8_me_akimboblades.properties.kills,
-        Blunt: entry.data.itemData.weapon_melee.iw8_me_akimboblunt.properties.kills,
+        Kodachis: entry.data.itemData.weapon_melee.iw8_me_akimboblades.properties.kills,
+        Kali: entry.data.itemData.weapon_melee.iw8_me_akimboblunt.properties.kills,
         Riot: entry.data.itemData.weapon_other.iw8_me_riotshield.properties.kills
       });
     });
@@ -211,17 +211,17 @@ export class KillsTableComponent implements OnInit {
     // data
     this.data.forEach((entry) => {
       this.tableData.push({
-        name: entry.name,
-        total: entry.data.all.properties.kills,
+        Name: entry.name,
+        Total: entry.data.all.properties.kills,
         AUG: entry.data.itemData.weapon_smg.iw8_sm_augolf.properties.kills,
-        beta: entry.data.itemData.weapon_smg.iw8_sm_beta.properties.kills,
-        C9: entry.data.itemData.weapon_smg.iw8_sm_charlie9.properties.kills,
+        Bizon: entry.data.itemData.weapon_smg.iw8_sm_beta.properties.kills,
+        CX9: entry.data.itemData.weapon_smg.iw8_sm_charlie9.properties.kills,
         MP5: entry.data.itemData.weapon_smg.iw8_sm_mpapa5.properties.kills,
         MP7: entry.data.itemData.weapon_smg.iw8_sm_mpapa7.properties.kills,
         P90: entry.data.itemData.weapon_smg.iw8_sm_papa90.properties.kills,
-        SMG45: entry.data.itemData.weapon_smg.iw8_sm_smgolf45.properties.kills,
-        UZI: entry.data.itemData.weapon_smg.iw8_sm_uzulu.properties.kills,
-        VICTOR: entry.data.itemData.weapon_smg.iw8_sm_victor.properties.kills
+        Striker: entry.data.itemData.weapon_smg.iw8_sm_smgolf45.properties.kills,
+        Uzi: entry.data.itemData.weapon_smg.iw8_sm_uzulu.properties.kills,
+        Fennec: entry.data.itemData.weapon_smg.iw8_sm_victor.properties.kills
       });
     });
     // columns
@@ -237,14 +237,14 @@ export class KillsTableComponent implements OnInit {
     // data
     this.data.forEach((entry) => {
       this.tableData.push({
-        name: entry.name,
-        total: entry.data.all.properties.kills,
-        kar: entry.data.itemData.weapon_marksman.iw8_sn_kilo98.properties.kills,
-        spr: entry.data.itemData.weapon_marksman.iw8_sn_romeo700.properties.kills,
-        mk2: entry.data.itemData.weapon_marksman.iw8_sn_sbeta.properties.kills,
-        sks: entry.data.itemData.weapon_marksman.iw8_sn_sksierra.properties.kills,
-        cross: entry.data.itemData.weapon_marksman.iw8_sn_crossbow.properties.kills,
-        mbr: entry.data.itemData.weapon_marksman.iw8_sn_mike14.properties.kills
+        Name: entry.name,
+        Total: entry.data.all.properties.kills,
+        Kar98k: entry.data.itemData.weapon_marksman.iw8_sn_kilo98.properties.kills,
+        SPR208: entry.data.itemData.weapon_marksman.iw8_sn_romeo700.properties.kills,
+        MK2Carbine: entry.data.itemData.weapon_marksman.iw8_sn_sbeta.properties.kills,
+        SKS: entry.data.itemData.weapon_marksman.iw8_sn_sksierra.properties.kills,
+        Crossbow: entry.data.itemData.weapon_marksman.iw8_sn_crossbow.properties.kills,
+        RBR14: entry.data.itemData.weapon_marksman.iw8_sn_mike14.properties.kills
       });
     });
     // columns
@@ -263,9 +263,9 @@ export class KillsTableComponent implements OnInit {
         Name: entry.name,
         Total: entry.data.all.properties.kills,
         AX50: entry.data.itemData.weapon_sniper.iw8_sn_alpha50.properties.kills,
-        DE: entry.data.itemData.weapon_sniper.iw8_sn_delta.properties.kills,
+        Dragunov: entry.data.itemData.weapon_sniper.iw8_sn_delta.properties.kills,
         HDR: entry.data.itemData.weapon_sniper.iw8_sn_hdromeo.properties.kills,
-        XM109: entry.data.itemData.weapon_sniper.iw8_sn_xmike109.properties.kills
+        RytecAMR: entry.data.itemData.weapon_sniper.iw8_sn_xmike109.properties.kills
       });
     });
     // columns
@@ -283,19 +283,19 @@ export class KillsTableComponent implements OnInit {
       this.tableData.push({
         name: entry.name,
         total: entry.data.all.properties.kills,
-        ak: entry.data.itemData.weapon_assault_rifle.iw8_ar_akilo47.properties.kills,
-        an: entry.data.itemData.weapon_assault_rifle.iw8_ar_anovember94.properties.kills,
-        as12: entry.data.itemData.weapon_assault_rifle.iw8_ar_asierra12.properties.kills,
-        fal: entry.data.itemData.weapon_assault_rifle.iw8_ar_falima.properties.kills,
-        fala: entry.data.itemData.weapon_assault_rifle.iw8_ar_falpha.properties.kills,
-        gal: entry.data.itemData.weapon_assault_rifle.iw8_ar_galima.properties.kills,
-        kilo: entry.data.itemData.weapon_assault_rifle.iw8_ar_kilo433.properties.kills,
-        mc: entry.data.itemData.weapon_assault_rifle.iw8_ar_mcharlie.properties.kills,
-        m4: entry.data.itemData.weapon_assault_rifle.iw8_ar_mike4.properties.kills,
-        sc: entry.data.itemData.weapon_assault_rifle.iw8_ar_scharlie.properties.kills,
-        s5: entry.data.itemData.weapon_assault_rifle.iw8_ar_sierra552.properties.kills,
-        m21: entry.data.itemData.weapon_assault_rifle.iw8_ar_tango21.properties.kills,
-        valp: entry.data.itemData.weapon_assault_rifle.iw8_ar_valpha.properties.kills
+        AK47: entry.data.itemData.weapon_assault_rifle.iw8_ar_akilo47.properties.kills,
+        AN94: entry.data.itemData.weapon_assault_rifle.iw8_ar_anovember94.properties.kills,
+        Oden: entry.data.itemData.weapon_assault_rifle.iw8_ar_asierra12.properties.kills,
+        FAL: entry.data.itemData.weapon_assault_rifle.iw8_ar_falima.properties.kills,
+        FR56: entry.data.itemData.weapon_assault_rifle.iw8_ar_falpha.properties.kills,
+        AMAX: entry.data.itemData.weapon_assault_rifle.iw8_ar_galima.properties.kills,
+        Kilo: entry.data.itemData.weapon_assault_rifle.iw8_ar_kilo433.properties.kills,
+        M13: entry.data.itemData.weapon_assault_rifle.iw8_ar_mcharlie.properties.kills,
+        M4A1: entry.data.itemData.weapon_assault_rifle.iw8_ar_mike4.properties.kills,
+        Scar: entry.data.itemData.weapon_assault_rifle.iw8_ar_scharlie.properties.kills,
+        Grau: entry.data.itemData.weapon_assault_rifle.iw8_ar_sierra552.properties.kills,
+        RAM7: entry.data.itemData.weapon_assault_rifle.iw8_ar_tango21.properties.kills,
+        ASVAL: entry.data.itemData.weapon_assault_rifle.iw8_ar_valpha.properties.kills
       });
     });
     // columns
