@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { Player } from 'src/app/models/player';
 import { DynamicTableButton } from 'src/app/modules/dynamic-tables/models/dynamic-table-button';
+import { DynamicTableButtonClick } from 'src/app/modules/dynamic-tables/models/dynamic-table-button-click';
 import { DynamicTableColumnConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-column-config';
 import { DynamicTableConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-config';
 import { DialogService } from 'src/app/services/dialog.service';
 import { PlayerService } from 'src/app/services/firestore/player.service';
-import { CodApiPlayer } from 'src/app/services/node-rest-api.service';
 import { TableService } from 'src/app/services/table.service';
 
 @Component({
@@ -14,7 +16,7 @@ import { TableService } from 'src/app/services/table.service';
   styleUrls: ['./view-players.component.scss']
 })
 export class ViewPlayersComponent implements OnInit {
-  tableData: CodApiPlayer[] = [];
+  tableData: Player[] = [];
   tableConfig?: DynamicTableConfig;
   columnConfig: DynamicTableColumnConfig[] = [];
   isLoading: boolean = true;
@@ -22,7 +24,8 @@ export class ViewPlayersComponent implements OnInit {
   constructor(
     private firestore: PlayerService,
     private tables: TableService,
-    private dialog: DialogService
+    private dialog: DialogService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -62,25 +65,32 @@ export class ViewPlayersComponent implements OnInit {
     this.firestore.getAll().snapshotChanges().pipe(
       map(changes =>
         changes.map(c =>
-          ({ id: c.payload.doc.id, ...c.payload.doc.data() })
+          ({ key: c.payload.doc.id, ...c.payload.doc.data() })
         )
-      )
-    ).subscribe(data => {
-      this.tableData = data;
-      this.isLoading = false;
-    });
+      ))
+      .subscribe(data => {
+        this.tableData = data;
+        console.log(data);
+        this.isLoading = false;
+      });
   }
 
-  delete(player: CodApiPlayer): void {
-    if (player.key) {
-      this.firestore.delete(player.key)
-        .then(() => {
-          this.dialog.succesDialog('Succes', 'Player deleted!');
-        })
-        .catch((err) => {
-          this.dialog.errorDialog('Error', err);
-        });
-    }
+  edit(key?: number): void {
+    this.router.navigate(['/player', { key: key }]);
+  }
+
+  delete(player: Player): void {
+    this.dialog.confirmDialog('Are you sure?', 'Deleting a player cannot be undone!', 'cancel', 'delete').then((result) => {
+      if (result && player.key) {
+        this.firestore.delete(player.key)
+          .then(() => {
+            this.dialog.succesDialog('Succes', 'Player deleted!');
+          })
+          .catch((err) => {
+            this.dialog.errorDialog('Error', err);
+          });
+      }
+    })
   }
 
   /**
@@ -95,8 +105,12 @@ export class ViewPlayersComponent implements OnInit {
    * Handles ButtonClickEvent
    * @param event ButtonClickEvent
    */
-  handleButtonClickEvent(event: any): void {
-    console.log(event);
+  handleButtonClickEvent(event: DynamicTableButtonClick): void {
+    if (event.button.name == 'delete') {
+      this.delete(event.row);
+    } else if (event.button.name == 'edit') {
+      this.edit(event.row.key);
+    }
   }
 
 }

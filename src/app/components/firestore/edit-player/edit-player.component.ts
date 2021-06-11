@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map } from 'rxjs/operators';
+import { Player } from 'src/app/models/player';
 import { FormControlBase } from 'src/app/modules/dynamic-forms/models/form-control-base';
 import { FormControlDropdown } from 'src/app/modules/dynamic-forms/models/form-control-dropdown';
 import { FormControlText } from 'src/app/modules/dynamic-forms/models/form-control-text';
 import { DialogService } from 'src/app/services/dialog.service';
 import { PlayerService } from 'src/app/services/firestore/player.service';
-import { CodApiPlayer } from 'src/app/services/node-rest-api.service';
 
 @Component({
   selector: 'app-edit-player',
@@ -12,50 +14,65 @@ import { CodApiPlayer } from 'src/app/services/node-rest-api.service';
   styleUrls: ['./edit-player.component.scss']
 })
 export class EditPlayerComponent implements OnInit {
-  @Input() player?: CodApiPlayer;
+  player: Player = {};
   editPlayer: boolean = false;
   isLoading: boolean = true;
-  formControls: FormControlBase<any>[];
+  formControls?: FormControlBase<any>[];
   formAppearance: 'legacy' | 'standard' | 'fill' | 'outline' = 'standard';
   formColor: 'primary' | 'accent' | 'warn' = 'primary';
   allowInvalidSubmit: boolean = false;
 
   constructor(
     private firestore: PlayerService,
-    private dialog: DialogService
-  ) {
-    this.formControls = this.getFormControls();
-  }
+    private dialog: DialogService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
-    if (!this.player) {
-      this.editPlayer = false;
-      this.player = {
-        name: '',
-        gamertag: '',
-        platform: 'battle'
-      }
-    } else {
+    let key = this.route.snapshot.paramMap.get('key');
+    if (key && key != 'undefined') {
       this.editPlayer = true;
+      this.retrieve(key);
+    } else {
+      this.isLoading = false;
+      this.formControls = this.getFormControls();
     }
-    this.isLoading = false;
   }
 
-  getFormControls() {
+  retrieve(key: string): void {
+    this.firestore.getByKey(key).snapshotChanges().pipe(
+      map(c =>
+        ({ key: c.payload.id, ...c.payload.data() })
+      )
+    ).subscribe(data => {
+      this.player = data;
+      this.isLoading = false;
+      this.formControls = this.getFormControls(this.player);
+    });
+  }
+
+  getFormControls(player?: Player) {
     let formControls = [
       new FormControlText({
         key: 'name',
         label: 'Name',
+        value: player ? player.name : '',
+        class: 'column',
         order: 1
       }),
       new FormControlText({
         key: 'gamertag',
         label: 'Gamertag',
+        value: player ? player.gamertag : '',
+        class: 'column',
         order: 1
       }),
       new FormControlDropdown({
         key: 'platform',
         label: 'Platform',
+        value: player ? player.platform : '',
+        class: 'column',
         options: [
           { key: 'battle', value: 'Battlenet' },
           { key: 'steam', value: 'Steam' },
@@ -70,17 +87,23 @@ export class EditPlayerComponent implements OnInit {
     return formControls.sort((a, b) => a.order - b.order);
   }
 
-  handleFormSubmit(event: string) {
+  handleFormSubmit(event: any) {
+    event = JSON.parse(event);
     console.log(event);
+    this.player.name = event.name;
+    this.player.gamertag = event.gamertag;
+    this.player.platform = event.platform;
+    this.editPlayer ? this.update() : this.save();
   }
 
   save(): void {
-    if (this.player) {
-      this.firestore.create(this.player).then(() => {
+    this.firestore.create(this.player)
+      .then(() => {
         this.dialog.succesDialog('Succes', 'Player created!');
+      })
+      .catch((err) => {
+        this.dialog.errorDialog('Error', err);
       });
-    }
-
   }
 
   update(): void {

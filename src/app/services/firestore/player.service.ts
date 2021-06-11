@@ -1,31 +1,37 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { CodApiPlayer } from '../node-rest-api.service';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, DocumentReference } from '@angular/fire/firestore';
+import { Player } from 'src/app/models/player';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlayerService {
   private dbPath = '/players';
-  playersRef: AngularFirestoreCollection<CodApiPlayer>;
+  playersRef: AngularFirestoreCollection<Player>;
 
   constructor(private db: AngularFirestore) {
     this.playersRef = db.collection(this.dbPath);
   }
 
-  getAll(): AngularFirestoreCollection<CodApiPlayer> {
+  getAll(): AngularFirestoreCollection<Player> {
     return this.playersRef;
   }
 
-  create(player: CodApiPlayer): any {
+  create(player: Player): Promise<DocumentReference<Player>> {
+    player.timestampCreated = Date.now();
     return this.playersRef.add({ ...player });
   }
 
-  update(id: string, data: any): Promise<void> {
-    return this.playersRef.doc(id).update(data);
+  update(key: string, data: Player): Promise<void> {
+    data.timestampCreated = Date.now();
+    return this.playersRef.doc(key).update(data);
   }
 
-  delete(id: string): Promise<void> {
-    return this.playersRef.doc(id).delete();
+  delete(key: string): Promise<void> {
+    return this.playersRef.doc(key).delete();
+  }
+
+  getByKey(key: string): AngularFirestoreDocument<Player> {
+    return this.playersRef.doc(key);
   }
 }

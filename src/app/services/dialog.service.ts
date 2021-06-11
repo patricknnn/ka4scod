@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../components/dialog/error-dialog/error-dialog.component';
+import { PromptDialogComponent } from '../components/dialog/prompt-dialog/prompt-dialog.component';
 import { SuccesDialogComponent } from '../components/dialog/succes-dialog/succes-dialog.component';
 
 @Injectable({
@@ -23,7 +24,7 @@ export class DialogService {
    */
   succesDialog(title = 'Error', text = 'An error occured'): void {
     this.dialogRef = this.dialog.open(SuccesDialogComponent, {
-      width: '250px',
+      width: '350px',
       data: { title: title, text: text }
     });
   }
@@ -33,8 +34,24 @@ export class DialogService {
    */
   errorDialog(title = 'Error', text = 'An error occured'): void {
     this.dialogRef = this.dialog.open(ErrorDialogComponent, {
-      width: '250px',
+      width: '350px',
       data: { title: title, text: text }
     });
+  }
+
+  /**
+   * Open confirm dialog
+   */
+  confirmDialog(title = 'Confirm', text = 'Are you sure?', cancelText = 'Cancel', okText = 'Yes'): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const dialogRef = this.dialog.open(PromptDialogComponent, {
+        width: '350px',
+        data: { title: title, text: text, cancelText: cancelText, okText: okText }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        result ? resolve(true) : resolve(false);
+      });
+    });
+
   }
 }

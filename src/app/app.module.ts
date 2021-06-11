@@ -25,6 +25,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { EditPlayerComponent } from './components/firestore/edit-player/edit-player.component';
 import { ViewPlayersComponent } from './components/firestore/view-players/view-players.component';
+import { PromptDialogComponent } from './components/dialog/prompt-dialog/prompt-dialog.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { ViewPlayersComponent } from './components/firestore/view-players/view-p
     IconCardComponent,
     ImageCardComponent,
     EditPlayerComponent,
-    ViewPlayersComponent
+    ViewPlayersComponent,
+    PromptDialogComponent
   ],
   imports: [
     SharedModule,

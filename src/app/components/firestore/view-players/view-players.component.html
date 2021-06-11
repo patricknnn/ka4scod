@@ -8,3 +8,7 @@
 <app-dynamic-table *ngIf="!isLoading" [tableConfig]="(tableConfig)!" [columnConfig]="columnConfig" [data]="tableData"
     (selectionChange)="handleSelectionChangeEvent($event)" (buttonClick)="handleButtonClickEvent($event)">
 </app-dynamic-table>
+
+<button mat-icon-button (click)="edit()">
+  <mat-icon>person_add</mat-icon>
+</button>

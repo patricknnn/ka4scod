@@ -5,6 +5,6 @@
 <app-loading *ngIf="isLoading"></app-loading>
 
 <!-- Form -->
-<app-dynamic-form [appearance]="formAppearance" [color]="formColor" [formControls]="formControls"
-    [allowInvalidSubmit]="allowInvalidSubmit  " (formSubmit)="handleFormSubmit($event)">
+<app-dynamic-form *ngIf="formControls" [appearance]="formAppearance" [color]="formColor" [formControls]="formControls"
+  [allowInvalidSubmit]="allowInvalidSubmit  " (formSubmit)="handleFormSubmit($event)">
 </app-dynamic-form>
