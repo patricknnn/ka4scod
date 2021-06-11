@@ -17,6 +17,7 @@ export class NavlinkService {
     const navlinks: Navlink[] = [
       new Navlink('Dashboard', 'dashboard', '/dashboard'),
       new Navlink('Kills', 'plus_one', '/kills'),
+      new Navlink('Players', 'people', '/players'),
       new Navlink('API Playground', 'play_arrow', '/apiplayground'),
       new Navlink('Page Not Found', 'search_off', '/404'),
     ];

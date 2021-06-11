@@ -1,1 +1,10 @@
-<p>edit-player works!</p>
+<!-- Title -->
+<app-title-section [title]="editPlayer ? 'Edit player' : 'New player'"></app-title-section>
+
+<!-- Loading -->
+<app-loading *ngIf="isLoading"></app-loading>
+
+<!-- Form -->
+<app-dynamic-form [appearance]="formAppearance" [color]="formColor" [formControls]="formControls"
+    [allowInvalidSubmit]="allowInvalidSubmit  " (formSubmit)="handleFormSubmit($event)">
+</app-dynamic-form>

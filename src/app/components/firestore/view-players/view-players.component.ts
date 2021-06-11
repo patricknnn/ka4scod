@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
+import { DynamicTableButton } from 'src/app/modules/dynamic-tables/models/dynamic-table-button';
 import { DynamicTableColumnConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-column-config';
 import { DynamicTableConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-config';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -45,7 +46,16 @@ export class ViewPlayersComponent implements OnInit {
         sortable: true,
         draggable: true
       }),
+      new DynamicTableColumnConfig({
+        key: 'buttons',
+        header: 'Actions',
+        buttons: [
+          new DynamicTableButton("edit", "edit"),
+          new DynamicTableButton("delete", "delete", "warn"),
+        ],
+      })
     ];
+    this.retrieve();
   }
 
   retrieve(): void {
