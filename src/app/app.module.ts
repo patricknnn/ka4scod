@@ -28,6 +28,8 @@ import { ViewPlayersComponent } from './components/firestore/view-players/view-p
 import { PromptDialogComponent } from './components/dialog/prompt-dialog/prompt-dialog.component';
 import { EditVideoComponent } from './components/firestore/edit-video/edit-video.component';
 import { ViewVideosComponent } from './components/firestore/view-videos/view-videos.component';
+import { VideoCardComponent } from './components/cards/video-card/video-card.component';
+import { PlayerCardComponent } from './components/cards/player-card/player-card.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import { ViewVideosComponent } from './components/firestore/view-videos/view-vid
     ViewPlayersComponent,
     PromptDialogComponent,
     EditVideoComponent,
-    ViewVideosComponent
+    ViewVideosComponent,
+    VideoCardComponent,
+    PlayerCardComponent
   ],
   imports: [
     SharedModule,

@@ -1,0 +1,11 @@
+.video-card {
+  padding-bottom: 0;
+}
+.mat-card-video {
+  width: calc(100% + 32px);
+  margin: 0 -16px 16px -16px;
+}
+
+.mat-card-video iframe {
+  display: flex;
+}

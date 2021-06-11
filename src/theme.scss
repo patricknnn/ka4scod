@@ -5,7 +5,7 @@
 @include mat-core();
 
 // Define default theme
-$color-primary: mat-palette($mat-deep-purple);
+$color-primary: mat-palette($mat-indigo);
 $color-accent: mat-palette($mat-amber, A200, A100, A400);
 $color-theme: mat-light-theme(
   (
@@ -20,7 +20,7 @@ $color-theme: mat-light-theme(
 @include angular-material-theme($color-theme);
 
 // Define dark theme
-$dark-primary: mat-palette($mat-deep-purple);
+$dark-primary: mat-palette($mat-indigo);
 $dark-accent: mat-palette($mat-amber, A200, A100, A400);
 $dark-warn: mat-palette($mat-deep-orange);
 $dark-theme: mat-dark-theme(

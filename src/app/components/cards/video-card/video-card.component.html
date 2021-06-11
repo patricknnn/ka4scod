@@ -1,0 +1,11 @@
+<mat-card [class]="'video-card ' + elevation">
+  <mat-card-header>
+    <mat-card-title>{{video.title}}</mat-card-title>
+    <mat-card-subtitle>{{video.player}}</mat-card-subtitle>
+  </mat-card-header>
+  <div class="mat-card-video">
+    <iframe width="100%" height="auto" [src]="getPhotoURL()" title="YouTube video player" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+    </iframe>
+  </div>
+</mat-card>

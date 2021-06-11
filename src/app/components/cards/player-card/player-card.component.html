@@ -1,0 +1,23 @@
+<!-- Loading -->
+<app-loading *ngIf="!stats"></app-loading>
+
+<!-- Card -->
+<mat-card *ngIf="stats" [class]="'player-card ' + elevation">
+  <mat-card-header>
+    <img *ngIf="player.avatar" mat-card-avatar [src]="player.avatar">
+    <mat-card-title>{{player.name}}</mat-card-title>
+    <mat-card-subtitle>{{player.platform}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-list class="player-card-list">
+    <mat-list-item>
+      <mat-icon mat-list-icon>star_border</mat-icon>
+      <div mat-line>{{level}}</div>
+      <div mat-line>Rank</div>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-icon mat-list-icon>plus_one</mat-icon>
+      <div mat-line>{{kills}}</div>
+      <div mat-line>Kills</div>
+    </mat-list-item>
+  </mat-list>
+</mat-card>

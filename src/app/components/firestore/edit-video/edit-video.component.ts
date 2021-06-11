@@ -89,7 +89,7 @@ export class EditVideoComponent implements OnInit {
         }),
         new FormControlText({
           key: 'url',
-          label: 'Youtube url',
+          label: 'Youtube embed url',
           value: video ? video.url : '',
           class: 'column',
           order: 4

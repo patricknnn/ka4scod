@@ -56,7 +56,9 @@ export class NodeRestApiService {
       let gamertag = encodeURIComponent(player.gamertag);
       let platform = player.platform;
       let requestUrl = this.buildUrl(`lifetime/${type}/${gamertag}/${platform}`);
-      this.getRequest(requestUrl).toPromise().then((data: any) => resolve(data)).catch(e => reject(e));
+      this.getRequest(requestUrl).toPromise().then((data: any) => {
+        resolve(data);
+      }).catch(e => reject(e));
     });
   };
 
