@@ -58,8 +58,11 @@
             </mat-header-cell>
             <!-- Cells -->
             <mat-cell *matCellDef="let row;">
-              <div *ngIf="row[column.key]" class="dynamic-table-column-text-container">
+              <div *ngIf="row[column.key] && column.type != 'image'" class="dynamic-table-column-text-container">
                 {{row[column.key]}}
+              </div>
+              <div *ngIf="row[column.key] && column.type == 'image'" class="dynamic-table-column-image-container">
+                <img [src]="row[column.key]" class="dynamic-table-column-image">
               </div>
               <div *ngIf="column.buttons?.length" class="dynamic-table-column-button-container">
                 <button mat-icon-button *ngFor="let button of column.buttons"

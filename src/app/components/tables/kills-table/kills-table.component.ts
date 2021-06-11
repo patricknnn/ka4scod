@@ -1,9 +1,12 @@
 import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { LifetimeStats } from 'src/app/models/lifetime-stats';
+import { Player } from 'src/app/models/player';
 import { DynamicTableColumnConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-column-config';
 import { DynamicTableConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-config';
 import { DialogService } from 'src/app/services/dialog.service';
-import { NodeRestApiService } from 'src/app/services/node-rest-api.service';
+import { PlayerService } from 'src/app/services/firestore/player.service';
+import { CodApiPlayer, NodeRestApiService } from 'src/app/services/node-rest-api.service';
 import { TableService } from 'src/app/services/table.service';
 
 @Component({
@@ -30,7 +33,8 @@ export class KillsTableComponent implements OnInit {
   constructor(
     private tables: TableService,
     private api: NodeRestApiService,
-    private dialog: DialogService
+    private dialog: DialogService,
+    private firestore: PlayerService
   ) { }
 
   /***
@@ -97,27 +101,44 @@ export class KillsTableComponent implements OnInit {
     return new Promise((resolve, reject) => {
       let data: any[] = [];
       let count = 0;
-      let players = this.api.getPlayers();
-      players.forEach((player) => {
-        this.api.getLifetimeStats("mp", player)
-          .then((res: LifetimeStats) => {
-            if (!res.lifetime) {
-              this.dialog.errorDialog('Error', JSON.stringify(res));
-              reject(res);
-            }
-            let name = player.name;
-            let lifetime = res.lifetime;
-            data.push({ name: name, data: lifetime });
-            count++;
-            if (count == players.length) {
-              resolve(data);
-            }
-          })
-          .catch((error) => {
-            reject(error);
-          });
+      this.getPlayers().then((players) => {
+        players.forEach((player) => {
+          let apiPlayer: CodApiPlayer = { name: player.name || '', gamertag: player.gamertag || '', platform: player.platform || 'battle' };
+          this.api.getLifetimeStats("mp", apiPlayer)
+            .then((res: LifetimeStats) => {
+              if (!res.lifetime) {
+                this.dialog.errorDialog('Error', JSON.stringify(res));
+                reject(res);
+              }
+              let name = player.name;
+              let lifetime = res.lifetime;
+              data.push({ name: name, data: lifetime });
+              count++;
+              if (count == players.length) {
+                resolve(data);
+              }
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        });
       });
     });
+  }
+
+  getPlayers(): Promise<Player[]> {
+    return new Promise((resolve, reject) => {
+      this.firestore.getAll().snapshotChanges().pipe(
+        map(changes =>
+          changes.map(c =>
+            ({ key: c.payload.doc.id, ...c.payload.doc.data() })
+          )
+        ))
+        .subscribe(data => {
+          resolve(data);
+        });
+    });
+
   }
 
   /**

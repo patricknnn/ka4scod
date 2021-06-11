@@ -26,6 +26,8 @@ import { environment } from 'src/environments/environment';
 import { EditPlayerComponent } from './components/firestore/edit-player/edit-player.component';
 import { ViewPlayersComponent } from './components/firestore/view-players/view-players.component';
 import { PromptDialogComponent } from './components/dialog/prompt-dialog/prompt-dialog.component';
+import { EditVideoComponent } from './components/firestore/edit-video/edit-video.component';
+import { ViewVideosComponent } from './components/firestore/view-videos/view-videos.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { PromptDialogComponent } from './components/dialog/prompt-dialog/prompt-
     ImageCardComponent,
     EditPlayerComponent,
     ViewPlayersComponent,
-    PromptDialogComponent
+    PromptDialogComponent,
+    EditVideoComponent,
+    ViewVideosComponent
   ],
   imports: [
     SharedModule,

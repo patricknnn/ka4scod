@@ -10,7 +10,7 @@ export class ImageCardComponent implements OnInit {
   subTitle: string = 'Meeste klappers';
   image: string = '../../../../assets/img/kar.png';
   text: string = 'Kuberoal met 6718';
-  elevation: string = 'mat-elevation-z8';
+  elevation: string = 'mat-elevation-z4';
 
   constructor() { }
 

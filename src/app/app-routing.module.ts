@@ -6,7 +6,9 @@ import { PlaygroundComponent } from './components/api/playground/playground.comp
 import { DashboardComponent } from './components/core/dashboard/dashboard.component';
 import { PageNotFoundComponent } from './components/core/page-not-found/page-not-found.component';
 import { EditPlayerComponent } from './components/firestore/edit-player/edit-player.component';
+import { EditVideoComponent } from './components/firestore/edit-video/edit-video.component';
 import { ViewPlayersComponent } from './components/firestore/view-players/view-players.component';
+import { ViewVideosComponent } from './components/firestore/view-videos/view-videos.component';
 import { KillsTableComponent } from './components/tables/kills-table/kills-table.component';
 
 const routes: Routes = [
@@ -16,6 +18,8 @@ const routes: Routes = [
   { path: 'kills', component: KillsTableComponent, canActivate: [AuthGuard] },
   { path: 'players', component: ViewPlayersComponent, canActivate: [AuthGuard] },
   { path: 'player', component: EditPlayerComponent, canActivate: [AuthGuard] },
+  { path: 'videos', component: ViewVideosComponent, canActivate: [AuthGuard] },
+  { path: 'video', component: EditVideoComponent, canActivate: [AuthGuard] },
   { path: 'playground', component: PlaygroundComponent, canActivate: [AuthGuard] },
   { path: '404', component: PageNotFoundComponent },
   // Redirects

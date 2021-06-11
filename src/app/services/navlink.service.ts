@@ -18,6 +18,7 @@ export class NavlinkService {
       new Navlink('Dashboard', 'dashboard', '/dashboard'),
       new Navlink('Kills', 'plus_one', '/kills'),
       new Navlink('Players', 'people', '/players'),
+      new Navlink('Videos', 'videocam', '/videos'),
       new Navlink('API Playground', 'play_arrow', '/playground'),
       new Navlink('Page Not Found', 'search_off', '/404'),
     ];

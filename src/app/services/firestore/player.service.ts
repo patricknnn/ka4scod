@@ -23,7 +23,7 @@ export class PlayerService {
   }
 
   update(key: string, data: Player): Promise<void> {
-    data.timestampCreated = Date.now();
+    data.timestampUpdated = Date.now();
     return this.playersRef.doc(key).update(data);
   }
 

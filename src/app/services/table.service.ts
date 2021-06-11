@@ -20,7 +20,7 @@ export class TableService {
       scrollY: "500px",
       stickyHeaders: true,
       stickyFooters: true,
-      tableClass: "mat-elevation-z8",
+      tableClass: "mat-elevation-z4",
     });
   }
 

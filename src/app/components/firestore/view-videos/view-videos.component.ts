@@ -1,28 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { Player } from 'src/app/models/player';
+import { YoutubeVideo } from 'src/app/models/youtube-video';
 import { DynamicTableButton } from 'src/app/modules/dynamic-tables/models/dynamic-table-button';
 import { DynamicTableButtonClick } from 'src/app/modules/dynamic-tables/models/dynamic-table-button-click';
 import { DynamicTableColumnConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-column-config';
 import { DynamicTableConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-config';
 import { DialogService } from 'src/app/services/dialog.service';
-import { PlayerService } from 'src/app/services/firestore/player.service';
+import { VideoService } from 'src/app/services/firestore/video.service';
 import { TableService } from 'src/app/services/table.service';
 
 @Component({
-  selector: 'app-view-players',
-  templateUrl: './view-players.component.html',
-  styleUrls: ['./view-players.component.scss']
+  selector: 'app-view-videos',
+  templateUrl: './view-videos.component.html',
+  styleUrls: ['./view-videos.component.scss']
 })
-export class ViewPlayersComponent implements OnInit {
-  tableData: Player[] = [];
+export class ViewVideosComponent implements OnInit {
+  tableData: YoutubeVideo[] = [];
   tableConfig?: DynamicTableConfig;
   columnConfig: DynamicTableColumnConfig[] = [];
   isLoading: boolean = true;
 
   constructor(
-    private firestore: PlayerService,
+    private firestore: VideoService,
     private tables: TableService,
     private dialog: DialogService,
     private router: Router,
@@ -32,27 +32,20 @@ export class ViewPlayersComponent implements OnInit {
     this.tableConfig = this.tables.getTableConfig();
     this.columnConfig = [
       new DynamicTableColumnConfig({
-        key: 'avatar',
-        header: 'Avatar',
-        type: 'image',
+        key: 'title',
+        header: 'Title',
         sortable: true,
         draggable: true
       }),
       new DynamicTableColumnConfig({
-        key: 'name',
-        header: 'Name',
+        key: 'player',
+        header: 'Player',
         sortable: true,
         draggable: true
       }),
       new DynamicTableColumnConfig({
-        key: 'gamertag',
-        header: 'Gamertag',
-        sortable: true,
-        draggable: true
-      }),
-      new DynamicTableColumnConfig({
-        key: 'platform',
-        header: 'Platform',
+        key: 'game',
+        header: 'Game',
         sortable: true,
         draggable: true
       }),
@@ -82,15 +75,15 @@ export class ViewPlayersComponent implements OnInit {
   }
 
   edit(key?: number): void {
-    this.router.navigate(['/player', { key: key }]);
+    this.router.navigate(['/video', { key: key }]);
   }
 
-  delete(player: Player): void {
-    this.dialog.confirmDialog('Are you sure?', 'Deleting a player cannot be undone!', 'cancel', 'delete').then((result) => {
-      if (result && player.key) {
-        this.firestore.delete(player.key)
+  delete(video: YoutubeVideo): void {
+    this.dialog.confirmDialog('Are you sure?', 'Deleting a video cannot be undone!', 'cancel', 'delete').then((result) => {
+      if (result && video.key) {
+        this.firestore.delete(video.key)
           .then(() => {
-            this.dialog.succesDialog('Succes', 'Player deleted!');
+            this.dialog.succesDialog('Succes', 'Video deleted!');
             this.retrieve();
           })
           .catch((err) => {
@@ -119,5 +112,4 @@ export class ViewPlayersComponent implements OnInit {
       this.edit(event.row.key);
     }
   }
-
 }

@@ -66,7 +66,7 @@ export class EditPlayerComponent implements OnInit {
         label: 'Gamertag',
         value: player ? player.gamertag : '',
         class: 'column',
-        order: 1
+        order: 2
       }),
       new FormControlDropdown({
         key: 'platform',
@@ -81,7 +81,14 @@ export class EditPlayerComponent implements OnInit {
           { key: 'acti', value: 'Activision (acti)' },
           { key: 'uno', value: 'Activision (uno)' }
         ],
-        order: 2
+        order: 3
+      }),
+      new FormControlText({
+        key: 'avatar',
+        label: 'Avatar',
+        value: player ? player.avatar : '',
+        class: 'column',
+        order: 3
       }),
     ];
     return formControls.sort((a, b) => a.order - b.order);
@@ -92,6 +99,7 @@ export class EditPlayerComponent implements OnInit {
     this.player.name = event.name;
     this.player.gamertag = event.gamertag;
     this.player.platform = event.platform;
+    this.player.avatar = event.avatar;
     this.editPlayer ? this.update() : this.save();
   }
 
@@ -99,6 +107,7 @@ export class EditPlayerComponent implements OnInit {
     this.firestore.create(this.player)
       .then(() => {
         this.dialog.succesDialog('Succes', 'Player created!');
+        this.router.navigate(['/players']);
       })
       .catch((err) => {
         this.dialog.errorDialog('Error', err);
@@ -110,6 +119,7 @@ export class EditPlayerComponent implements OnInit {
       this.firestore.update(this.player.key, this.player)
         .then(() => {
           this.dialog.succesDialog('Succes', 'Player updated!');
+          this.router.navigate(['/players']);
         })
         .catch((err) => {
           this.dialog.errorDialog('Error', err);

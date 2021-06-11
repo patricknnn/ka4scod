@@ -18,7 +18,10 @@ export class LoginComponent {
    * Password form control
    */
   password = new FormControl('', [Validators.required]);
-
+  /**
+   * Card elevation
+   */
+  elevation: string = 'mat-elevation-z4';
   /**
    * Initialize login component
    */
