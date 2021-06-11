@@ -70,7 +70,6 @@ export class ViewPlayersComponent implements OnInit {
       ))
       .subscribe(data => {
         this.tableData = data;
-        console.log(data);
         this.isLoading = false;
       });
   }
@@ -85,6 +84,7 @@ export class ViewPlayersComponent implements OnInit {
         this.firestore.delete(player.key)
           .then(() => {
             this.dialog.succesDialog('Succes', 'Player deleted!');
+            this.retrieve();
           })
           .catch((err) => {
             this.dialog.errorDialog('Error', err);

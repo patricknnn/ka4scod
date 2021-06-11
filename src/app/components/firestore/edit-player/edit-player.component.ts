@@ -89,7 +89,6 @@ export class EditPlayerComponent implements OnInit {
 
   handleFormSubmit(event: any) {
     event = JSON.parse(event);
-    console.log(event);
     this.player.name = event.name;
     this.player.gamertag = event.gamertag;
     this.player.platform = event.platform;
