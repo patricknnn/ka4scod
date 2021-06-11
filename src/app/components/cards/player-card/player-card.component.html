@@ -19,5 +19,15 @@
       <div mat-line>{{kills}}</div>
       <div mat-line>Kills</div>
     </mat-list-item>
+    <mat-list-item>
+      <mat-icon mat-list-icon>trending_up</mat-icon>
+      <div mat-line>{{kd | number : '1.2-2'}}</div>
+      <div mat-line>K/D Ratio</div>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-icon mat-list-icon>timer</mat-icon>
+      <div mat-line>{{hours}}</div>
+      <div mat-line>Hours played</div>
+    </mat-list-item>
   </mat-list>
 </mat-card>

@@ -15,6 +15,8 @@ export class PlayerCardComponent implements OnInit {
   stats?: LifetimeStats;
   kills?: number;
   level?: number;
+  kd?: number;
+  hours?: string;
 
   constructor(
     private api: NodeRestApiService,
@@ -39,10 +41,23 @@ export class PlayerCardComponent implements OnInit {
         this.stats = res;
         this.kills = res.lifetime.all.properties.kills;
         this.level = res.level;
+        this.kd = res.lifetime.all.properties.kdRatio;
+        let hours = res.lifetime.all.properties.timePlayedTotal;
+        this.hours = this.secondsToHms(hours);
       })
       .catch((error) => {
         this.dialog.errorDialog('Error', JSON.stringify(error));
       });
+  }
+
+  secondsToHms(d: number): string {
+    var h = Math.floor(d / 3600);
+    var m = Math.floor(d % 3600 / 60);
+    var s = Math.floor(d % 3600 % 60);
+    var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : "  hrs, ") : "";
+    var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " mins, ") : "";
+    var sDisplay = s > 0 ? s + (s == 1 ? " second" : " secs") : "";
+    return hDisplay + mDisplay + sDisplay;
   }
 
 }
