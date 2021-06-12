@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "kazigeklappers": {
+      "hosting": {
+        "ka4s-cod": [
+          "kazigeklappers"
+        ]
+      }
+    }
+  }
+}
