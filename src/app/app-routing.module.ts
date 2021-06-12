@@ -10,18 +10,25 @@ import { EditVideoComponent } from './components/firestore/edit-video/edit-video
 import { ViewPlayersComponent } from './components/firestore/view-players/view-players.component';
 import { ViewVideosComponent } from './components/firestore/view-videos/view-videos.component';
 import { KillsTableComponent } from './components/tables/kills-table/kills-table.component';
+import { StatsMpTableComponent } from './components/tables/stats-mp-table/stats-mp-table.component';
+import { StatsWzTableComponent } from './components/tables/stats-wz-table/stats-wz-table.component';
 
 const routes: Routes = [
   // Paths
   { path: 'login', component: LoginComponent },
+  // general
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'kills', component: KillsTableComponent, canActivate: [AuthGuard] },
+  { path: 'playground', component: PlaygroundComponent, canActivate: [AuthGuard] },
   { path: 'players', component: ViewPlayersComponent, canActivate: [AuthGuard] },
   { path: 'player', component: EditPlayerComponent, canActivate: [AuthGuard] },
   { path: 'videos', component: ViewVideosComponent, canActivate: [AuthGuard] },
   { path: 'video', component: EditVideoComponent, canActivate: [AuthGuard] },
-  { path: 'playground', component: PlaygroundComponent, canActivate: [AuthGuard] },
   { path: '404', component: PageNotFoundComponent },
+  // mp
+  { path: 'statsmp', component: StatsMpTableComponent, canActivate: [AuthGuard] },
+  { path: 'kills', component: KillsTableComponent, canActivate: [AuthGuard] },
+  // wz
+  { path: 'statswz', component: StatsWzTableComponent, canActivate: [AuthGuard] },
   // Redirects
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**', redirectTo: '404' },

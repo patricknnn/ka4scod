@@ -36,7 +36,10 @@ export class AppComponent implements OnInit, OnDestroy {
   @ViewChild('sidenav')
   public sidenav!: MatSidenav;
 
-  navLinks$: Observable<Navlink[]>;
+  /**
+   * Navlink groups
+   */
+  navLinks$: Observable<{ header: string, navlinks: Navlink[] }[]>;
 
   /**
    * Constructor
@@ -52,7 +55,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.mobileQuery = media.matchMedia('(max-width: 768px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addEventListener<'change'>('change', this._mobileQueryListener);
-    this.navLinks$ = navlinkService.getNavlinks();
+    this.navLinks$ = navlinkService.getNavlinkGroups();
   }
 
   /**

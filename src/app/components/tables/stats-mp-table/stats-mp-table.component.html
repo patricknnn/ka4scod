@@ -1,1 +1,21 @@
-<p>stats-mp-table works!</p>
+<!-- Title -->
+<app-title-section [title]="'Modern Warfare stats'"></app-title-section>
+
+<!-- Button toggle -->
+<mat-button-toggle-group class="button-toggle-full-width">
+    <mat-button-toggle (click)="getLifetime()" active>Lifetime</mat-button-toggle>
+    <mat-button-toggle (click)="getWeekly()">Weekly</mat-button-toggle>
+</mat-button-toggle-group>
+
+<!-- Loading -->
+<app-loading *ngIf="isLoading"></app-loading>
+
+<!-- Dynamic table outlet -->
+<ng-container #outlet></ng-container>
+
+<!-- Dynamic table template -->
+<ng-template #content>
+    <app-dynamic-table *ngIf="tableData" [tableConfig]="(tableConfig)!" [columnConfig]="columnConfig" [data]="tableData"
+        (selectionChange)="handleSelectionChangeEvent($event)" (buttonClick)="handleButtonClickEvent($event)">
+    </app-dynamic-table>
+</ng-template>

@@ -13,14 +13,31 @@ export class NavlinkService {
    * Returns form controls
    * @returns Observable stream of form controls
    */
-  getNavlinks(): Observable<Navlink[]> {
-    const navlinks: Navlink[] = [
-      new Navlink('Dashboard', 'dashboard', '/dashboard'),
-      new Navlink('Kills', 'plus_one', '/kills'),
-      new Navlink('Players', 'people', '/players'),
-      new Navlink('Videos', 'videocam', '/videos'),
-      new Navlink('API Playground', 'play_arrow', '/playground'),
+  getNavlinkGroups(): Observable<{ header: string, navlinks: Navlink[] }[]> {
+    const groups = [
+      {
+        header: 'General',
+        navlinks: [
+          new Navlink('Dashboard', 'dashboard', '/dashboard'),
+          new Navlink('Players', 'people', '/players'),
+          new Navlink('Videos', 'videocam', '/videos'),
+          new Navlink('API Playground', 'play_arrow', '/playground'),
+        ]
+      },
+      {
+        header: 'Modern Warfare',
+        navlinks: [
+          new Navlink('Stats', 'bar_chart', '/statsmp'),
+          new Navlink('Kills', 'plus_one', '/kills'),
+        ]
+      },
+      {
+        header: 'Warzone',
+        navlinks: [
+          new Navlink('Stats', 'bar_chart', '/statswz'),
+        ]
+      }
     ];
-    return of(navlinks);
+    return of(groups);
   }
 }

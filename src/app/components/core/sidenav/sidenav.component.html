@@ -1,7 +1,7 @@
-<mat-nav-list>
-  <h3 matSubheader>Pages</h3>
+<mat-nav-list *ngFor="let navgroup of navgroups">
+  <h3 matSubheader>{{navgroup.header}}</h3>
   <mat-divider></mat-divider>
-  <a mat-list-item *ngFor="let link of navLinks" [routerLink]="link.routerLink" routerLinkActive="active">
+  <a mat-list-item *ngFor="let link of navgroup.navlinks" [routerLink]="link.routerLink" routerLinkActive="active">
     <mat-icon matListIcon> {{link.icon}} </mat-icon>
     <h3 matLine> {{link.text}} </h3>
   </a>

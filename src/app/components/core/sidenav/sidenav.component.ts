@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Navlink } from 'src/app/models/navlink';
 
 @Component({
@@ -8,9 +8,9 @@ import { Navlink } from 'src/app/models/navlink';
 })
 export class SidenavComponent {
   /**
-   * The navlinks to display
+   * The headers and navlinks to display
    */
-  @Input() navLinks!: Navlink[];
+  @Input() navgroups!: { header: string, navlinks: Navlink[] }[];
 
   constructor() { }
 
