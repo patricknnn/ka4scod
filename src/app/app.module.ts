@@ -30,6 +30,7 @@ import { EditVideoComponent } from './components/firestore/edit-video/edit-video
 import { ViewVideosComponent } from './components/firestore/view-videos/view-videos.component';
 import { VideoCardComponent } from './components/cards/video-card/video-card.component';
 import { PlayerCardComponent } from './components/cards/player-card/player-card.component';
+import { PlayerTableComponent } from './components/tables/player-table/player-table.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { PlayerCardComponent } from './components/cards/player-card/player-card.
     EditVideoComponent,
     ViewVideosComponent,
     VideoCardComponent,
-    PlayerCardComponent
+    PlayerCardComponent,
+    PlayerTableComponent
   ],
   imports: [
     SharedModule,

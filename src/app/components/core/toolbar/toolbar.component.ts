@@ -9,7 +9,7 @@ export class ToolbarComponent {
   /**
    * Toolbar title
    */
-  title: string = 'KA4S Stats';
+  title: string = 'KA4S Klapdekar';
   
   /**
    * Event emitter triggered on form submit

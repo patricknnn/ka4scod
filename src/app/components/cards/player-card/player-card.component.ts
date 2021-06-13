@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { LifetimeStats } from 'src/app/models/lifetime-stats';
 import { Player } from 'src/app/models/player';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -21,6 +22,7 @@ export class PlayerCardComponent implements OnInit {
   constructor(
     private api: NodeRestApiService,
     private dialog: DialogService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -50,13 +52,17 @@ export class PlayerCardComponent implements OnInit {
       });
   }
 
+  goToDetails(): void {
+    this.router.navigate(['/playerstats', { key: this.player?.key }]);
+  }
+
   secondsToHms(d: number): string {
     var h = Math.floor(d / 3600);
     var m = Math.floor(d % 3600 / 60);
     var s = Math.floor(d % 3600 % 60);
-    var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : "  hrs, ") : "";
-    var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " mins, ") : "";
-    var sDisplay = s > 0 ? s + (s == 1 ? " second" : " secs") : "";
+    var hDisplay = h > 0 ? h + ("h, ") : "";
+    var mDisplay = m > 0 ? m + ("m, ") : "";
+    var sDisplay = s > 0 ? s + ("s") : "";
     return hDisplay + mDisplay + sDisplay;
   }
 
