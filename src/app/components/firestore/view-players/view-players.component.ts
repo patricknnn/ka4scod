@@ -105,7 +105,7 @@ export class ViewPlayersComponent implements OnInit {
    * @param event SelectionChangeEvent
    */
   handleSelectionChangeEvent(event: any): void {
-    console.log(event);
+    //console.log(event);
   }
 
   /**

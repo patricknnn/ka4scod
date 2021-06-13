@@ -16,7 +16,8 @@ export declare type CodApiGameType = 'mp' | 'wz' | 'zm';
 export class NodeRestApiService {
   isLoggedIn: boolean = false;
   redirectUrl?: string;
-  apiURL: string = 'http://localhost:8000/api/';
+  //apiURL: string = 'http://localhost:8000/api/'; //
+  apiURL: string = 'http://api.klapdekar.nl/api/'
   requestRetries: number = 1;
 
   /**

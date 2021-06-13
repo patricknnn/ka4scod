@@ -33,9 +33,11 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * Sidenav viewchild
    */
-  @ViewChild('sidenav')
-  public sidenav!: MatSidenav;
-
+  @ViewChild('sidenav') public sidenav!: MatSidenav;
+  /**
+   * Sidenav open
+   */
+  sidenavOpen: boolean = false;
   /**
    * Navlink groups
    */
@@ -62,7 +64,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * Called aafter
    */
   ngOnInit(): void {
-    console.log();
+    this.sidenavOpen = !this.mobileQuery.matches;
   }
 
   /**

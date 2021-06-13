@@ -43,8 +43,6 @@ export class StatsMpTableComponent implements OnInit {
   ngOnInit(): void {
     this.tableConfig = this.tables.getTableConfig();
     this.getLifetimeData().then((res) => {
-      console.log(res);
-      
       this.data = res;
       this.getLifetime();
     });
@@ -84,7 +82,7 @@ export class StatsMpTableComponent implements OnInit {
    * @param event SelectionChangeEvent
    */
   handleSelectionChangeEvent(event: any): void {
-    console.log(event);
+    //console.log(event);
   }
 
   /**
@@ -92,7 +90,7 @@ export class StatsMpTableComponent implements OnInit {
    * @param event ButtonClickEvent
    */
   handleButtonClickEvent(event: any): void {
-    console.log(event);
+    //console.log(event);
   }
 
   /**
