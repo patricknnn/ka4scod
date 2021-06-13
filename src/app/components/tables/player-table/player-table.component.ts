@@ -20,6 +20,7 @@ export class PlayerTableComponent implements OnInit {
   level?: number;
   kd?: number;
   hours?: string;
+  hoursCummulative?: string;
   shotsFired?: number;
   maxLevel?: number;
   prestige?: number;
@@ -78,22 +79,41 @@ export class PlayerTableComponent implements OnInit {
             this.dialog.errorDialog('Error', JSON.stringify(res));
           }
           this.stats = res;
-
           this.level = res.level;
           this.maxLevel = res.maxLevel;
           this.prestige = res.prestige;
           this.maxPrestige = res.maxPrestige;
-
           this.kills = res.lifetime.all.properties.kills;
           this.kd = res.lifetime.all.properties.kdRatio;
           this.shotsFired = res.lifetime.accoladeData.properties.shotsFired;
           this.hours = this.secondsToHms(res.lifetime.all.properties.timePlayedTotal);
-
+          this.hoursCummulative = this.secondsToHms(
+            res.lifetime.mode.arena.properties.timePlayed +
+            res.lifetime.mode.arm.properties.timePlayed +
+            res.lifetime.mode.br.properties.timePlayed +
+            res.lifetime.mode.br_all.properties.timePlayed +
+            res.lifetime.mode.br_dmz.properties.timePlayed +
+            res.lifetime.mode.conf.properties.timePlayed +
+            res.lifetime.mode.cyber.properties.timePlayed +
+            res.lifetime.mode.dom.properties.timePlayed +
+            res.lifetime.mode.grnd.properties.timePlayed +
+            res.lifetime.mode.gun.properties.timePlayed +
+            res.lifetime.mode.hc_conf.properties.timePlayed +
+            res.lifetime.mode.hc_cyber.properties.timePlayed +
+            res.lifetime.mode.hc_dom.properties.timePlayed +
+            res.lifetime.mode.hc_hq.properties.timePlayed +
+            res.lifetime.mode.hc_sd.properties.timePlayed +
+            res.lifetime.mode.hc_war.properties.timePlayed +
+            res.lifetime.mode.hq.properties.timePlayed +
+            res.lifetime.mode.infect.properties.timePlayed +
+            res.lifetime.mode.koth.properties.timePlayed +
+            res.lifetime.mode.sd.properties.timePlayed +
+            res.lifetime.mode.war.properties.timePlayed
+          );
           this.sdKills = res.lifetime.mode.sd.properties.kills;
           this.sdKD = res.lifetime.mode.sd.properties.kdRatio;
           this.sdDeath = res.lifetime.mode.sd.properties.deaths;
           this.sdHours = this.secondsToHms(res.lifetime.mode.sd.properties.timePlayed);
-
           this.sdPlant = res.lifetime.mode.sd.properties.plants;
           this.sdDefuse = res.lifetime.mode.sd.properties.defuses;
           this.sdScore = res.lifetime.mode.sd.properties.score;

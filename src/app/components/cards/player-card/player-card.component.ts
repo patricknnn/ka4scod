@@ -18,6 +18,7 @@ export class PlayerCardComponent implements OnInit {
   level?: number;
   kd?: number;
   hours?: string;
+  hoursCummulative?: string;
 
   constructor(
     private api: NodeRestApiService,
@@ -46,6 +47,29 @@ export class PlayerCardComponent implements OnInit {
         this.kd = res.lifetime.all.properties.kdRatio;
         let hours = res.lifetime.all.properties.timePlayedTotal;
         this.hours = this.secondsToHms(hours);
+        this.hoursCummulative = this.secondsToHms(
+          res.lifetime.mode.arena.properties.timePlayed +
+          res.lifetime.mode.arm.properties.timePlayed +
+          res.lifetime.mode.br.properties.timePlayed +
+          res.lifetime.mode.br_all.properties.timePlayed +
+          res.lifetime.mode.br_dmz.properties.timePlayed +
+          res.lifetime.mode.conf.properties.timePlayed +
+          res.lifetime.mode.cyber.properties.timePlayed +
+          res.lifetime.mode.dom.properties.timePlayed +
+          res.lifetime.mode.grnd.properties.timePlayed +
+          res.lifetime.mode.gun.properties.timePlayed +
+          res.lifetime.mode.hc_conf.properties.timePlayed +
+          res.lifetime.mode.hc_cyber.properties.timePlayed +
+          res.lifetime.mode.hc_dom.properties.timePlayed +
+          res.lifetime.mode.hc_hq.properties.timePlayed +
+          res.lifetime.mode.hc_sd.properties.timePlayed +
+          res.lifetime.mode.hc_war.properties.timePlayed +
+          res.lifetime.mode.hq.properties.timePlayed +
+          res.lifetime.mode.infect.properties.timePlayed +
+          res.lifetime.mode.koth.properties.timePlayed +
+          res.lifetime.mode.sd.properties.timePlayed +
+          res.lifetime.mode.war.properties.timePlayed
+        );
       })
       .catch((error) => {
         this.dialog.errorDialog('Error', JSON.stringify(error));
