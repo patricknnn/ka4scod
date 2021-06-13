@@ -1,6 +1,8 @@
-let express = require('express');
-let path = require('path');
-let cors = require('cors');
+const express = require('express');
+const cors = require('cors');
+const compression = require('compression');
+const helmet = require('helmet');
+const path = require('path');
 const createError = require('http-errors');
 
 // Routes
@@ -9,8 +11,10 @@ const codRoute = require('./routes/cod.routes');
 // App
 const app = express();
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+app.use(compression());
+app.use(helmet());
 
 // Static directory path
 app.use(express.static(path.join(__dirname, 'dist/node-rest-api')));

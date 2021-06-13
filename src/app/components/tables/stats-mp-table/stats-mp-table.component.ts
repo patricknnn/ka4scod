@@ -46,7 +46,7 @@ export class StatsMpTableComponent implements OnInit {
       console.log(res);
       
       this.data = res;
-      this.getWeekly();
+      this.getLifetime();
     });
   }
 
@@ -178,13 +178,13 @@ export class StatsMpTableComponent implements OnInit {
     this.data.forEach((entry) => {
       this.tableData.push({
         Name: entry.name,
-        Kills: entry.data.weekly.all.properties.kills ? entry.data.weekly.all.properties.kills : null,
-        Deaths: entry.data.weekly.all.properties.deaths ? entry.data.weekly.all.properties.deaths : null,
-        KD: entry.data.weekly.all.properties.kdRatio ? Math.round(entry.data.weekly.all.properties.kdRatio * 100) / 100 : null,
-        Accuracy: entry.data.weekly.all.properties.accuracy ? Math.round(entry.data.weekly.all.properties.accuracy * 100) / 100: null,
-        Damage: entry.data.weekly.all.properties.damageDone ? entry.data.weekly.all.properties.damageDone : null,
-        Matches: entry.data.weekly.all.properties.matchesPlayed ? entry.data.weekly.all.properties.matchesPlayed : null,
-        Wallbangs: entry.data.weekly.all.properties.wallBangs ? entry.data.weekly.all.properties.wallBangs : null,
+        Kills: entry.data.weekly.all.properties ? entry.data.weekly.all.properties.kills : null,
+        Deaths: entry.data.weekly.all.properties ? entry.data.weekly.all.properties.deaths : null,
+        KD: entry.data.weekly.all.properties ? Math.round(entry.data.weekly.all.properties.kdRatio * 100) / 100 : null,
+        Accuracy: entry.data.weekly.all.properties ? Math.round(entry.data.weekly.all.properties.accuracy * 100) / 100: null,
+        Damage: entry.data.weekly.all.properties ? entry.data.weekly.all.properties.damageDone : null,
+        Matches: entry.data.weekly.all.properties ? entry.data.weekly.all.properties.matchesPlayed : null,
+        Wallbangs: entry.data.weekly.all.properties ? entry.data.weekly.all.properties.wallBangs : null,
       });
     });
     // columns
