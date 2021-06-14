@@ -1,0 +1,17 @@
+<!-- Title -->
+<app-title-section [title]="'Events'"></app-title-section>
+
+<!-- Loading -->
+<app-loading *ngIf="isLoading"></app-loading>
+
+<!-- Buttons -->
+<div class="row" style="margin-top: 24px;" *ngIf="!isLoading">
+  <button mat-mini-fab color="accent" (click)="edit()">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+<!-- Table -->
+<app-dynamic-table *ngIf="!isLoading" [tableConfig]="(tableConfig)!" [columnConfig]="columnConfig" [data]="tableData"
+  (selectionChange)="handleSelectionChangeEvent($event)" (buttonClick)="handleButtonClickEvent($event)">
+</app-dynamic-table>

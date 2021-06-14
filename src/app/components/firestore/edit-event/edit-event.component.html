@@ -1,0 +1,26 @@
+<!-- Title -->
+<app-title-section
+    [title]="editEvent ? 'Edit event' : 'New event'"
+></app-title-section>
+
+<!-- Loading -->
+<app-loading *ngIf="isLoading"></app-loading>
+
+<!-- Form -->
+<div class="row">
+    <div class="column">
+        <mat-card [class]="elevation">
+            <mat-card-content>
+                <app-dynamic-form
+                    *ngIf="formControls"
+                    [appearance]="formAppearance"
+                    [color]="formColor"
+                    [formControls]="formControls"
+                    [allowInvalidSubmit]="allowInvalidSubmit"
+                    (formSubmit)="handleFormSubmit($event)"
+                >
+                </app-dynamic-form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

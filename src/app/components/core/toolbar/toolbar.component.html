@@ -1,13 +1,32 @@
 <mat-toolbar class="toolbar" [color]="'primary'">
-  <button mat-icon-button (click)="emitSidebarChange('toggle')">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <h1 class="example-app-name">{{title}}</h1>
-  <span class="spacer"></span>
-  <button mat-icon-button (click)="emitThemeChange('light')">
-    <mat-icon>light_mode</mat-icon>
-  </button>
-  <button mat-icon-button (click)="emitThemeChange('dark')">
-    <mat-icon>dark_mode</mat-icon>
-  </button>
+    <!-- Toggle menu -->
+    <button mat-icon-button (click)="emitSidebarChange('toggle')">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="example-app-name">{{ title }}</h1>
+
+    <!-- Spacer -->
+    <span class="spacer"></span>
+
+    <!-- Themes -->
+    <button mat-icon-button (click)="emitThemeChange('light')">
+        <mat-icon>light_mode</mat-icon>
+    </button>
+    <button mat-icon-button (click)="emitThemeChange('dark')">
+        <mat-icon>dark_mode</mat-icon>
+    </button>
+
+    <!-- API User -->
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" *ngIf="isLoggedIn() && loggedInUser()">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item disabled>
+        <span>{{loggedInUser()}}</span>
+      </button>
+      <button mat-menu-item (click)="changeUser()">
+        <mat-icon>swap_horizontal_circle</mat-icon>
+        <span>Change user</span>
+      </button>
+    </mat-menu>
 </mat-toolbar>

@@ -5,8 +5,10 @@ import { LoginComponent } from './components/api/login/login.component';
 import { PlaygroundComponent } from './components/api/playground/playground.component';
 import { DashboardComponent } from './components/core/dashboard/dashboard.component';
 import { PageNotFoundComponent } from './components/core/page-not-found/page-not-found.component';
+import { EditEventComponent } from './components/firestore/edit-event/edit-event.component';
 import { EditPlayerComponent } from './components/firestore/edit-player/edit-player.component';
 import { EditVideoComponent } from './components/firestore/edit-video/edit-video.component';
+import { ViewEventsComponent } from './components/firestore/view-events/view-events.component';
 import { ViewPlayersComponent } from './components/firestore/view-players/view-players.component';
 import { ViewVideosComponent } from './components/firestore/view-videos/view-videos.component';
 import { KillsTableComponent } from './components/tables/kills-table/kills-table.component';
@@ -25,6 +27,8 @@ const routes: Routes = [
   { path: 'playerstats', component: PlayerTableComponent, canActivate: [AuthGuard] },
   { path: 'videos', component: ViewVideosComponent, canActivate: [AuthGuard] },
   { path: 'video', component: EditVideoComponent, canActivate: [AuthGuard] },
+  { path: 'events', component: ViewEventsComponent, canActivate: [AuthGuard] },
+  { path: 'event', component: EditEventComponent, canActivate: [AuthGuard] },
   { path: '404', component: PageNotFoundComponent },
   // mp
   { path: 'statsmp', component: StatsMpTableComponent, canActivate: [AuthGuard] },

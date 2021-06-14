@@ -17,7 +17,7 @@ export class TableService {
       selecting: false,
       expanding: false,
       scrollX: "750px",
-      scrollY: "500px",
+      scrollY: "750px",
       stickyHeaders: true,
       stickyFooters: true,
       tableClass: "mat-elevation-z4",

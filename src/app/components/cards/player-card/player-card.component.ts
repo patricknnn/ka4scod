@@ -12,13 +12,27 @@ import { CodApiPlayer, NodeRestApiService } from 'src/app/services/node-rest-api
 })
 export class PlayerCardComponent implements OnInit {
   @Input() player!: Player;
+  @Input() extended: boolean = false;
   elevation: string = "mat-elevation-z4";
+  dataError: boolean = false;
   stats?: LifetimeStats;
   kills?: number;
   level?: number;
   kd?: number;
   hours?: string;
   hoursCummulative?: string;
+  shotsFired?: number;
+  maxLevel?: number;
+  prestige?: number;
+  maxPrestige?: number;
+  sdHours?: string;
+  sdKills?: number;
+  sdDeath?: number;
+  sdPlant?: number;
+  sdDefuse?: number;
+  sdKD?: number;
+  sdScore?: number;
+  sdScoreMin?: number;
 
   constructor(
     private api: NodeRestApiService,
@@ -36,23 +50,24 @@ export class PlayerCardComponent implements OnInit {
    */
   getLifetimeData(): void {
     let apiPlayer: CodApiPlayer = { name: this.player.name || '', gamertag: this.player.gamertag || '', platform: this.player.platform || 'battle' };
-    this.api.getLifetimeStats("mp", apiPlayer)
+    this.api.getLifetimeStats(apiPlayer)
       .then((res: LifetimeStats) => {
         if (!res.lifetime) {
-          this.dialog.errorDialog('Error', JSON.stringify(res));
+          this.dataError = true;
         }
         this.stats = res;
-        this.kills = res.lifetime.all.properties.kills;
         this.level = res.level;
+        this.maxLevel = res.maxLevel;
+        this.prestige = res.prestige;
+        this.maxPrestige = res.maxPrestige;
+        this.kills = res.lifetime.all.properties.kills;
         this.kd = res.lifetime.all.properties.kdRatio;
-        let hours = res.lifetime.all.properties.timePlayedTotal;
-        this.hours = this.secondsToHms(hours);
+        this.shotsFired = res.lifetime.accoladeData.properties.shotsFired;
+        this.hours = this.secondsToHms(res.lifetime.all.properties.timePlayedTotal);
         this.hoursCummulative = this.secondsToHms(
           res.lifetime.mode.arena.properties.timePlayed +
           res.lifetime.mode.arm.properties.timePlayed +
-          res.lifetime.mode.br.properties.timePlayed +
           res.lifetime.mode.br_all.properties.timePlayed +
-          res.lifetime.mode.br_dmz.properties.timePlayed +
           res.lifetime.mode.conf.properties.timePlayed +
           res.lifetime.mode.cyber.properties.timePlayed +
           res.lifetime.mode.dom.properties.timePlayed +
@@ -70,9 +85,17 @@ export class PlayerCardComponent implements OnInit {
           res.lifetime.mode.sd.properties.timePlayed +
           res.lifetime.mode.war.properties.timePlayed
         );
+        this.sdKills = res.lifetime.mode.sd.properties.kills;
+        this.sdKD = res.lifetime.mode.sd.properties.kdRatio;
+        this.sdDeath = res.lifetime.mode.sd.properties.deaths;
+        this.sdHours = this.secondsToHms(res.lifetime.mode.sd.properties.timePlayed);
+        this.sdPlant = res.lifetime.mode.sd.properties.plants;
+        this.sdDefuse = res.lifetime.mode.sd.properties.defuses;
+        this.sdScore = res.lifetime.mode.sd.properties.score;
+        this.sdScoreMin = res.lifetime.mode.sd.properties.scorePerMinute;
       })
       .catch((error) => {
-        this.dialog.errorDialog('Error', JSON.stringify(error));
+        //this.dialog.errorDialog('Error', JSON.stringify(error));
       });
   }
 

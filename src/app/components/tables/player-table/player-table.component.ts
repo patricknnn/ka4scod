@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { LifetimeStats } from 'src/app/models/lifetime-stats';
 import { Player } from 'src/app/models/player';
+import { WarzoneStats } from 'src/app/models/warzone-stats';
+import { DynamicTableColumnConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-column-config';
+import { DynamicTableConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-config';
 import { DialogService } from 'src/app/services/dialog.service';
 import { PlayerService } from 'src/app/services/firestore/player.service';
 import { CodApiPlayer, NodeRestApiService } from 'src/app/services/node-rest-api.service';
+import { TableService } from 'src/app/services/table.service';
 
 @Component({
   selector: 'app-player-table',
@@ -16,26 +20,18 @@ export class PlayerTableComponent implements OnInit {
   elevation: string = "mat-elevation-z4";
   player?: Player;
   stats?: LifetimeStats;
-  kills?: number;
-  level?: number;
-  kd?: number;
-  hours?: string;
-  hoursCummulative?: string;
-  shotsFired?: number;
-  maxLevel?: number;
-  prestige?: number;
-  maxPrestige?: number;
-  sdHours?: string;
-  sdKills?: number;
-  sdDeath?: number;
-  sdPlant?: number;
-  sdDefuse?: number;
-  sdKD?: number;
-  sdScore?: number;
-  sdScoreMin?: number;
+  mpStats?: any;
+  wzStats?: any;
+  isLoading: boolean = true;
+  tableData: any[] = [];
+  tableConfig?: DynamicTableConfig;
+  columnConfig: DynamicTableColumnConfig[] = [];
+  @ViewChild("outlet", { read: ViewContainerRef }) outletRef?: ViewContainerRef;
+  @ViewChild("content", { read: TemplateRef }) contentRef?: TemplateRef<any>;
 
   constructor(
     private firestore: PlayerService,
+    private tables: TableService,
     private api: NodeRestApiService,
     private dialog: DialogService,
     private router: Router,
@@ -43,12 +39,45 @@ export class PlayerTableComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.tableConfig = this.tables.getTableConfig();
     let key = this.route.snapshot.paramMap.get('key');
     if (key && key != 'undefined') {
       this.retrievePlayer(key);
     } else {
       this.router.navigate(['/404']);
     }
+  }
+
+  /**
+   * Renders dynamic table
+   */
+  renderTable(): void {
+    if (this.outletRef && this.contentRef) {
+      this.isLoading = true;
+      this.outletRef.clear();
+      this.outletRef.createEmbeddedView(this.contentRef);
+      this.isLoading = false;
+    }
+  }
+
+  /**
+   * Builds column config based on tableData
+   */
+  buildColumns(): void {
+    this.columnConfig = [
+      new DynamicTableColumnConfig({
+        key: 'property',
+        header: 'Property',
+        sortable: true,
+        draggable: true
+      }),
+      new DynamicTableColumnConfig({
+        key: 'value',
+        header: 'Value',
+        sortable: true,
+        draggable: true
+      }),
+    ];
   }
 
   /**
@@ -62,7 +91,7 @@ export class PlayerTableComponent implements OnInit {
       )
     ).subscribe(data => {
       this.player = data;
-      this.getLifetimeData();
+      this.retrieveLifetimeData();
     });
   }
 
@@ -70,54 +99,26 @@ export class PlayerTableComponent implements OnInit {
    * Get lifetime data
    * @returns Promise<{ name: string, data: any }[]> 
    */
-  getLifetimeData(): void {
+  retrieveLifetimeData(): void {
     if (this.player) {
       let apiPlayer: CodApiPlayer = { name: this.player.name || '', gamertag: this.player.gamertag || '', platform: this.player.platform || 'battle' };
-      this.api.getLifetimeStats("mp", apiPlayer)
+      // mp
+      this.api.getLifetimeStats(apiPlayer)
         .then((res: LifetimeStats) => {
-          if (!res.lifetime) {
-            this.dialog.errorDialog('Error', JSON.stringify(res));
+          if (res.lifetime) {
+            this.mpStats = res;
+            this.getMpData();
           }
-          this.stats = res;
-          this.level = res.level;
-          this.maxLevel = res.maxLevel;
-          this.prestige = res.prestige;
-          this.maxPrestige = res.maxPrestige;
-          this.kills = res.lifetime.all.properties.kills;
-          this.kd = res.lifetime.all.properties.kdRatio;
-          this.shotsFired = res.lifetime.accoladeData.properties.shotsFired;
-          this.hours = this.secondsToHms(res.lifetime.all.properties.timePlayedTotal);
-          this.hoursCummulative = this.secondsToHms(
-            res.lifetime.mode.arena.properties.timePlayed +
-            res.lifetime.mode.arm.properties.timePlayed +
-            res.lifetime.mode.br.properties.timePlayed +
-            res.lifetime.mode.br_all.properties.timePlayed +
-            res.lifetime.mode.br_dmz.properties.timePlayed +
-            res.lifetime.mode.conf.properties.timePlayed +
-            res.lifetime.mode.cyber.properties.timePlayed +
-            res.lifetime.mode.dom.properties.timePlayed +
-            res.lifetime.mode.grnd.properties.timePlayed +
-            res.lifetime.mode.gun.properties.timePlayed +
-            res.lifetime.mode.hc_conf.properties.timePlayed +
-            res.lifetime.mode.hc_cyber.properties.timePlayed +
-            res.lifetime.mode.hc_dom.properties.timePlayed +
-            res.lifetime.mode.hc_hq.properties.timePlayed +
-            res.lifetime.mode.hc_sd.properties.timePlayed +
-            res.lifetime.mode.hc_war.properties.timePlayed +
-            res.lifetime.mode.hq.properties.timePlayed +
-            res.lifetime.mode.infect.properties.timePlayed +
-            res.lifetime.mode.koth.properties.timePlayed +
-            res.lifetime.mode.sd.properties.timePlayed +
-            res.lifetime.mode.war.properties.timePlayed
-          );
-          this.sdKills = res.lifetime.mode.sd.properties.kills;
-          this.sdKD = res.lifetime.mode.sd.properties.kdRatio;
-          this.sdDeath = res.lifetime.mode.sd.properties.deaths;
-          this.sdHours = this.secondsToHms(res.lifetime.mode.sd.properties.timePlayed);
-          this.sdPlant = res.lifetime.mode.sd.properties.plants;
-          this.sdDefuse = res.lifetime.mode.sd.properties.defuses;
-          this.sdScore = res.lifetime.mode.sd.properties.score;
-          this.sdScoreMin = res.lifetime.mode.sd.properties.scorePerMinute;
+        })
+        .catch((error) => {
+          this.dialog.errorDialog('Error', JSON.stringify(error));
+        });
+      // wz
+      this.api.getWarzoneStats(apiPlayer)
+        .then((res: WarzoneStats) => {
+          if (res.br_all) {
+            this.wzStats = res;
+          }
         })
         .catch((error) => {
           this.dialog.errorDialog('Error', JSON.stringify(error));
@@ -133,6 +134,61 @@ export class PlayerTableComponent implements OnInit {
     var mDisplay = m > 0 ? m + ("m, ") : "";
     var sDisplay = s > 0 ? s + ("s") : "";
     return hDisplay + mDisplay + sDisplay;
+  }
+
+  /**
+   * Mp
+   */
+  getMpData(): void {
+    // empty
+    this.tableData = [];
+    // data
+    for (const property in this.mpStats?.lifetime.all.properties) {
+      this.tableData.push({
+        property: property,
+        value: this.mpStats?.lifetime.all.properties[property]
+      });
+    }
+    // columns
+    this.buildColumns();
+    // render table
+    this.renderTable();
+  }
+
+  /**
+   * Warzone
+   */
+  getWarzoneData(): void {
+    // empty
+    this.tableData = [];
+    // data
+    for (const property in this.wzStats?.br_all) {
+      this.tableData.push({
+        property: property,
+        value: this.wzStats?.br_all[property]
+      });
+    }
+    // columns
+    this.buildColumns();
+    // render table
+    this.renderTable();
+  }
+
+
+  /**
+   * Handles SelectionChangeEvent
+   * @param event SelectionChangeEvent
+   */
+  handleSelectionChangeEvent(event: any): void {
+    //console.log(event);
+  }
+
+  /**
+   * Handles ButtonClickEvent
+   * @param event ButtonClickEvent
+   */
+  handleButtonClickEvent(event: any): void {
+    //console.log(event);
   }
 
 }

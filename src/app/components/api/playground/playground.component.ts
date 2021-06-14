@@ -39,7 +39,7 @@ export class PlaygroundComponent implements OnInit {
   }
 
   getLifetimeStats(): void {
-    this.api.getLifetimeStats(this.gameType, this.player).then(result => this.resultContent = JSON.stringify(result));
+    this.api.getLifetimeStats(this.player).then(result => this.resultContent = JSON.stringify(result));
     this.resultTitle = 'Lifetime stats';
   }
 
@@ -54,7 +54,7 @@ export class PlaygroundComponent implements OnInit {
   }
 
   getRecentMatches(): void {
-    this.api.getRecentMatches(this.gameType, this.player).then(result => this.resultContent = JSON.stringify(result));
+    this.api.getRecentMatches(this.player).then(result => this.resultContent = JSON.stringify(result));
     this.resultTitle = 'Recent Matches';
   }
 

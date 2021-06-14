@@ -15,16 +15,31 @@ export declare type CodApiGameType = 'mp' | 'wz' | 'zm';
 })
 export class NodeRestApiService {
   isLoggedIn: boolean = false;
+  loggedInUser: string = '';
   redirectUrl?: string;
-  //apiURL: string = 'http://localhost:8000/api/';
-  apiURL: string = 'http://api.klapdekar.nl:8000/api/'
+  apiURL: string = 'http://localhost:8000/api/';
+  //apiURL: string = 'http://api.klapdekar.nl:8000/api/'
   requestRetries: number = 1;
+  lifetimeCache: { name: string, data: any }[] = [];
+  warzoneCache: { name: string, data: any }[] = [];
+  weeklyCache: { name: string, data: any }[] = [];
+  recentMatchesCache: { name: string, data: any }[] = [];
 
   /**
    * Initialize CodApiService
    * @param http HttpClient module
    */
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.getUserinfo()
+      .then((res) => {
+        if (res.userInfo) {
+          this.isLoggedIn = true;
+          this.loggedInUser = res.userInfo.userName;
+        } else {
+          this.login('ka4scod@gmail.com', 'Kakbaard1');
+        }
+      });
+  }
 
   /**
    * Log in
@@ -40,7 +55,10 @@ export class NodeRestApiService {
         .toPromise()
         .then((result: any) => {
           if (result.search('200') >= 0) {
-            this.isLoggedIn = true;
+            this.getUserinfo().then((res) => {
+              this.isLoggedIn = true;
+              this.loggedInUser = res.userInfo.userName;
+            })
             resolve('succes');
           } else {
             reject(result);
@@ -52,12 +70,19 @@ export class NodeRestApiService {
     })
   }
 
-  getLifetimeStats(type: CodApiGameType, player: CodApiPlayer): Promise<LifetimeStats> {
+  getLifetimeStats(player: CodApiPlayer): Promise<LifetimeStats> {
     return new Promise((resolve, reject) => {
+      this.lifetimeCache.forEach((entry) => {
+        if (entry.name == player.name) {
+          resolve(entry.data);
+        }
+      });
+      let type = 'mp';
       let gamertag = encodeURIComponent(player.gamertag);
       let platform = player.platform;
       let requestUrl = this.buildUrl(`lifetime/${type}/${gamertag}/${platform}`);
       this.getRequest(requestUrl).toPromise().then((data: any) => {
+        this.lifetimeCache.push({ name: player.name, data: data });
         resolve(data);
       }).catch(e => reject(e));
     });
@@ -65,28 +90,53 @@ export class NodeRestApiService {
 
   getWarzoneStats(player: CodApiPlayer): Promise<WarzoneStats> {
     return new Promise((resolve, reject) => {
+      this.warzoneCache.forEach((entry) => {
+        if (entry.name == player.name) {
+          resolve(entry.data);
+        }
+      });
       let gamertag = encodeURIComponent(player.gamertag);
       let platform = player.platform;
       let requestUrl = this.buildUrl(`battleroyale/${gamertag}/${platform}`);
-      this.getRequest(requestUrl).toPromise().then((data: any) => resolve(data)).catch(e => reject(e));
+      this.getRequest(requestUrl).toPromise().then((data: any) => {
+        this.warzoneCache.push({ name: player.name, data: data });
+        resolve(data);
+      }).catch(e => reject(e));
     });
   };
 
   getWeeklyStats(player: CodApiPlayer): Promise<any> {
     return new Promise((resolve, reject) => {
+      this.warzoneCache.forEach((entry) => {
+        if (entry.name == player.name) {
+          resolve(entry.data);
+        }
+      });
       let gamertag = encodeURIComponent(player.gamertag);
       let platform = player.platform;
       let requestUrl = this.buildUrl(`weekly/${gamertag}/${platform}`);
-      this.getRequest(requestUrl).toPromise().then((data: any) => resolve(data)).catch(e => reject(e));
+      this.getRequest(requestUrl).toPromise().then((data: any) => {
+        this.warzoneCache.push({ name: player.name, data: data });
+        resolve(data);
+      }).catch(e => reject(e));
     });
   };
 
-  getRecentMatches(type: CodApiGameType, player: CodApiPlayer): Promise<any> {
+  getRecentMatches(player: CodApiPlayer): Promise<any> {
     return new Promise((resolve, reject) => {
+      this.recentMatchesCache.forEach((entry) => {
+        if (entry.name == player.name) {
+          resolve(entry.data);
+        }
+      });
+      let type = 'mp';
       let gamertag = encodeURIComponent(player.gamertag);
       let platform = player.platform;
       let requestUrl = this.buildUrl(`recentmatches/${type}/${gamertag}/${platform}`);
-      this.getRequest(requestUrl).toPromise().then((data: any) => resolve(data)).catch(e => reject(e));
+      this.getRequest(requestUrl).toPromise().then((data: any) => {
+        this.recentMatchesCache.push({ name: player.name, data: data });
+        resolve(data);
+      }).catch(e => reject(e));
     });
   };
 

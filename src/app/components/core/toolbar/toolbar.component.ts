@@ -1,4 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { Player } from 'src/app/models/player';
+import { NodeRestApiService } from 'src/app/services/node-rest-api.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -10,7 +13,7 @@ export class ToolbarComponent {
    * Toolbar title
    */
   title: string = 'KA4S Klapdekar';
-  
+
   /**
    * Event emitter triggered on form submit
    */
@@ -24,7 +27,22 @@ export class ToolbarComponent {
   /**
    * Initialize ToolbarComponent
    */
-  constructor() { }
+  constructor(
+    private api: NodeRestApiService,
+    private router: Router
+  ) { }
+
+  isLoggedIn(): boolean {
+    return this.api.isLoggedIn;
+  }
+
+  loggedInUser(): string {
+    return this.api.loggedInUser;
+  }
+
+  changeUser(): void {
+    this.router.navigate(['/login']);
+  }
 
   /**
    * Emits event to parent to signal theme change

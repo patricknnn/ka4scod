@@ -19,9 +19,7 @@ export class NavlinkService {
         header: 'General',
         navlinks: [
           new Navlink('Dashboard', 'dashboard', '/dashboard'),
-          new Navlink('Players', 'people', '/players'),
-          new Navlink('Videos', 'videocam', '/videos'),
-          new Navlink('API Playground', 'play_arrow', '/playground'),
+          new Navlink('Playground', 'play_arrow', '/playground'),
         ]
       },
       {
@@ -35,6 +33,14 @@ export class NavlinkService {
         header: 'Warzone',
         navlinks: [
           new Navlink('Stats', 'bar_chart', '/statswz'),
+        ]
+      },
+      {
+        header: 'Firebase',
+        navlinks: [
+          new Navlink('Players', 'people', '/players'),
+          new Navlink('Videos', 'videocam', '/videos'),
+          new Navlink('Events', 'date_range', '/events'),
         ]
       }
     ];

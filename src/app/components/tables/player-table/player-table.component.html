@@ -1,116 +1,34 @@
 <!-- Loading -->
-<app-loading *ngIf="!player || !stats"></app-loading>
+<app-loading *ngIf="!player"></app-loading>
 
 <!-- Card -->
-<mat-card *ngIf="player && stats" [class]="'player-card ' + elevation">
-    <mat-card-header>
-        <img *ngIf="player.avatar" mat-card-avatar [src]="player.avatar">
-        <mat-card-title>{{player.name}}</mat-card-title>
-        <mat-card-subtitle>{{player.platform}}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-        <div class="row">
-            <!-- Col 1 -->
-            <div class="column">
-                <mat-list class="player-card-list">
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>trending_up</mat-icon>
-                        <div mat-line>{{level}}</div>
-                        <div mat-line>Rank</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>star_border</mat-icon>
-                        <div mat-line>{{prestige}}</div>
-                        <div mat-line>Prestige</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>trending_up</mat-icon>
-                        <div mat-line>{{maxLevel}}</div>
-                        <div mat-line>Max Rank</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>star_border</mat-icon>
-                        <div mat-line>{{maxPrestige}}</div>
-                        <div mat-line>Max Prestige</div>
-                    </mat-list-item>
-                </mat-list>
-            </div>
-            <!-- Col 2 -->
-            <div class="column">
-                <mat-list class="player-card-list">
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>plus_one</mat-icon>
-                        <div mat-line>{{kills}}</div>
-                        <div mat-line>Kills</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>trending_up</mat-icon>
-                        <div mat-line>{{kd | number : '1.2-2'}}</div>
-                        <div mat-line>K/D Ratio</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>star_border</mat-icon>
-                        <div mat-line>{{shotsFired}}</div>
-                        <div mat-line>Shots Fired</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>timer</mat-icon>
-                        <div mat-line>{{hoursCummulative}}</div>
-                        <div mat-line>Hours Played</div>
-                    </mat-list-item>
-                </mat-list>
-            </div>
-            <!-- Col 3 -->
-            <div class="column">
-                <mat-list class="player-card-list">
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>plus_one</mat-icon>
-                        <div mat-line>{{sdKills}}</div>
-                        <div mat-line>S&D Kills</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>trending_up</mat-icon>
-                        <div mat-line>{{sdKD | number : '1.2-2'}}</div>
-                        <div mat-line>S&D K/D Ratio</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>plus_one</mat-icon>
-                        <div mat-line>{{sdDeath}}</div>
-                        <div mat-line>S&D Deaths</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>timer</mat-icon>
-                        <div mat-line>{{sdHours}}</div>
-                        <div mat-line>S&D Hours Played</div>
-                    </mat-list-item>
-                </mat-list>
-            </div>
-            <!-- Col 4 -->
-            <div class="column">
-                <mat-list class="player-card-list">
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>star_border</mat-icon>
-                        <div mat-line>{{sdPlant}}</div>
-                        <div mat-line>S&D Plant</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>plus_one</mat-icon>
-                        <div mat-line>{{sdDefuse}}</div>
-                        <div mat-line>S&D Defuse</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>trending_up</mat-icon>
-                        <div mat-line>{{sdScore}}</div>
-                        <div mat-line>S&D Score</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>timer</mat-icon>
-                        <div mat-line>{{sdScoreMin | number : '1.2-2'}}</div>
-                        <div mat-line>S&D Score/min</div>
-                    </mat-list-item>
-                </mat-list>
-            </div>
-        </div>
+<app-player-card
+    *ngIf="player"
+    [player]="player"
+    [extended]="true"
+></app-player-card>
 
-    </mat-card-content>
-</mat-card>
+<!-- Button toggle -->
+<mat-button-toggle-group class="button-toggle-full-width" style="margin-top: 24px;">
+    <mat-button-toggle (click)="getMpData()" checked>Multiplayer</mat-button-toggle>
+    <mat-button-toggle (click)="getWarzoneData()">Warzone</mat-button-toggle>
+</mat-button-toggle-group>
+
+<!-- Loading -->
+<app-loading *ngIf="isLoading"></app-loading>
+
+<!-- Dynamic table outlet -->
+<ng-container #outlet></ng-container>
+
+<!-- Dynamic table template -->
+<ng-template #content>
+    <app-dynamic-table
+        *ngIf="tableData"
+        [tableConfig]="tableConfig!"
+        [columnConfig]="columnConfig"
+        [data]="tableData"
+        (selectionChange)="handleSelectionChangeEvent($event)"
+        (buttonClick)="handleButtonClickEvent($event)"
+    >
+    </app-dynamic-table>
+</ng-template>

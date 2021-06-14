@@ -105,12 +105,10 @@ export class StatsWzTableComponent implements OnInit {
           let apiPlayer: CodApiPlayer = { name: player.name || '', gamertag: player.gamertag || '', platform: player.platform || 'battle' };
           this.api.getWarzoneStats(apiPlayer)
             .then((res: WarzoneStats) => {
-              if (!res.br || !res.br_all || !res.br_dmz) {
-                this.dialog.errorDialog('Error', JSON.stringify(res));
-                reject(res);
+              if (res.br && res.br_all && res.br_dmz) {
+                let name = player.name;
+                data.push({ name: name, data: res });
               }
-              let name = player.name;
-              data.push({ name: name, data: res });
               count++;
               if (count == players.length) {
                 resolve(data);
@@ -149,7 +147,7 @@ export class StatsWzTableComponent implements OnInit {
     this.data.forEach((entry) => {
       this.tableData.push({
         Name: entry.name,
-        Hours: Math.round((entry.data.br_all.timePlayed / 3600)  * 100) / 100,
+        Hours: Math.round((entry.data.br_all.timePlayed / 3600) * 100) / 100,
         Score: entry.data.br_all.score,
         Games: entry.data.br_all.gamesPlayed,
         Wins: entry.data.br_all.wins,
@@ -176,7 +174,7 @@ export class StatsWzTableComponent implements OnInit {
     this.data.forEach((entry) => {
       this.tableData.push({
         Name: entry.name,
-        Hours: Math.round((entry.data.br.timePlayed / 3600)  * 100) / 100,
+        Hours: Math.round((entry.data.br.timePlayed / 3600) * 100) / 100,
         Score: entry.data.br.score,
         Games: entry.data.br.gamesPlayed,
         Wins: entry.data.br.wins,

@@ -103,14 +103,12 @@ export class KillsTableComponent implements OnInit {
       this.getPlayers().then((players) => {
         players.forEach((player) => {
           let apiPlayer: CodApiPlayer = { name: player.name || '', gamertag: player.gamertag || '', platform: player.platform || 'battle' };
-          this.api.getLifetimeStats("mp", apiPlayer)
+          this.api.getLifetimeStats(apiPlayer)
             .then((res: LifetimeStats) => {
-              if (!res.lifetime) {
-                this.dialog.errorDialog('Error', JSON.stringify(res));
-                reject(res);
-              }
               let name = player.name;
-              data.push({ name: name, data: res });
+              if (res.lifetime) {
+                data.push({ name: name, data: res });
+              }
               count++;
               if (count == players.length) {
                 resolve(data);

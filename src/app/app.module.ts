@@ -31,6 +31,8 @@ import { ViewVideosComponent } from './components/firestore/view-videos/view-vid
 import { VideoCardComponent } from './components/cards/video-card/video-card.component';
 import { PlayerCardComponent } from './components/cards/player-card/player-card.component';
 import { PlayerTableComponent } from './components/tables/player-table/player-table.component';
+import { ViewEventsComponent } from './components/firestore/view-events/view-events.component';
+import { EditEventComponent } from './components/firestore/edit-event/edit-event.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import { PlayerTableComponent } from './components/tables/player-table/player-ta
     ViewVideosComponent,
     VideoCardComponent,
     PlayerCardComponent,
-    PlayerTableComponent
+    PlayerTableComponent,
+    ViewEventsComponent,
+    EditEventComponent
   ],
   imports: [
     SharedModule,

@@ -104,14 +104,12 @@ export class StatsMpTableComponent implements OnInit {
       this.getPlayers().then((players) => {
         players.forEach((player) => {
           let apiPlayer: CodApiPlayer = { name: player.name || '', gamertag: player.gamertag || '', platform: player.platform || 'battle' };
-          this.api.getLifetimeStats('mp', apiPlayer)
+          this.api.getLifetimeStats(apiPlayer)
             .then((res: LifetimeStats) => {
-              if (!res.lifetime) {
-                this.dialog.errorDialog('Error', JSON.stringify(res));
-                reject(res);
+              if (res.lifetime) {
+                let name = player.name;
+                data.push({ name: name, data: res });
               }
-              let name = player.name;
-              data.push({ name: name, data: res });
               count++;
               if (count == players.length) {
                 resolve(data);
@@ -179,7 +177,7 @@ export class StatsMpTableComponent implements OnInit {
         Kills: entry.data.weekly.all.properties ? entry.data.weekly.all.properties.kills : null,
         Deaths: entry.data.weekly.all.properties ? entry.data.weekly.all.properties.deaths : null,
         KD: entry.data.weekly.all.properties ? Math.round(entry.data.weekly.all.properties.kdRatio * 100) / 100 : null,
-        Accuracy: entry.data.weekly.all.properties ? Math.round(entry.data.weekly.all.properties.accuracy * 100) / 100: null,
+        Accuracy: entry.data.weekly.all.properties ? Math.round(entry.data.weekly.all.properties.accuracy * 100) / 100 : null,
         Damage: entry.data.weekly.all.properties ? entry.data.weekly.all.properties.damageDone : null,
         Matches: entry.data.weekly.all.properties ? entry.data.weekly.all.properties.matchesPlayed : null,
         Wallbangs: entry.data.weekly.all.properties ? entry.data.weekly.all.properties.wallBangs : null,

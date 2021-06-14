@@ -61,7 +61,7 @@ export class DynamicTableColumnConfig {
     this.header = options.header || "";
     this.footer = options.footer || "";
     this.buttons = options.buttons || [];
-    this.type = options.type || "";
+    this.type = options.type || "text";
     this.sticky = options.sticky == "start";
     this.stickyEnd = options.sticky == "end";
     this.sortable = options.sortable || false;
