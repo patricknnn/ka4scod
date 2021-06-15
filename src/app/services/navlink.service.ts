@@ -3,47 +3,44 @@ import { Observable, of } from 'rxjs';
 import { Navlink } from '../models/navlink';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class NavlinkService {
+    constructor() {}
 
-  constructor() { }
-
-  /**
-   * Returns form controls
-   * @returns Observable stream of form controls
-   */
-  getNavlinkGroups(): Observable<{ header: string, navlinks: Navlink[] }[]> {
-    const groups = [
-      {
-        header: 'General',
-        navlinks: [
-          new Navlink('Dashboard', 'dashboard', '/dashboard'),
-          new Navlink('Playground', 'play_arrow', '/playground'),
-        ]
-      },
-      {
-        header: 'Modern Warfare',
-        navlinks: [
-          new Navlink('Stats', 'bar_chart', '/statsmp'),
-          new Navlink('Kills', 'plus_one', '/kills'),
-        ]
-      },
-      {
-        header: 'Warzone',
-        navlinks: [
-          new Navlink('Stats', 'bar_chart', '/statswz'),
-        ]
-      },
-      {
-        header: 'Firebase',
-        navlinks: [
-          new Navlink('Players', 'people', '/players'),
-          new Navlink('Videos', 'videocam', '/videos'),
-          new Navlink('Events', 'date_range', '/events'),
-        ]
-      }
-    ];
-    return of(groups);
-  }
+    /**
+     * Returns form controls
+     * @returns Observable stream of form controls
+     */
+    getNavlinkGroups(): Observable<{ header: string; navlinks: Navlink[] }[]> {
+        const groups = [
+            {
+                header: 'General',
+                navlinks: [
+                    new Navlink('Dashboard', 'dashboard', '/dashboard'),
+                    new Navlink('Playground', 'play_arrow', '/playground'),
+                ],
+            },
+            {
+                header: 'Modern Warfare',
+                navlinks: [
+                    new Navlink('Stats', 'bar_chart', '/statsmp'),
+                    new Navlink('Kills', 'plus_one', '/kills'),
+                ],
+            },
+            {
+                header: 'Warzone',
+                navlinks: [new Navlink('Stats', 'bar_chart', '/statswz')],
+            },
+            {
+                header: 'Firebase',
+                navlinks: [
+                    new Navlink('Players', 'people', '/players'),
+                    new Navlink('Videos', 'videocam', '/videos'),
+                    new Navlink('Events', 'date_range', '/events'),
+                ],
+            },
+        ];
+        return of(groups);
+    }
 }

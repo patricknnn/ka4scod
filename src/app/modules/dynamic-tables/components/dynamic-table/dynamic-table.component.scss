@@ -1,85 +1,85 @@
 .dynamic-table-table {
-  width: 100%;
-  overflow: auto;
+    width: 100%;
+    overflow: auto;
 }
 
 .dynamic-table-loading-row {
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .dynamic-table-row:not(.expanded) {
-  border-bottom-width: 0;
+    border-bottom-width: 0;
 }
 
 .dynamic-table-row-empty,
 .dynamic-table-row-expandable:not(.expanded) {
-  min-height: 0;
+    min-height: 0;
 }
 
 .dynamic-table-row-expandable-content {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .dynamic-table-row-no-data {
-  display: flex;
-  align-items: center;
-  position: relative;
-  min-height: 48px;
-  overflow: hidden;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    display: flex;
+    align-items: center;
+    position: relative;
+    min-height: 48px;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .theme-dark .dynamic-table-row-no-data {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .dynamic-table-row-no-data .mat-cell {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  word-wrap: break-word;
-  min-height: inherit;
-  padding-left: 24px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    word-wrap: break-word;
+    min-height: inherit;
+    padding-left: 24px;
 }
 
 .dynamic-table-column-text-container {
-  display: flex;
-  flex-grow: 1;
+    display: flex;
+    flex-grow: 1;
 }
 
 .dynamic-table-column-image {
-  height: 40px;
-  width: 40px;
-  border-radius: 50%;
-  margin-top: 4px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    margin-top: 4px;
 }
 
 .dynamic-table-column-button-container {
-  display: flex;
-  padding-right: 24px;
+    display: flex;
+    padding-right: 24px;
 }
 
 .dynamic-table-column-draghandle {
-  display: flex;
-  margin-right: 6px;
-  height: 20px;
-  width: 20px;
-  font-size: 20px;
+    display: flex;
+    margin-right: 6px;
+    height: 20px;
+    width: 20px;
+    font-size: 20px;
 }
 
 .dynamic-table-column-draghandle-hidden {
-  display: none;
+    display: none;
 }
 
 .dynamic-tables-select-header,
 .dynamic-tables-select-cell,
 .dynamic-tables-select-footer {
-  max-width: min-content;
-  padding-right: 24px !important;
+    max-width: min-content;
+    padding-right: 24px !important;
 }

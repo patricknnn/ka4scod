@@ -3,23 +3,21 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { YoutubeVideo } from 'src/app/models/youtube-video';
 
 @Component({
-  selector: 'app-video-card',
-  templateUrl: './video-card.component.html',
-  styleUrls: ['./video-card.component.scss']
+    selector: 'app-video-card',
+    templateUrl: './video-card.component.html',
+    styleUrls: ['./video-card.component.scss'],
 })
 export class VideoCardComponent implements OnInit {
-  @Input() video!: YoutubeVideo;
-  elevation: string = "mat-elevation-z4";
+    @Input() video!: YoutubeVideo;
+    elevation: string = 'mat-elevation-z4';
 
-  constructor(
-    private sanitizer: DomSanitizer
-  ) { }
+    constructor(private sanitizer: DomSanitizer) {}
 
-  ngOnInit(): void {
-  }
+    ngOnInit(): void {}
 
-  getPhotoURL() {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.video.url || '');
-  }
-
+    getPhotoURL() {
+        return this.sanitizer.bypassSecurityTrustResourceUrl(
+            this.video.url || ''
+        );
+    }
 }

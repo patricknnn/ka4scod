@@ -4,15 +4,8 @@ import { DynamicFormControlComponent } from './components/dynamic-form-control/d
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  declarations: [
-    DynamicFormComponent,
-    DynamicFormControlComponent
-  ],
-  imports: [
-    SharedModule
-  ],
-  exports: [
-    DynamicFormComponent
-  ],
+    declarations: [DynamicFormComponent, DynamicFormControlComponent],
+    imports: [SharedModule],
+    exports: [DynamicFormComponent],
 })
-export class DynamicFormsModule { }
+export class DynamicFormsModule {}

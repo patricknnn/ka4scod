@@ -9,8 +9,13 @@
 ></app-player-card>
 
 <!-- Button toggle -->
-<mat-button-toggle-group class="button-toggle-full-width" style="margin-top: 24px;">
-    <mat-button-toggle (click)="getMpData()" checked>Multiplayer</mat-button-toggle>
+<mat-button-toggle-group
+    class="button-toggle-full-width"
+    style="margin-top: 24px"
+>
+    <mat-button-toggle (click)="getMpData()" checked
+        >Multiplayer</mat-button-toggle
+    >
     <mat-button-toggle (click)="getWarzoneData()">Warzone</mat-button-toggle>
 </mat-button-toggle-group>
 

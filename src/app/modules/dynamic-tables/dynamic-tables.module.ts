@@ -3,14 +3,8 @@ import { DynamicTableComponent } from './components/dynamic-table/dynamic-table.
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  declarations: [
-    DynamicTableComponent
-  ],
-  imports: [
-    SharedModule
-  ],
-  exports: [
-    DynamicTableComponent
-  ]
+    declarations: [DynamicTableComponent],
+    imports: [SharedModule],
+    exports: [DynamicTableComponent],
 })
-export class DynamicTablesModule { }
+export class DynamicTablesModule {}

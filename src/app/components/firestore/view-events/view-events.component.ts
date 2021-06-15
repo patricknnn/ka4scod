@@ -11,119 +11,135 @@ import { EventService } from 'src/app/services/firestore/event.service';
 import { TableService } from 'src/app/services/table.service';
 
 @Component({
-  selector: 'app-view-events',
-  templateUrl: './view-events.component.html',
-  styleUrls: ['./view-events.component.scss']
+    selector: 'app-view-events',
+    templateUrl: './view-events.component.html',
+    styleUrls: ['./view-events.component.scss'],
 })
 export class ViewEventsComponent implements OnInit {
-  tableData: LanEvent[] = [];
-  tableConfig?: DynamicTableConfig;
-  columnConfig: DynamicTableColumnConfig[] = [];
-  isLoading: boolean = true;
+    tableData: LanEvent[] = [];
+    tableConfig?: DynamicTableConfig;
+    columnConfig: DynamicTableColumnConfig[] = [];
+    isLoading: boolean = true;
 
-  constructor(
-    private firestore: EventService,
-    private tables: TableService,
-    private dialog: DialogService,
-    private router: Router,
-  ) { }
+    constructor(
+        private firestore: EventService,
+        private tables: TableService,
+        private dialog: DialogService,
+        private router: Router
+    ) {}
 
-  ngOnInit(): void {
-    this.tableConfig = this.tables.getTableConfig();
-    this.tableConfig.expanding = true;
-    this.columnConfig = [
-      new DynamicTableColumnConfig({
-        key: 'name',
-        header: 'Name',
-        sortable: true,
-        draggable: true
-      }),
-      new DynamicTableColumnConfig({
-        key: 'location',
-        header: 'Location',
-        sortable: true,
-        draggable: true
-      }),
-      new DynamicTableColumnConfig({
-        key: 'startDate',
-        header: 'Start',
-        type: 'date',
-        sortable: true,
-        draggable: true
-      }),
-      new DynamicTableColumnConfig({
-        key: 'endDate',
-        header: 'End',
-        type: 'date',
-        sortable: true,
-        draggable: true
-      }),
-      new DynamicTableColumnConfig({
-        key: 'players',
-        header: 'Players',
-        expandable: true
-      }),
-      new DynamicTableColumnConfig({
-        key: 'buttons',
-        header: 'Actions',
-        buttons: [
-          new DynamicTableButton("edit", "edit"),
-          new DynamicTableButton("delete", "delete", "warn"),
-        ],
-      })
-    ];
-    this.retrieve();
-  }
-
-  retrieve(): void {
-    this.firestore.getAll().snapshotChanges().pipe(
-      map(changes =>
-        changes.map(c =>
-          ({ key: c.payload.doc.id, ...c.payload.doc.data() })
-        )
-      ))
-      .subscribe(data => {
-        this.tableData = data;
-        this.isLoading = false;
-      });
-  }
-
-  edit(key?: number): void {
-    this.router.navigate(['/event', { key: key }]);
-  }
-
-  delete(event: LanEvent): void {
-    this.dialog.confirmDialog('Are you sure?', 'Deleting a event cannot be undone!', 'cancel', 'delete').then((result) => {
-      if (result && event.key) {
-        this.firestore.delete(event.key)
-          .then(() => {
-            this.dialog.succesDialog('Succes', 'Event deleted!');
-            this.retrieve();
-          })
-          .catch((err) => {
-            this.dialog.errorDialog('Error', err);
-          });
-      }
-    })
-  }
-
-  /**
-   * Handles SelectionChangeEvent
-   * @param event SelectionChangeEvent
-   */
-  handleSelectionChangeEvent(event: any): void {
-    //console.log(event);
-  }
-
-  /**
-   * Handles ButtonClickEvent
-   * @param event ButtonClickEvent
-   */
-  handleButtonClickEvent(event: DynamicTableButtonClick): void {
-    if (event.button.name == 'delete') {
-      this.delete(event.row);
-    } else if (event.button.name == 'edit') {
-      this.edit(event.row.key);
+    ngOnInit(): void {
+        this.tableConfig = this.tables.getTableConfig();
+        this.tableConfig.expanding = true;
+        this.columnConfig = [
+            new DynamicTableColumnConfig({
+                key: 'name',
+                header: 'Name',
+                sortable: true,
+                draggable: true,
+            }),
+            new DynamicTableColumnConfig({
+                key: 'location',
+                header: 'Location',
+                sortable: true,
+                draggable: true,
+            }),
+            new DynamicTableColumnConfig({
+                key: 'startDate',
+                header: 'Start',
+                type: 'date',
+                sortable: true,
+                draggable: true,
+            }),
+            new DynamicTableColumnConfig({
+                key: 'endDate',
+                header: 'End',
+                type: 'date',
+                sortable: true,
+                draggable: true,
+            }),
+            new DynamicTableColumnConfig({
+                key: 'players',
+                header: 'Players',
+                expandable: true,
+            }),
+            new DynamicTableColumnConfig({
+                key: 'buttons',
+                header: 'Actions',
+                buttons: [
+                    new DynamicTableButton('edit', 'edit'),
+                    new DynamicTableButton('delete', 'delete', 'warn'),
+                ],
+            }),
+        ];
+        this.retrieve();
     }
-  }
+
+    retrieve(): void {
+        this.firestore
+            .getAll()
+            .snapshotChanges()
+            .pipe(
+                map((changes) =>
+                    changes.map((c) => ({
+                        key: c.payload.doc.id,
+                        ...c.payload.doc.data(),
+                    }))
+                )
+            )
+            .subscribe((data) => {
+                this.tableData = data;
+                this.isLoading = false;
+            });
+    }
+
+    edit(key?: number): void {
+        this.router.navigate(['/event', { key: key }]);
+    }
+
+    delete(event: LanEvent): void {
+        this.dialog
+            .confirmDialog(
+                'Are you sure?',
+                'Deleting a event cannot be undone!',
+                'cancel',
+                'delete'
+            )
+            .then((result) => {
+                if (result && event.key) {
+                    this.firestore
+                        .delete(event.key)
+                        .then(() => {
+                            this.dialog.succesDialog(
+                                'Succes',
+                                'Event deleted!'
+                            );
+                            this.retrieve();
+                        })
+                        .catch((err) => {
+                            this.dialog.errorDialog('Error', err);
+                        });
+                }
+            });
+    }
+
+    /**
+     * Handles SelectionChangeEvent
+     * @param event SelectionChangeEvent
+     */
+    handleSelectionChangeEvent(event: any): void {
+        //console.log(event);
+    }
+
+    /**
+     * Handles ButtonClickEvent
+     * @param event ButtonClickEvent
+     */
+    handleButtonClickEvent(event: DynamicTableButtonClick): void {
+        if (event.button.name == 'delete') {
+            this.delete(event.row);
+        } else if (event.button.name == 'edit') {
+            this.edit(event.row.key);
+        }
+    }
 }

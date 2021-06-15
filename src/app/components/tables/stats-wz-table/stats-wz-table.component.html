@@ -16,7 +16,13 @@
 
 <!-- Dynamic table template -->
 <ng-template #content>
-    <app-dynamic-table *ngIf="tableData" [tableConfig]="(tableConfig)!" [columnConfig]="columnConfig" [data]="tableData"
-        (selectionChange)="handleSelectionChangeEvent($event)" (buttonClick)="handleButtonClickEvent($event)">
+    <app-dynamic-table
+        *ngIf="tableData"
+        [tableConfig]="tableConfig!"
+        [columnConfig]="columnConfig"
+        [data]="tableData"
+        (selectionChange)="handleSelectionChangeEvent($event)"
+        (buttonClick)="handleButtonClickEvent($event)"
+    >
     </app-dynamic-table>
 </ng-template>

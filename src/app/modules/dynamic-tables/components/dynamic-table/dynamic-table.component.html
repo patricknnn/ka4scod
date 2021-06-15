@@ -1,127 +1,274 @@
 <!-- Container -->
 <div class="dynamic-table-container">
-  <!-- Loader row -->
-  <div class="dynamic-table-loading-row" *ngIf="tableConfig.loader && isLoadingResults">
-    <mat-spinner [color]="tableConfig.loaderColor"></mat-spinner>
-  </div>
-  <!-- Table row -->
-  <div class="dynamic-table-table-row" *ngIf="!isLoadingResults">
-    <!-- Filter -->
-    <div class="dynamic-table-filter" *ngIf="tableConfig.filter">
-      <mat-form-field [appearance]="tableConfig.filterAppearance" [color]="tableConfig.filterColor">
-        <mat-label>{{tableConfig.filterLabel}}</mat-label>
-        <input matInput (keyup)="applyFilter($event)" [placeholder]="tableConfig.filterPlaceholder" #filterInput>
-      </mat-form-field>
+    <!-- Loader row -->
+    <div
+        class="dynamic-table-loading-row"
+        *ngIf="tableConfig.loader && isLoadingResults"
+    >
+        <mat-spinner [color]="tableConfig.loaderColor"></mat-spinner>
     </div>
-    <!-- Table -->
-    <div class="dynamic-table-table-wrapper" [ngClass]="tableConfig.tableClass || ''">
-
-      <div class="dynamic-table-table">
+    <!-- Table row -->
+    <div class="dynamic-table-table-row" *ngIf="!isLoadingResults">
+        <!-- Filter -->
+        <div class="dynamic-table-filter" *ngIf="tableConfig.filter">
+            <mat-form-field
+                [appearance]="tableConfig.filterAppearance"
+                [color]="tableConfig.filterColor"
+            >
+                <mat-label>{{ tableConfig.filterLabel }}</mat-label>
+                <input
+                    matInput
+                    (keyup)="applyFilter($event)"
+                    [placeholder]="tableConfig.filterPlaceholder"
+                    #filterInput
+                />
+            </mat-form-field>
+        </div>
         <!-- Table -->
-        <mat-table [dataSource]="dataSource" matSort [matSortActive]="tableConfig.sortingActiveField || ''"
-          [matSortDirection]="tableConfig.sortingActiveDirection || ''" cdkDropList [cdkDropListData]="columnsToDisplay"
-          cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)" multiTemplateDataRows
-          [style.minWidth]="tableConfig.scrollX" [style.maxHeight]="tableConfig.scrollY">
+        <div
+            class="dynamic-table-table-wrapper"
+            [ngClass]="tableConfig.tableClass || ''"
+        >
+            <div class="dynamic-table-table">
+                <!-- Table -->
+                <mat-table
+                    [dataSource]="dataSource"
+                    matSort
+                    [matSortActive]="tableConfig.sortingActiveField || ''"
+                    [matSortDirection]="
+                        tableConfig.sortingActiveDirection || ''
+                    "
+                    cdkDropList
+                    [cdkDropListData]="columnsToDisplay"
+                    cdkDropListOrientation="horizontal"
+                    (cdkDropListDropped)="drop($event)"
+                    multiTemplateDataRows
+                    [style.minWidth]="tableConfig.scrollX"
+                    [style.maxHeight]="tableConfig.scrollY"
+                >
+                    <!-- Select column -->
+                    <ng-container matColumnDef="selectRowColumn" sticky>
+                        <mat-header-cell
+                            *matHeaderCellDef
+                            class="dynamic-tables-select-header"
+                        >
+                            <mat-checkbox
+                                (change)="$event ? masterToggle() : null"
+                                [checked]="
+                                    selection.hasValue() && isAllSelected()
+                                "
+                                [indeterminate]="
+                                    selection.hasValue() && !isAllSelected()
+                                "
+                                [aria-label]="checkboxLabel()"
+                            >
+                            </mat-checkbox>
+                        </mat-header-cell>
+                        <mat-cell
+                            *matCellDef="let row"
+                            class="dynamic-tables-select-cell"
+                        >
+                            <mat-checkbox
+                                (click)="$event.stopPropagation()"
+                                (change)="$event ? rowToggle(row) : null"
+                                [checked]="selection.isSelected(row)"
+                                [aria-label]="checkboxLabel(row)"
+                            >
+                            </mat-checkbox>
+                        </mat-cell>
+                        <mat-footer-cell
+                            *matFooterCellDef
+                            class="dynamic-tables-select-footer"
+                        >
+                            <mat-checkbox
+                                [checked]="!!selection.selected.length"
+                                [matBadge]="selectedRowCount()"
+                                [matBadgeHidden]="!selection.selected.length"
+                                matBadgeSize="medium"
+                                matBadgeOverlap="true"
+                                disabled
+                            >
+                            </mat-checkbox>
+                        </mat-footer-cell>
+                    </ng-container>
 
-          <!-- Select column -->
-          <ng-container matColumnDef="selectRowColumn" sticky>
-            <mat-header-cell *matHeaderCellDef class="dynamic-tables-select-header">
-              <mat-checkbox (change)="$event ? masterToggle() : null"
-                [checked]="selection.hasValue() && isAllSelected()"
-                [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-              </mat-checkbox>
-            </mat-header-cell>
-            <mat-cell *matCellDef="let row" class="dynamic-tables-select-cell">
-              <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? rowToggle(row) : null"
-                [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-              </mat-checkbox>
-            </mat-cell>
-            <mat-footer-cell *matFooterCellDef class="dynamic-tables-select-footer">
-              <mat-checkbox [checked]="!!(selection.selected.length)" [matBadge]="selectedRowCount()"
-                [matBadgeHidden]="!(selection.selected.length)" matBadgeSize="medium" matBadgeOverlap="true" disabled>
-              </mat-checkbox>
-            </mat-footer-cell>
-          </ng-container>
+                    <!-- Regular columns -->
+                    <ng-container
+                        matColumnDef="{{ column.key }}"
+                        [sticky]="column.sticky"
+                        [stickyEnd]="column.stickyEnd"
+                        *ngFor="let column of columnRegular"
+                        mat-ripple
+                    >
+                        <!-- Header -->
+                        <mat-header-cell
+                            *matHeaderCellDef
+                            mat-sort-header
+                            [disabled]="
+                                !tableConfig.sorting || !column.sortable
+                            "
+                            cdkDragLockAxis="x"
+                            cdkDrag
+                            [cdkDragData]="column.key"
+                            [cdkDragDisabled]="!column.draggable"
+                            class="dynamic-tables-sort-header"
+                        >
+                            <mat-icon
+                                cdkDragHandle
+                                [ngClass]="
+                                    tableConfig.dragging && column.draggable
+                                        ? 'dynamic-table-column-draghandle'
+                                        : 'dynamic-table-column-draghandle-hidden'
+                                "
+                            >
+                                drag_handle
+                            </mat-icon>
+                            {{ column.header }}
+                        </mat-header-cell>
+                        <!-- Cells -->
+                        <mat-cell
+                            *matCellDef="let row"
+                            [ngSwitch]="column.type"
+                        >
 
-          <!-- Regular columns -->
-          <ng-container matColumnDef="{{column.key}}" [sticky]="column.sticky" [stickyEnd]="column.stickyEnd"
-            *ngFor="let column of columnRegular" mat-ripple>
-            <!-- Header -->
-            <mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="!tableConfig.sorting || !column.sortable"
-              cdkDragLockAxis="x" cdkDrag [cdkDragData]="column.key" [cdkDragDisabled]="!column.draggable"
-              class="dynamic-tables-sort-header">
-              <mat-icon cdkDragHandle
-                [ngClass]="tableConfig.dragging && column.draggable ? 'dynamic-table-column-draghandle' : 'dynamic-table-column-draghandle-hidden'">
-                drag_handle
-              </mat-icon>
-              {{column.header}}
-            </mat-header-cell>
-            <!-- Cells -->
-            <mat-cell *matCellDef="let row;" [ngSwitch]="column.type">
-              <!-- text -->
-              <div *ngSwitchCase="'text'" class="dynamic-table-column-text-container">
-                {{row[column.key]}}
-              </div>
-              <!-- image -->
-              <div *ngSwitchCase="'image'" class="dynamic-table-column-image-container">
-                <img [src]="row[column.key]" class="dynamic-table-column-image">
-              </div>
-              <!-- date -->
-              <div *ngSwitchCase="'date'" class="dynamic-table-column-text-container">
-                {{row[column.key] | date}}
-              </div>
-              <!-- buttons -->
-              <div *ngIf="column.buttons?.length" class="dynamic-table-column-button-container">
-                <button mat-icon-button *ngFor="let button of column.buttons"
-                  (click)="$event.stopPropagation(); $event ? emitButtonClickEvent(button, row, column) : null">
-                  <mat-icon [color]="button.color">{{button.icon}}</mat-icon>
-                </button>
-              </div>
-            </mat-cell>
-            <!-- Footer -->
-            <mat-footer-cell *matFooterCellDef>
-              {{column.footer}}
-            </mat-footer-cell>
-          </ng-container>
+                            <!-- text -->
+                            <div
+                                *ngSwitchCase="'text'"
+                                class="dynamic-table-column-text-container"
+                            >
+                                {{ row[column.key] }}
+                            </div>
 
-          <!-- Expandable columns -->
-          <ng-container matColumnDef="{{column.key}}" *ngFor="let column of columnExpendable">
-            <mat-cell *matCellDef="let row">
-              <div class="dynamic-table-row-expandable-content"
-                [@expandRow]="row == expandedRow ? 'expanded' : 'collapsed'">
-                <span class="mat-header-cell" *ngIf="column.header">{{column.header}}</span>
-                <span class="mat-body" *ngIf="row[column.key]">{{row[column.key]}}</span>
-              </div>
-            </mat-cell>
-          </ng-container>
+                            <!-- image -->
+                            <div
+                                *ngSwitchCase="'image'"
+                                class="dynamic-table-column-image-container"
+                            >
+                                <img
+                                    [src]="row[column.key]"
+                                    class="dynamic-table-column-image"
+                                />
+                            </div>
 
-          <!-- Header row definition -->
-          <mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: tableConfig.stickyHeaders">
-          </mat-header-row>
-          <!-- Content row definition -->
-          <mat-row *matRowDef="let row; columns: columnsToDisplay;" class="dynamic-table-row"
-            [class.dynamic-table-row-expanded]="expandedRow === row" (click)="expandRow(row)">
-          </mat-row>
-          <!-- Expandable row definition -->
-          <mat-row *matRowDef="let row; columns: columnsToDisplayExpandable" class="dynamic-table-row-expandable">
-          </mat-row>
-          <!-- Footer row definition -->
-          <mat-footer-row *matFooterRowDef="columnsToDisplay; sticky: tableConfig.stickyFooters"
-            class="dynamic-table-row" [class.dynamic-table-row-empty]="allColumnFootersEmpty()">
-          </mat-footer-row>
+                            <!-- date -->
+                            <div
+                                *ngSwitchCase="'date'"
+                                class="dynamic-table-column-text-container"
+                            >
+                                {{ row[column.key] | date }}
+                            </div>
+                            
+                            <!-- buttons -->
+                            <div
+                                *ngIf="column.buttons?.length"
+                                class="dynamic-table-column-button-container"
+                            >
+                                <button
+                                    mat-icon-button
+                                    *ngFor="let button of column.buttons"
+                                    (click)="
+                                        $event.stopPropagation();
+                                        $event
+                                            ? emitButtonClickEvent(
+                                                  button,
+                                                  row,
+                                                  column
+                                              )
+                                            : null
+                                    "
+                                >
+                                    <mat-icon [color]="button.color">{{
+                                        button.icon
+                                    }}</mat-icon>
+                                </button>
+                            </div>
+                        </mat-cell>
+                        <!-- Footer -->
+                        <mat-footer-cell *matFooterCellDef>
+                            {{ column.footer }}
+                        </mat-footer-cell>
+                    </ng-container>
 
-          <!-- Row shown when there is no matching data. -->
-          <div class="dynamic-table-row-no-data" *matNoDataRow>
-            <div class="mat-cell">No data to display</div>
-          </div>
-        </mat-table>
-      </div>
+                    <!-- Expandable columns -->
+                    <ng-container
+                        matColumnDef="{{ column.key }}"
+                        *ngFor="let column of columnExpendable"
+                    >
+                        <mat-cell *matCellDef="let row">
+                            <div
+                                class="dynamic-table-row-expandable-content"
+                                [@expandRow]="
+                                    row == expandedRow
+                                        ? 'expanded'
+                                        : 'collapsed'
+                                "
+                            >
+                                <span
+                                    class="mat-header-cell"
+                                    *ngIf="column.header"
+                                    >{{ column.header }}</span
+                                >
+                                <span
+                                    class="mat-body"
+                                    *ngIf="row[column.key]"
+                                    >{{ row[column.key] }}</span
+                                >
+                            </div>
+                        </mat-cell>
+                    </ng-container>
 
-      <!-- Paginator -->
-      <mat-paginator [pageSizeOptions]="tableConfig.pagingSizeOptions" [pageSize]="tableConfig.pagingSizeDefault"
-        [ngStyle]="{display: tableConfig.paging ? 'block' : 'none'}">
-      </mat-paginator>
+                    <!-- Header row definition -->
+                    <mat-header-row
+                        *matHeaderRowDef="
+                            columnsToDisplay;
+                            sticky: tableConfig.stickyHeaders
+                        "
+                    >
+                    </mat-header-row>
+                    <!-- Content row definition -->
+                    <mat-row
+                        *matRowDef="let row; columns: columnsToDisplay"
+                        class="dynamic-table-row"
+                        [class.dynamic-table-row-expanded]="expandedRow === row"
+                        (click)="expandRow(row)"
+                    >
+                    </mat-row>
+                    <!-- Expandable row definition -->
+                    <mat-row
+                        *matRowDef="
+                            let row;
+                            columns: columnsToDisplayExpandable
+                        "
+                        class="dynamic-table-row-expandable"
+                    >
+                    </mat-row>
+                    <!-- Footer row definition -->
+                    <mat-footer-row
+                        *matFooterRowDef="
+                            columnsToDisplay;
+                            sticky: tableConfig.stickyFooters
+                        "
+                        class="dynamic-table-row"
+                        [class.dynamic-table-row-empty]="
+                            allColumnFootersEmpty()
+                        "
+                    >
+                    </mat-footer-row>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <div class="dynamic-table-row-no-data" *matNoDataRow>
+                        <div class="mat-cell">No data to display</div>
+                    </div>
+                </mat-table>
+            </div>
+
+            <!-- Paginator -->
+            <mat-paginator
+                [pageSizeOptions]="tableConfig.pagingSizeOptions"
+                [pageSize]="tableConfig.pagingSizeDefault"
+                [ngStyle]="{ display: tableConfig.paging ? 'block' : 'none' }"
+            >
+            </mat-paginator>
+        </div>
     </div>
-  </div>
-
 </div>

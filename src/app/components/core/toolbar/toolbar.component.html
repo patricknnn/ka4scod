@@ -17,16 +17,20 @@
     </button>
 
     <!-- API User -->
-    <button mat-icon-button [matMenuTriggerFor]="userMenu" *ngIf="isLoggedIn() && loggedInUser()">
-      <mat-icon>account_circle</mat-icon>
+    <button
+        mat-icon-button
+        [matMenuTriggerFor]="userMenu"
+        *ngIf="isLoggedIn() && loggedInUser()"
+    >
+        <mat-icon>account_circle</mat-icon>
     </button>
     <mat-menu #userMenu="matMenu">
-      <button mat-menu-item disabled>
-        <span>{{loggedInUser()}}</span>
-      </button>
-      <button mat-menu-item (click)="changeUser()">
-        <mat-icon>swap_horizontal_circle</mat-icon>
-        <span>Change user</span>
-      </button>
+        <button mat-menu-item disabled>
+            <span>{{ loggedInUser() }}</span>
+        </button>
+        <button mat-menu-item (click)="changeUser()">
+            <mat-icon>swap_horizontal_circle</mat-icon>
+            <span>Change user</span>
+        </button>
     </mat-menu>
 </mat-toolbar>

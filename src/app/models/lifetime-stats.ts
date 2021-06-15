@@ -426,8 +426,7 @@ export interface Mode {
     infect: Infect;
 }
 
-export interface Map {
-}
+export interface Map {}
 
 export interface Properties23 {
     hits: number;
@@ -2255,8 +2254,7 @@ export interface Mode2 {
     gun: Gun2;
 }
 
-export interface Map2 {
-}
+export interface Map2 {}
 
 export interface Weekly {
     all: All2;
@@ -2285,6 +2283,3 @@ export interface LifetimeStats {
     weekly: Weekly;
     engagement?: any;
 }
-
-
-

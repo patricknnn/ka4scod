@@ -17,31 +17,67 @@ import { StatsMpTableComponent } from './components/tables/stats-mp-table/stats-
 import { StatsWzTableComponent } from './components/tables/stats-wz-table/stats-wz-table.component';
 
 const routes: Routes = [
-  // Paths
-  { path: 'login', component: LoginComponent },
-  // general
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'playground', component: PlaygroundComponent, canActivate: [AuthGuard] },
-  { path: 'players', component: ViewPlayersComponent, canActivate: [AuthGuard] },
-  { path: 'player', component: EditPlayerComponent, canActivate: [AuthGuard] },
-  { path: 'playerstats', component: PlayerTableComponent, canActivate: [AuthGuard] },
-  { path: 'videos', component: ViewVideosComponent, canActivate: [AuthGuard] },
-  { path: 'video', component: EditVideoComponent, canActivate: [AuthGuard] },
-  { path: 'events', component: ViewEventsComponent, canActivate: [AuthGuard] },
-  { path: 'event', component: EditEventComponent, canActivate: [AuthGuard] },
-  { path: '404', component: PageNotFoundComponent },
-  // mp
-  { path: 'statsmp', component: StatsMpTableComponent, canActivate: [AuthGuard] },
-  { path: 'kills', component: KillsTableComponent, canActivate: [AuthGuard] },
-  // wz
-  { path: 'statswz', component: StatsWzTableComponent, canActivate: [AuthGuard] },
-  // Redirects
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: '**', redirectTo: '404' },
+    // Paths
+    { path: 'login', component: LoginComponent },
+    // general
+    {
+        path: 'dashboard',
+        component: DashboardComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'playground',
+        component: PlaygroundComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'players',
+        component: ViewPlayersComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'player',
+        component: EditPlayerComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'playerstats',
+        component: PlayerTableComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'videos',
+        component: ViewVideosComponent,
+        canActivate: [AuthGuard],
+    },
+    { path: 'video', component: EditVideoComponent, canActivate: [AuthGuard] },
+    {
+        path: 'events',
+        component: ViewEventsComponent,
+        canActivate: [AuthGuard],
+    },
+    { path: 'event', component: EditEventComponent, canActivate: [AuthGuard] },
+    { path: '404', component: PageNotFoundComponent },
+    // mp
+    {
+        path: 'statsmp',
+        component: StatsMpTableComponent,
+        canActivate: [AuthGuard],
+    },
+    { path: 'kills', component: KillsTableComponent, canActivate: [AuthGuard] },
+    // wz
+    {
+        path: 'statswz',
+        component: StatsWzTableComponent,
+        canActivate: [AuthGuard],
+    },
+    // Redirects
+    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    { path: '**', redirectTo: '404' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

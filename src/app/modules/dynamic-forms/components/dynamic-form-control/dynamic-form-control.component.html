@@ -1,90 +1,172 @@
 <div [formGroup]="form">
+    <!-- Form styling -->
+    <mat-form-field
+        [id]="'form-field-' + control.key"
+        [appearance]="appearance"
+        [color]="color"
+        [floatLabel]="control.floatLabel"
+        [ngSwitch]="control.controlType"
+    >
+        <!-- Label -->
+        <mat-label [attr.for]="control.key">
+            {{ control.label }}
+        </mat-label>
 
-  <!-- Form styling -->
-  <mat-form-field [id]="'form-field-' + control.key" [appearance]="appearance" [color]="color"
-    [floatLabel]="control.floatLabel" [ngSwitch]="control.controlType">
+        <!-- Text -->
+        <input
+            matInput
+            *ngSwitchCase="'textbox'"
+            [formControlName]="control.key"
+            [id]="control.key"
+            [type]="control.inputType"
+        />
 
-    <!-- Label -->
-    <mat-label [attr.for]="control.key">
-      {{ control.label }}
-    </mat-label>
+        <!-- Text area -->
+        <textarea
+            matInput
+            *ngSwitchCase="'textarea'"
+            [formControlName]="control.key"
+            [id]="control.key"
+        ></textarea>
 
-    <!-- Text -->
-    <input matInput *ngSwitchCase="'textbox'" [formControlName]="control.key"
-      [id]="control.key" [type]="control.inputType" />
+        <!-- Select -->
+        <mat-select
+            *ngSwitchCase="'dropdown'"
+            [formControlName]="control.key"
+            [id]="control.key"
+        >
+            <mat-option *ngFor="let opt of control.options" [value]="opt.key">
+                {{ opt.value }}
+            </mat-option>
+        </mat-select>
 
-    <!-- Text area -->
-    <textarea matInput *ngSwitchCase="'textarea'" [formControlName]="control.key"
-      [id]="control.key"></textarea>
+        <!-- Date -->
+        <input
+            matInput
+            *ngSwitchCase="'date'"
+            [formControlName]="control.key"
+            [id]="control.key"
+            [matDatepicker]="datePicker"
+        />
+        <mat-datepicker-toggle
+            *ngSwitchCase="'date'"
+            matSuffix
+            [for]="datePicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker touchUi #datePicker></mat-datepicker>
 
-    <!-- Select -->
-    <mat-select *ngSwitchCase="'dropdown'" [formControlName]="control.key" [id]="control.key">
-      <mat-option *ngFor="let opt of control.options" [value]="opt.key">
-        {{ opt.value }}
-      </mat-option>
-    </mat-select>
+        <!-- Date range -->
+        <mat-date-range-input
+            *ngSwitchCase="'date-range'"
+            [formGroup]="dateRange"
+            [rangePicker]="dateRangePicker"
+        >
+            <input
+                matStartDate
+                placeholder="Start"
+                formControlName="start"
+                (dateChange)="setDateRange()"
+            />
+            <input
+                matEndDate
+                placeholder="Eind"
+                formControlName="end"
+                (dateChange)="setDateRange()"
+            />
+        </mat-date-range-input>
+        <mat-datepicker-toggle
+            *ngSwitchCase="'date-range'"
+            matSuffix
+            [for]="dateRangePicker"
+        ></mat-datepicker-toggle>
+        <mat-date-range-picker touchUi #dateRangePicker></mat-date-range-picker>
 
-    <!-- Date -->
-    <input matInput *ngSwitchCase="'date'" [formControlName]="control.key" [id]="control.key"
-      [matDatepicker]="datePicker" />
-    <mat-datepicker-toggle *ngSwitchCase="'date'" matSuffix [for]="datePicker"></mat-datepicker-toggle>
-    <mat-datepicker touchUi #datePicker></mat-datepicker>
+        <!-- Chips -->
+        <mat-chip-list
+            *ngSwitchCase="'chips'"
+            [formControlName]="control.key"
+            [id]="control.key"
+            #chipList
+        >
+            <mat-chip
+                *ngFor="let item of control.value"
+                [selectable]="control.selectable"
+                [removable]="control.removable"
+                (removed)="removeFromValue(item)"
+            >
+                {{ item }}
+                <mat-icon matChipRemove *ngIf="control.removable"
+                    >cancel</mat-icon
+                >
+            </mat-chip>
+            <input
+                [placeholder]="control.placeholder"
+                [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                [matChipInputAddOnBlur]="control.addOnBlur"
+                (matChipInputTokenEnd)="addToValue($event)"
+            />
+        </mat-chip-list>
 
-    <!-- Date range -->
-    <mat-date-range-input *ngSwitchCase="'date-range'" [formGroup]="dateRange"
-      [rangePicker]="dateRangePicker">
-      <input matStartDate placeholder="Start" formControlName="start" (dateChange)="setDateRange()" />
-      <input matEndDate placeholder="Eind" formControlName="end" (dateChange)="setDateRange()" />
-    </mat-date-range-input>
-    <mat-datepicker-toggle *ngSwitchCase="'date-range'" matSuffix [for]="dateRangePicker"></mat-datepicker-toggle>
-    <mat-date-range-picker touchUi #dateRangePicker></mat-date-range-picker>
+        <!-- Radio -->
+        <input matInput *ngSwitchCase="'radio'" [hidden]="true" />
+        <mat-radio-group
+            *ngSwitchCase="'radio'"
+            [id]="control.key"
+            [color]="color"
+            [formControlName]="control.key"
+            [required]="isRequired"
+            (change)="updateFormFieldState()"
+        >
+            <mat-radio-button
+                *ngFor="let opt of control.options"
+                [value]="opt.key"
+            >
+                {{ opt.value }}
+            </mat-radio-button>
+        </mat-radio-group>
 
-    <!-- Chips -->
-    <mat-chip-list *ngSwitchCase="'chips'" [formControlName]="control.key" [id]="control.key"
-      #chipList>
-      <mat-chip *ngFor="let item of control.value" [selectable]="control.selectable" [removable]="control.removable"
-        (removed)="removeFromValue(item)">
-        {{ item }}
-        <mat-icon matChipRemove *ngIf="control.removable">cancel</mat-icon>
-      </mat-chip>
-      <input [placeholder]="control.placeholder" [matChipInputFor]="chipList"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="control.addOnBlur"
-        (matChipInputTokenEnd)="addToValue($event)" />
-    </mat-chip-list>
+        <!-- Checkbox -->
+        <input matInput *ngSwitchCase="'checkbox'" [hidden]="true" />
+        <mat-checkbox
+            *ngSwitchCase="'checkbox'"
+            [id]="control.key"
+            [color]="color"
+            [formControlName]="control.key"
+            [labelPosition]="control.labelPosition"
+            [indeterminate]="control.indeterminate"
+            [required]="isRequired"
+            (change)="updateFormFieldState()"
+        >
+            {{ control.placeholder }}
+        </mat-checkbox>
 
-    <!-- Radio -->
-    <input matInput *ngSwitchCase="'radio'" [hidden]="true" />
-    <mat-radio-group *ngSwitchCase="'radio'" [id]="control.key" [color]="color"
-      [formControlName]="control.key" [required]="isRequired" (change)="updateFormFieldState()">
-      <mat-radio-button *ngFor="let opt of control.options" [value]="opt.key">
-        {{ opt.value }}
-      </mat-radio-button>
-    </mat-radio-group>
+        <!-- Slide -->
+        <input matInput *ngSwitchCase="'slide'" [hidden]="true" />
+        <mat-slide-toggle
+            *ngSwitchCase="'slide'"
+            [id]="control.key"
+            [color]="color"
+            [formControlName]="control.key"
+            [labelPosition]="control.labelPosition"
+            [checked]="control.value"
+            [required]="isRequired"
+            (change)="updateFormFieldState()"
+        >
+            {{ control.placeholder }}
+        </mat-slide-toggle>
 
-    <!-- Checkbox -->
-    <input matInput *ngSwitchCase="'checkbox'" [hidden]="true" />
-    <mat-checkbox *ngSwitchCase="'checkbox'" [id]="control.key" [color]="color"
-      [formControlName]="control.key" [labelPosition]="control.labelPosition" [indeterminate]="control.indeterminate"
-      [required]="isRequired" (change)="updateFormFieldState()">
-      {{ control.placeholder }}
-    </mat-checkbox>
+        <!-- Errors for form field controls -->
+        <mat-error *ngIf="isFormFieldControl && !isValid">
+            {{ errorMessage }}
+        </mat-error>
 
-    <!-- Slide -->
-    <input matInput *ngSwitchCase="'slide'" [hidden]="true" />
-    <mat-slide-toggle *ngSwitchCase="'slide'" [id]="control.key" [color]="color"
-      [formControlName]="control.key" [labelPosition]="control.labelPosition" [checked]="control.value"
-      [required]="isRequired" (change)="updateFormFieldState()">
-      {{ control.placeholder }}
-    </mat-slide-toggle>
-
-    <!-- Errors for form field controls -->
-    <mat-error *ngIf="isFormFieldControl && !isValid">
-      {{ errorMessage }}
-    </mat-error>
-
-    <!-- Errors for non form field controls -->
-    <mat-hint *ngIf="!isFormFieldControl && !isValid && isTouched" class="mat-error">
-      {{ errorMessage }}
-    </mat-hint>
-  </mat-form-field>
+        <!-- Errors for non form field controls -->
+        <mat-hint
+            *ngIf="!isFormFieldControl && !isValid && isTouched"
+            class="mat-error"
+        >
+            {{ errorMessage }}
+        </mat-hint>
+    </mat-form-field>
 </div>

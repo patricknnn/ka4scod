@@ -1,26 +1,39 @@
 <!-- Main container -->
 <div class="main-container" [class.theme-dark]="activeTheme == 'dark'">
-  <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'push' : 'side'" [fixedInViewport]="true" fixedTopGap="0"
-      class="sidenav mat-elevation-z8" [opened]="sidenavOpen">
-      <!-- Sidenav -->
-      <app-sidenav [navgroups]="(navLinks$ | async)!"></app-sidenav>
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <!-- Toolbar -->
-      <app-toolbar (sidebarChange)="changeSidebar($event)" (themeChange)="changeTheme($event)"></app-toolbar>
-      <!-- Scroll content wrapper -->
-      <div class="scroll-content-wrapper">
-        <!-- Scroll content -->
-        <div class="scroll-content">
-          <!-- Router Outlet -->
-          <div class="content-wrapper">
-            <div [@routeAnimation]="getActivatedRoute(routerOutlet)">
-              <router-outlet #routerOutlet="outlet"></router-outlet>
+    <mat-sidenav-container class="sidenav-container">
+        <mat-sidenav
+            #sidenav
+            [mode]="mobileQuery.matches ? 'push' : 'side'"
+            [fixedInViewport]="true"
+            fixedTopGap="0"
+            class="sidenav mat-elevation-z8"
+            [opened]="sidenavOpen"
+        >
+            <!-- Sidenav -->
+            <app-sidenav [navgroups]="(navLinks$ | async)!"></app-sidenav>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <!-- Toolbar -->
+            <app-toolbar
+                (sidebarChange)="changeSidebar($event)"
+                (themeChange)="changeTheme($event)"
+            ></app-toolbar>
+            <!-- Scroll content wrapper -->
+            <div class="scroll-content-wrapper">
+                <!-- Scroll content -->
+                <div class="scroll-content">
+                    <!-- Router Outlet -->
+                    <div class="content-wrapper">
+                        <div
+                            [@routeAnimation]="getActivatedRoute(routerOutlet)"
+                        >
+                            <router-outlet
+                                #routerOutlet="outlet"
+                            ></router-outlet>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
 </div>

@@ -1,5 +1,11 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -8,106 +14,112 @@ import { Navlink } from './models/navlink';
 import { NavlinkService } from './services/navlink.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  animations: [routeAnimation]
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    animations: [routeAnimation],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  /**
-   * Page title
-   */
-  title = 'KA4S Klappers';
-  /**
-   * Currently active theme
-   */
-  activeTheme: string = 'light';
-  /**
-   * Media query list
-   */
-  mobileQuery: MediaQueryList;
-  /**
-   * Mobile query listener
-   */
-  private _mobileQueryListener: () => void;
-  /**
-   * Sidenav viewchild
-   */
-  @ViewChild('sidenav') public sidenav!: MatSidenav;
-  /**
-   * Sidenav open
-   */
-  sidenavOpen: boolean = false;
-  /**
-   * Navlink groups
-   */
-  navLinks$: Observable<{ header: string, navlinks: Navlink[] }[]>;
+    /**
+     * Page title
+     */
+    title = 'KA4S Klappers';
+    /**
+     * Currently active theme
+     */
+    activeTheme: string = 'light';
+    /**
+     * Media query list
+     */
+    mobileQuery: MediaQueryList;
+    /**
+     * Mobile query listener
+     */
+    private _mobileQueryListener: () => void;
+    /**
+     * Sidenav viewchild
+     */
+    @ViewChild('sidenav') public sidenav!: MatSidenav;
+    /**
+     * Sidenav open
+     */
+    sidenavOpen: boolean = false;
+    /**
+     * Navlink groups
+     */
+    navLinks$: Observable<{ header: string; navlinks: Navlink[] }[]>;
 
-  /**
-   * Constructor
-   * @param changeDetectorRef Change detector
-   * @param media Media
-   * @param sidenavService Sidenav service 
-   */
-  constructor(
-    changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher,
-    navlinkService: NavlinkService
-  ) {
-    this.mobileQuery = media.matchMedia('(max-width: 768px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addEventListener<'change'>('change', this._mobileQueryListener);
-    this.navLinks$ = navlinkService.getNavlinkGroups();
-  }
-
-  /**
-   * Called aafter
-   */
-  ngOnInit(): void {
-    this.sidenavOpen = !this.mobileQuery.matches;
-  }
-
-  /**
-   * Called on component destroy
-   */
-  ngOnDestroy(): void {
-    this.mobileQuery.removeEventListener<'change'>('change', this._mobileQueryListener);
-  }
-
-  /**
-   * Changes the theme
-   * @param event Theme to apply
-   */
-  public changeSidebar(event: any) {
-    switch (event) {
-      case 'open':
-        this.sidenav.open();
-        break;
-      case 'close':
-        this.sidenav.close();
-        break;
-      case 'toggle':
-        this.sidenav.toggle();
-        break;
-      default:
-        break;
+    /**
+     * Constructor
+     * @param changeDetectorRef Change detector
+     * @param media Media
+     * @param sidenavService Sidenav service
+     */
+    constructor(
+        changeDetectorRef: ChangeDetectorRef,
+        media: MediaMatcher,
+        navlinkService: NavlinkService
+    ) {
+        this.mobileQuery = media.matchMedia('(max-width: 768px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addEventListener<'change'>(
+            'change',
+            this._mobileQueryListener
+        );
+        this.navLinks$ = navlinkService.getNavlinkGroups();
     }
-  }
 
-  /**
-   * Changes the theme
-   * @param theme Theme to apply
-   */
-  public changeTheme(theme: string) {
-    this.activeTheme = theme;
-  }
+    /**
+     * Called aafter
+     */
+    ngOnInit(): void {
+        this.sidenavOpen = !this.mobileQuery.matches;
+    }
 
-  /**
-   * Returns activated route
-   * @param outlet Router outlet
-   * @returns Activated route if activated, '' otherwise
-   */
-  public getActivatedRoute(outlet: RouterOutlet): ActivatedRoute | undefined {
-    return outlet.isActivated ? outlet.activatedRoute : undefined;
-  }
+    /**
+     * Called on component destroy
+     */
+    ngOnDestroy(): void {
+        this.mobileQuery.removeEventListener<'change'>(
+            'change',
+            this._mobileQueryListener
+        );
+    }
+
+    /**
+     * Changes the theme
+     * @param event Theme to apply
+     */
+    public changeSidebar(event: any) {
+        switch (event) {
+            case 'open':
+                this.sidenav.open();
+                break;
+            case 'close':
+                this.sidenav.close();
+                break;
+            case 'toggle':
+                this.sidenav.toggle();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Changes the theme
+     * @param theme Theme to apply
+     */
+    public changeTheme(theme: string) {
+        this.activeTheme = theme;
+    }
+
+    /**
+     * Returns activated route
+     * @param outlet Router outlet
+     * @returns Activated route if activated, '' otherwise
+     */
+    public getActivatedRoute(outlet: RouterOutlet): ActivatedRoute | undefined {
+        return outlet.isActivated ? outlet.activatedRoute : undefined;
+    }
 }

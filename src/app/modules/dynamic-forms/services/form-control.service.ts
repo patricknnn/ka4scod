@@ -4,18 +4,21 @@ import { FormControlBase } from '../models/form-control-base';
 
 @Injectable()
 export class FormControlService {
-  constructor() { }
+    constructor() {}
 
-  /**
-   * Converts array of form controls to form group
-   * @param formControls Array of form controls
-   * @returns Formgroup contaaining form controls
-   */
-  toFormGroup(formControls: FormControlBase<any>[]): FormGroup {
-    const group: any = {};
-    formControls.forEach(formControl => {
-      group[formControl.key] = new FormControl(formControl.value || '', formControl.validators);
-    });
-    return new FormGroup(group);
-  }
+    /**
+     * Converts array of form controls to form group
+     * @param formControls Array of form controls
+     * @returns Formgroup contaaining form controls
+     */
+    toFormGroup(formControls: FormControlBase<any>[]): FormGroup {
+        const group: any = {};
+        formControls.forEach((formControl) => {
+            group[formControl.key] = new FormControl(
+                formControl.value || '',
+                formControl.validators
+            );
+        });
+        return new FormGroup(group);
+    }
 }

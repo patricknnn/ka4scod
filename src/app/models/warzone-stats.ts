@@ -1,4 +1,3 @@
-
 export interface Br {
     wins: number;
     kills: number;
@@ -64,4 +63,3 @@ export interface WarzoneStats {
     br_dmz: BrDmz;
     br_all: BrAll;
 }
-

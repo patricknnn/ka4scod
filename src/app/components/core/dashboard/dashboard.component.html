@@ -2,16 +2,16 @@
 <app-title-section [title]="'Players'"></app-title-section>
 <app-loading *ngIf="isLoadingPlayers"></app-loading>
 <div class="row" *ngIf="players">
-  <div class="column" *ngFor="let player of players">
-    <app-player-card [player]="player"></app-player-card>
-  </div>
+    <div class="column" *ngFor="let player of players">
+        <app-player-card [player]="player"></app-player-card>
+    </div>
 </div>
 
 <!-- Videos -->
 <app-title-section [title]="'Videos'"></app-title-section>
 <app-loading *ngIf="isLoadingVideos"></app-loading>
 <div class="row" *ngIf="videos">
-  <div class="column" *ngFor="let video of videos">
-    <app-video-card [video]="video"></app-video-card>
-  </div>
+    <div class="column" *ngFor="let video of videos">
+        <app-video-card [video]="video"></app-video-card>
+    </div>
 </div>

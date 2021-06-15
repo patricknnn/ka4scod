@@ -8,19 +8,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-  ],
-  exports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    CommonModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    MaterialModule,
-  ]
+    declarations: [],
+    imports: [CommonModule],
+    exports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        CommonModule,
+        AppRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        MaterialModule,
+    ],
 })
-export class SharedModule { }
+export class SharedModule {}

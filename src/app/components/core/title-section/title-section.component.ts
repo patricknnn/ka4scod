@@ -1,19 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-title-section',
-  templateUrl: './title-section.component.html',
-  styleUrls: ['./title-section.component.scss']
+    selector: 'app-title-section',
+    templateUrl: './title-section.component.html',
+    styleUrls: ['./title-section.component.scss'],
 })
 export class TitleSectionComponent {
-  /**
-   * Title
-   */
-  @Input() title!: string;
+    /**
+     * Title
+     */
+    @Input() title!: string;
 
-  /**
-   * Initialize section title
-   */
-  constructor() { }
-
+    /**
+     * Initialize section title
+     */
+    constructor() {}
 }
