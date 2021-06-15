@@ -69,6 +69,10 @@ export class FormControlBase<T> {
      */
     class: string;
     /**
+     * Disabled control
+     */
+    disabled: boolean;
+    /**
      * Control if checkbox is indeterminate
      */
     indeterminate: boolean;
@@ -122,6 +126,7 @@ export class FormControlBase<T> {
         labelPosition?: 'before' | 'after';
         floatLabel?: 'auto' | 'always' | 'never';
         class?: string;
+        disabled?: boolean;
         indeterminate?: boolean;
         selectable?: boolean;
         removable?: boolean;
@@ -143,6 +148,7 @@ export class FormControlBase<T> {
         this.removable = options.removable || true;
         this.addOnBlur = options.addOnBlur || true;
         this.class = options.class || '';
+        this.disabled = options.disabled || false;
         this.options = options.options || [];
         this.validators = options.validators || [];
     }

@@ -15,7 +15,10 @@ export class FormControlService {
         const group: any = {};
         formControls.forEach((formControl) => {
             group[formControl.key] = new FormControl(
-                formControl.value || '',
+                {
+                    value: formControl.value || '',
+                    disabled: formControl.disabled,
+                },
                 formControl.validators
             );
         });

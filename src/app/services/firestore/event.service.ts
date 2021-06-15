@@ -6,7 +6,6 @@ import {
     AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 import { LanEvent } from 'src/app/models/event';
-import { Player } from 'src/app/models/player';
 
 @Injectable({
     providedIn: 'root',
