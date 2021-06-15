@@ -59,7 +59,7 @@ export class EditPlayerComponent implements OnInit {
                 key: 'name',
                 label: 'Name',
                 value: player ? player.name : '',
-                class: 'col-xs-12 col-md-6',
+                class: 'col-xs-12',
                 order: 1,
             }),
             new FormControlText({
@@ -88,7 +88,7 @@ export class EditPlayerComponent implements OnInit {
                 key: 'avatar',
                 label: 'Avatar',
                 value: player ? player.avatar : '',
-                class: 'col-xs-12 col-md-6',
+                class: 'col-xs-12',
                 order: 3,
             }),
         ];

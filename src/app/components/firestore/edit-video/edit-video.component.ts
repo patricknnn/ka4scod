@@ -63,7 +63,7 @@ export class EditVideoComponent implements OnInit {
                     key: 'title',
                     label: 'Title',
                     value: video ? video.title : '',
-                    class: 'col-xs-12 col-md-6',
+                    class: 'col-xs-12',
                     order: 1,
                 }),
                 new FormControlDropdown({
@@ -92,7 +92,7 @@ export class EditVideoComponent implements OnInit {
                     key: 'url',
                     label: 'Youtube embed url',
                     value: video ? video.url : '',
-                    class: 'col-xs-12 col-md-6',
+                    class: 'col-xs-12',
                     order: 4,
                 }),
             ];

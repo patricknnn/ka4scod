@@ -61,17 +61,23 @@
                                 </mat-list>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-3">
-                              <mat-list class="card-list">
-                                  <div mat-subheader>Players</div>
-                                  <mat-list-item *ngFor="let player of event.players">
-                                      <mat-icon mat-list-icon>
-                                          person
-                                      </mat-icon>
-                                      <div mat-line>{{ player.player?.name }}</div>
-                                      <div mat-line>{{ player.player?.gamertag }}</div>
-                                  </mat-list-item>
-                              </mat-list>
-                          </div>
+                                <mat-list class="card-list">
+                                    <div mat-subheader>Players</div>
+                                    <mat-list-item
+                                        *ngFor="let player of event.players"
+                                    >
+                                        <mat-icon mat-list-icon>
+                                            person
+                                        </mat-icon>
+                                        <div mat-line>
+                                            {{ player.player?.name }}
+                                        </div>
+                                        <div mat-line>
+                                            {{ player.player?.gamertag }}
+                                        </div>
+                                    </mat-list-item>
+                                </mat-list>
+                            </div>
                         </div>
                     </div>
                 </mat-card-content>
@@ -79,3 +85,50 @@
         </div>
     </div>
 </div>
+
+<!-- Stats -->
+<app-title-section [title]="'Event stats'"></app-title-section>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Button toggle -->
+            <mat-button-toggle-group class="button-toggle-full-width">
+                <mat-button-toggle (click)="getStartStats()" checked>
+                    Start
+                </mat-button-toggle>
+                <mat-button-toggle (click)="getEndStats()">
+                    End
+                </mat-button-toggle>
+                <mat-button-toggle (click)="getComparedStats()">
+                  Compared
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </div>
+    <div class="row" *ngIf="isLoading">
+        <div class="col-xs-12">
+            <!-- Loading -->
+            <app-loading></app-loading>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Dynamic table outlet -->
+            <ng-container #outlet></ng-container>
+        </div>
+    </div>
+</div>
+
+<!-- Dynamic table template -->
+<ng-template #content>
+    <app-dynamic-table
+        *ngIf="tableData"
+        [tableConfig]="tableConfig!"
+        [columnConfig]="columnConfig"
+        [data]="tableData"
+        (selectionChange)="handleSelectionChangeEvent($event)"
+        (buttonClick)="handleButtonClickEvent($event)"
+    >
+    </app-dynamic-table>
+</ng-template>
