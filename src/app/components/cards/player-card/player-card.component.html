@@ -41,106 +41,110 @@
             </mat-list-item>
         </mat-list>
         <!-- extended -->
-        <div class="row" *ngIf="!dataError && extended">
-            <!-- Col 1 -->
-            <div class="column">
-                <mat-list class="player-card-list">
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>military_tech</mat-icon>
-                        <div mat-line>{{ level }}</div>
-                        <div mat-line>Rank</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>military_tech</mat-icon>
-                        <div mat-line>{{ maxLevel }}</div>
-                        <div mat-line>Max Rank</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>star_border</mat-icon>
-                        <div mat-line>{{ prestige }}</div>
-                        <div mat-line>Prestige</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>star_border</mat-icon>
-                        <div mat-line>{{ maxPrestige }}</div>
-                        <div mat-line>Max Prestige</div>
-                    </mat-list-item>
-                </mat-list>
-            </div>
-            <!-- Col 2 -->
-            <div class="column">
-                <mat-list class="player-card-list">
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>task_alt</mat-icon>
-                        <div mat-line>{{ kills }}</div>
-                        <div mat-line>Total Kills</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>task_alt</mat-icon>
-                        <div mat-line>{{ sdKills }}</div>
-                        <div mat-line>S&D Kills</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>schedule</mat-icon>
-                        <div mat-line>{{ hoursCummulative }}</div>
-                        <div mat-line>Hours Played</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>schedule</mat-icon>
-                        <div mat-line>{{ sdHours }}</div>
-                        <div mat-line>S&D Hours Played</div>
-                    </mat-list-item>
-                </mat-list>
-            </div>
-            <!-- Col 3 -->
-            <div class="column">
-                <mat-list class="player-card-list">
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>credit_score</mat-icon>
-                        <div mat-line>{{ sdScore }}</div>
-                        <div mat-line>S&D Score</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>timer</mat-icon>
-                        <div mat-line>{{ sdScoreMin | number: "1.2-2" }}</div>
-                        <div mat-line>S&D Score/min</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>star_border</mat-icon>
-                        <div mat-line>{{ shotsFired }}</div>
-                        <div mat-line>Shots Fired</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>do_not_disturb</mat-icon>
-                        <div mat-line>{{ sdDeath }}</div>
-                        <div mat-line>S&D Deaths</div>
-                    </mat-list-item>
-                </mat-list>
-            </div>
-            <!-- Col 4 -->
-            <div class="column">
-                <mat-list class="player-card-list">
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>calculate</mat-icon>
-                        <div mat-line>{{ kd | number: "1.2-2" }}</div>
-                        <div mat-line>K/D Ratio</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>calculate</mat-icon>
-                        <div mat-line>{{ sdKD | number: "1.2-2" }}</div>
-                        <div mat-line>S&D K/D Ratio</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>screen_share</mat-icon>
-                        <div mat-line>{{ sdPlant }}</div>
-                        <div mat-line>S&D Plant</div>
-                    </mat-list-item>
-                    <mat-list-item>
-                        <mat-icon mat-list-icon>stop_screen_share</mat-icon>
-                        <div mat-line>{{ sdDefuse }}</div>
-                        <div mat-line>S&D Defuse</div>
-                    </mat-list-item>
-                </mat-list>
+        <div class="container-fluid">
+            <div class="row" *ngIf="!dataError && extended">
+                <!-- Col 1 -->
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <mat-list class="player-card-list">
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>military_tech</mat-icon>
+                            <div mat-line>{{ level }}</div>
+                            <div mat-line>Rank</div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>military_tech</mat-icon>
+                            <div mat-line>{{ maxLevel }}</div>
+                            <div mat-line>Max Rank</div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>star_border</mat-icon>
+                            <div mat-line>{{ prestige }}</div>
+                            <div mat-line>Prestige</div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>star_border</mat-icon>
+                            <div mat-line>{{ maxPrestige }}</div>
+                            <div mat-line>Max Prestige</div>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+                <!-- Col 2 -->
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <mat-list class="player-card-list">
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>task_alt</mat-icon>
+                            <div mat-line>{{ kills }}</div>
+                            <div mat-line>Total Kills</div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>task_alt</mat-icon>
+                            <div mat-line>{{ sdKills }}</div>
+                            <div mat-line>S&D Kills</div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>schedule</mat-icon>
+                            <div mat-line>{{ hoursCummulative }}</div>
+                            <div mat-line>Hours Played</div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>schedule</mat-icon>
+                            <div mat-line>{{ sdHours }}</div>
+                            <div mat-line>S&D Hours Played</div>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+                <!-- Col 3 -->
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <mat-list class="player-card-list">
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>credit_score</mat-icon>
+                            <div mat-line>{{ sdScore }}</div>
+                            <div mat-line>S&D Score</div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>timer</mat-icon>
+                            <div mat-line>
+                                {{ sdScoreMin | number: "1.2-2" }}
+                            </div>
+                            <div mat-line>S&D Score/min</div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>star_border</mat-icon>
+                            <div mat-line>{{ shotsFired }}</div>
+                            <div mat-line>Shots Fired</div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>do_not_disturb</mat-icon>
+                            <div mat-line>{{ sdDeath }}</div>
+                            <div mat-line>S&D Deaths</div>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+                <!-- Col 4 -->
+                <div class="col-xs-12 col-sm-6 col-md-3">
+                    <mat-list class="player-card-list">
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>calculate</mat-icon>
+                            <div mat-line>{{ kd | number: "1.2-2" }}</div>
+                            <div mat-line>K/D Ratio</div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>calculate</mat-icon>
+                            <div mat-line>{{ sdKD | number: "1.2-2" }}</div>
+                            <div mat-line>S&D K/D Ratio</div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>screen_share</mat-icon>
+                            <div mat-line>{{ sdPlant }}</div>
+                            <div mat-line>S&D Plant</div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <mat-icon mat-list-icon>stop_screen_share</mat-icon>
+                            <div mat-line>{{ sdDefuse }}</div>
+                            <div mat-line>S&D Defuse</div>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
             </div>
         </div>
     </mat-card-content>

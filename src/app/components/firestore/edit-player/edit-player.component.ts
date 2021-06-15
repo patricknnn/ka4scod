@@ -21,6 +21,7 @@ export class EditPlayerComponent implements OnInit {
     formAppearance: 'legacy' | 'standard' | 'fill' | 'outline' = 'standard';
     formColor: 'primary' | 'accent' | 'warn' = 'primary';
     allowInvalidSubmit: boolean = false;
+    elevation: string = 'mat-elevation-z4';
 
     constructor(
         private firestore: PlayerService,
@@ -58,21 +59,21 @@ export class EditPlayerComponent implements OnInit {
                 key: 'name',
                 label: 'Name',
                 value: player ? player.name : '',
-                class: 'column',
+                class: 'col-xs-12 col-md-6',
                 order: 1,
             }),
             new FormControlText({
                 key: 'gamertag',
                 label: 'Gamertag',
                 value: player ? player.gamertag : '',
-                class: 'column',
+                class: 'col-xs-12 col-md-6',
                 order: 2,
             }),
             new FormControlDropdown({
                 key: 'platform',
                 label: 'Platform',
                 value: player ? player.platform : '',
-                class: 'column',
+                class: 'col-xs-12 col-md-6',
                 options: [
                     { key: 'battle', value: 'Battlenet' },
                     { key: 'steam', value: 'Steam' },
@@ -87,7 +88,7 @@ export class EditPlayerComponent implements OnInit {
                 key: 'avatar',
                 label: 'Avatar',
                 value: player ? player.avatar : '',
-                class: 'column',
+                class: 'col-xs-12 col-md-6',
                 order: 3,
             }),
         ];

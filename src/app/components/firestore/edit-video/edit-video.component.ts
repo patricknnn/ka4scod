@@ -23,6 +23,7 @@ export class EditVideoComponent implements OnInit {
     formAppearance: 'legacy' | 'standard' | 'fill' | 'outline' = 'standard';
     formColor: 'primary' | 'accent' | 'warn' = 'primary';
     allowInvalidSubmit: boolean = false;
+    elevation: string = 'mat-elevation-z4';
 
     constructor(
         private firestore: VideoService,
@@ -62,14 +63,14 @@ export class EditVideoComponent implements OnInit {
                     key: 'title',
                     label: 'Title',
                     value: video ? video.title : '',
-                    class: 'column',
+                    class: 'col-xs-12 col-md-6',
                     order: 1,
                 }),
                 new FormControlDropdown({
                     key: 'player',
                     label: 'Player',
                     value: video ? video.player : '',
-                    class: 'column',
+                    class: 'col-xs-12 col-md-6',
                     options: playerOptions,
                     order: 2,
                 }),
@@ -77,7 +78,7 @@ export class EditVideoComponent implements OnInit {
                     key: 'game',
                     label: 'Game',
                     value: video ? video.game : '',
-                    class: 'column',
+                    class: 'col-xs-12 col-md-6',
                     options: [
                         { key: 'mw', value: 'Modern Warfare' },
                         { key: 'wz', value: 'Warzone' },
@@ -91,7 +92,7 @@ export class EditVideoComponent implements OnInit {
                     key: 'url',
                     label: 'Youtube embed url',
                     value: video ? video.url : '',
-                    class: 'column',
+                    class: 'col-xs-12 col-md-6',
                     order: 4,
                 }),
             ];

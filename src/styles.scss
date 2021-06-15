@@ -59,6 +59,7 @@ body {
 // Buttons
 button {
     text-transform: uppercase !important;
+    width: 100%;
 }
 
 .button-toggle-full-width {
@@ -67,56 +68,6 @@ button {
 }
 .button-toggle-full-width .mat-button-toggle {
     flex-grow: 1 !important;
-}
-
-// Flex layout
-.row {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 16px 0;
-}
-
-.column {
-    flex: 100%;
-    max-width: 100%;
-    padding: 0 4px;
-}
-
-.button-row .column button {
-    width: 100%;
-    margin: 8px 0;
-}
-
-// Small devices (landscape phones, 576px and up)
-@media (min-width: 576px) {
-    .column {
-        flex: 100%;
-        max-width: calc(100% - 8px);
-    }
-}
-
-// Medium devices (tablets, 768px and up)
-@media (min-width: 768px) {
-    .column {
-        flex: 50%;
-        max-width: calc(50% - 8px);
-    }
-}
-
-// Large devices (desktops, 992px and up)
-@media (min-width: 992px) {
-    .column {
-        flex: 33.333333%;
-        max-width: calc(33.333333% - 8px);
-    }
-}
-
-// Extra large devices (large desktops, 1200px and up)
-@media (min-width: 1200px) {
-    .column {
-        flex: 25%;
-        max-width: calc(25% - 8px);
-    }
 }
 
 // Cards
@@ -138,9 +89,4 @@ mat-form-field {
     .mat-radio-button {
         margin: 5px 0;
     }
-}
-
-// Helpers
-.w-100 {
-    width: 100%;
 }

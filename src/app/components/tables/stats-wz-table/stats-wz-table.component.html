@@ -1,18 +1,36 @@
 <!-- Title -->
 <app-title-section [title]="'Warzone stats'"></app-title-section>
 
-<!-- Button toggle -->
-<mat-button-toggle-group class="button-toggle-full-width">
-    <mat-button-toggle (click)="getAll()" checked>All</mat-button-toggle>
-    <mat-button-toggle (click)="getBR()">Battle Royale</mat-button-toggle>
-    <mat-button-toggle (click)="getDMZ()">Battle Royale DMZ</mat-button-toggle>
-</mat-button-toggle-group>
-
-<!-- Loading -->
-<app-loading *ngIf="isLoading"></app-loading>
-
-<!-- Dynamic table outlet -->
-<ng-container #outlet></ng-container>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Button toggle -->
+            <mat-button-toggle-group class="button-toggle-full-width">
+                <mat-button-toggle (click)="getAll()" checked
+                    >All</mat-button-toggle
+                >
+                <mat-button-toggle (click)="getBR()"
+                    >Battle Royale</mat-button-toggle
+                >
+                <mat-button-toggle (click)="getDMZ()"
+                    >Battle Royale DMZ</mat-button-toggle
+                >
+            </mat-button-toggle-group>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Loading -->
+            <app-loading *ngIf="isLoading"></app-loading>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Dynamic table outlet -->
+            <ng-container #outlet></ng-container>
+        </div>
+    </div>
+</div>
 
 <!-- Dynamic table template -->
 <ng-template #content>

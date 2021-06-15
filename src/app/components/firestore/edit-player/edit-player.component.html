@@ -3,16 +3,33 @@
     [title]="editPlayer ? 'Edit player' : 'New player'"
 ></app-title-section>
 
-<!-- Loading -->
-<app-loading *ngIf="isLoading"></app-loading>
-
-<!-- Form -->
-<app-dynamic-form
-    *ngIf="formControls"
-    [appearance]="formAppearance"
-    [color]="formColor"
-    [formControls]="formControls"
-    [allowInvalidSubmit]="allowInvalidSubmit"
-    (formSubmit)="handleFormSubmit($event)"
->
-</app-dynamic-form>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Loading -->
+            <app-loading *ngIf="isLoading"></app-loading>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Form -->
+            <mat-card [class]="elevation">
+                <mat-card-content>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <app-dynamic-form
+                                *ngIf="formControls"
+                                [appearance]="formAppearance"
+                                [color]="formColor"
+                                [formControls]="formControls"
+                                [allowInvalidSubmit]="allowInvalidSubmit"
+                                (formSubmit)="handleFormSubmit($event)"
+                            >
+                            </app-dynamic-form>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

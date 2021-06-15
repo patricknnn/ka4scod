@@ -1,29 +1,49 @@
-<!-- Loading -->
-<app-loading *ngIf="!player"></app-loading>
-
-<!-- Card -->
-<app-player-card
-    *ngIf="player"
-    [player]="player"
-    [extended]="true"
-></app-player-card>
-
-<!-- Button toggle -->
-<mat-button-toggle-group
-    class="button-toggle-full-width"
-    style="margin-top: 24px"
->
-    <mat-button-toggle (click)="getMpData()" checked
-        >Multiplayer</mat-button-toggle
-    >
-    <mat-button-toggle (click)="getWarzoneData()">Warzone</mat-button-toggle>
-</mat-button-toggle-group>
-
-<!-- Loading -->
-<app-loading *ngIf="isLoading"></app-loading>
-
-<!-- Dynamic table outlet -->
-<ng-container #outlet></ng-container>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Loading -->
+            <app-loading *ngIf="!player"></app-loading>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Card -->
+            <app-player-card
+                *ngIf="player"
+                [player]="player"
+                [extended]="true"
+            ></app-player-card>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Button toggle -->
+            <mat-button-toggle-group
+                class="button-toggle-full-width"
+                style="margin-top: 24px"
+            >
+                <mat-button-toggle (click)="getMpData()" checked
+                    >Multiplayer</mat-button-toggle
+                >
+                <mat-button-toggle (click)="getWarzoneData()"
+                    >Warzone</mat-button-toggle
+                >
+            </mat-button-toggle-group>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Loading -->
+            <app-loading *ngIf="isLoading"></app-loading>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Dynamic table outlet -->
+            <ng-container #outlet></ng-container>
+        </div>
+    </div>
+</div>
 
 <!-- Dynamic table template -->
 <ng-template #content>

@@ -1,24 +1,56 @@
 <!-- Title -->
 <app-title-section [title]="'Kills'"></app-title-section>
 
-<!-- Button toggle -->
-<mat-button-toggle-group class="button-toggle-full-width">
-    <mat-button-toggle (click)="getMeleeKillData()">Melee</mat-button-toggle>
-    <mat-button-toggle (click)="getLauncherData()">Launcher</mat-button-toggle>
-    <mat-button-toggle (click)="getPistolData()">Pistol</mat-button-toggle>
-    <mat-button-toggle (click)="getShottyData()">Shotgun</mat-button-toggle>
-    <mat-button-toggle (click)="getSmgKillData()">SMG</mat-button-toggle>
-    <mat-button-toggle (click)="getAssaultKillData()">Assault</mat-button-toggle>
-    <mat-button-toggle (click)="getLmgData()">LMG</mat-button-toggle>
-    <mat-button-toggle (click)="getMarksmanKillData()" checked>Marksman</mat-button-toggle>
-    <mat-button-toggle (click)="getSniperKillData()">Sniper</mat-button-toggle>
-</mat-button-toggle-group>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Button toggle -->
+            <mat-button-toggle-group class="button-toggle-full-width">
+                <mat-button-toggle (click)="getMeleeKillData()"
+                    >Melee</mat-button-toggle
+                >
+                <mat-button-toggle (click)="getLauncherData()"
+                    >Launcher</mat-button-toggle
+                >
+                <mat-button-toggle (click)="getPistolData()"
+                    >Pistol</mat-button-toggle
+                >
+                <mat-button-toggle (click)="getShottyData()"
+                    >Shotgun</mat-button-toggle
+                >
+                <mat-button-toggle (click)="getSmgKillData()"
+                    >SMG</mat-button-toggle
+                >
+                <mat-button-toggle (click)="getAssaultKillData()"
+                    >Assault</mat-button-toggle
+                >
+                <mat-button-toggle (click)="getLmgData()"
+                    >LMG</mat-button-toggle
+                >
+                <mat-button-toggle (click)="getMarksmanKillData()" checked
+                    >Marksman</mat-button-toggle
+                >
+                <mat-button-toggle (click)="getSniperKillData()"
+                    >Sniper</mat-button-toggle
+                >
+            </mat-button-toggle-group>
+        </div>
+    </div>
 
-<!-- Loading -->
-<app-loading *ngIf="isLoading"></app-loading>
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Loading -->
+            <app-loading *ngIf="isLoading"></app-loading>
+        </div>
+    </div>
 
-<!-- Dynamic table outlet -->
-<ng-container #outlet></ng-container>
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Dynamic table outlet -->
+            <ng-container #outlet></ng-container>
+        </div>
+    </div>
+</div>
 
 <!-- Dynamic table template -->
 <ng-template #content>

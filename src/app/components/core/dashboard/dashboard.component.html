@@ -1,17 +1,37 @@
 <!-- Players -->
 <app-title-section [title]="'Players'"></app-title-section>
-<app-loading *ngIf="isLoadingPlayers"></app-loading>
-<div class="row" *ngIf="players">
-    <div class="column" *ngFor="let player of players">
-        <app-player-card [player]="player"></app-player-card>
+<!-- loading -->
+<div class="container-fluid">
+    <div class="row" *ngIf="isLoadingPlayers">
+        <div class="col-xs-12">
+            <app-loading></app-loading>
+        </div>
+    </div>
+</div>
+<!-- Cards -->
+<div class="container-fluid">
+    <div class="row" *ngIf="!isLoadingPlayers && players">
+        <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let player of players">
+            <app-player-card [player]="player"></app-player-card>
+        </div>
     </div>
 </div>
 
 <!-- Videos -->
 <app-title-section [title]="'Videos'"></app-title-section>
-<app-loading *ngIf="isLoadingVideos"></app-loading>
-<div class="row" *ngIf="videos">
-    <div class="column" *ngFor="let video of videos">
-        <app-video-card [video]="video"></app-video-card>
+<!-- loading -->
+<div class="container-fluid">
+    <div class="row" *ngIf="isLoadingVideos">
+        <div class="col-xs-12">
+            <app-loading></app-loading>
+        </div>
+    </div>
+</div>
+<!-- Cards -->
+<div class="container-fluid">
+    <div class="row" *ngIf="!isLoadingVideos && videos">
+        <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let video of videos">
+            <app-video-card [video]="video"></app-video-card>
+        </div>
     </div>
 </div>
