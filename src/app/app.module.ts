@@ -33,6 +33,7 @@ import { PlayerCardComponent } from './components/cards/player-card/player-card.
 import { PlayerTableComponent } from './components/tables/player-table/player-table.component';
 import { ViewEventsComponent } from './components/firestore/view-events/view-events.component';
 import { EditEventComponent } from './components/firestore/edit-event/edit-event.component';
+import { DetailEventComponent } from './components/firestore/detail-event/detail-event.component';
 
 @NgModule({
     declarations: [
@@ -64,6 +65,7 @@ import { EditEventComponent } from './components/firestore/edit-event/edit-event
         PlayerTableComponent,
         ViewEventsComponent,
         EditEventComponent,
+        DetailEventComponent,
     ],
     imports: [
         SharedModule,

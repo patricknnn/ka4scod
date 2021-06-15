@@ -5,6 +5,7 @@ import { LoginComponent } from './components/api/login/login.component';
 import { PlaygroundComponent } from './components/api/playground/playground.component';
 import { DashboardComponent } from './components/core/dashboard/dashboard.component';
 import { PageNotFoundComponent } from './components/core/page-not-found/page-not-found.component';
+import { DetailEventComponent } from './components/firestore/detail-event/detail-event.component';
 import { EditEventComponent } from './components/firestore/edit-event/edit-event.component';
 import { EditPlayerComponent } from './components/firestore/edit-player/edit-player.component';
 import { EditVideoComponent } from './components/firestore/edit-video/edit-video.component';
@@ -57,6 +58,11 @@ const routes: Routes = [
         canActivate: [AuthGuard],
     },
     { path: 'event', component: EditEventComponent, canActivate: [AuthGuard] },
+    {
+        path: 'eventdetails',
+        component: DetailEventComponent,
+        canActivate: [AuthGuard],
+    },
     { path: '404', component: PageNotFoundComponent },
     // mp
     {

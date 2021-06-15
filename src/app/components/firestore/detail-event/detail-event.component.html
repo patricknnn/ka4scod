@@ -1,0 +1,81 @@
+<!-- Title -->
+<app-title-section [title]="'Event details'"></app-title-section>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Loading -->
+            <app-loading *ngIf="isLoading"></app-loading>
+        </div>
+    </div>
+    <div class="row" *ngIf="!isLoading && !eventEnded">
+        <div class="col-xs-12">
+            <!-- Buttons -->
+            <button mat-mini-fab color="accent" (click)="endEvent()">
+                <mat-icon>block</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="row" *ngIf="!isLoading">
+        <div class="col-xs-12">
+            <!-- Form -->
+            <mat-card [class]="elevation" style="margin-top: 1rem">
+                <mat-card-content>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-3">
+                                <mat-list class="card-list">
+                                    <div mat-subheader>Details</div>
+                                    <mat-list-item>
+                                        <mat-icon mat-list-icon>
+                                            event_seat
+                                        </mat-icon>
+                                        <div mat-line>{{ event.name }}</div>
+                                        <div mat-line>Name</div>
+                                    </mat-list-item>
+                                    <mat-list-item>
+                                        <mat-icon mat-list-icon>
+                                            place
+                                        </mat-icon>
+                                        <div mat-line>{{ event.location }}</div>
+                                        <div mat-line>Location</div>
+                                    </mat-list-item>
+                                    <mat-list-item>
+                                        <mat-icon mat-list-icon>
+                                            event
+                                        </mat-icon>
+                                        <div mat-line>
+                                            {{ event.startDate | date }}
+                                        </div>
+                                        <div mat-line>Start Date</div>
+                                    </mat-list-item>
+                                    <mat-list-item>
+                                        <mat-icon mat-list-icon>
+                                            event
+                                        </mat-icon>
+                                        <div mat-line>
+                                            {{ event.endDate | date }}
+                                        </div>
+                                        <div mat-line>End Date</div>
+                                    </mat-list-item>
+                                </mat-list>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-3">
+                              <mat-list class="card-list">
+                                  <div mat-subheader>Players</div>
+                                  <mat-list-item *ngFor="let player of event.players">
+                                      <mat-icon mat-list-icon>
+                                          person
+                                      </mat-icon>
+                                      <div mat-line>{{ player.player?.name }}</div>
+                                      <div mat-line>{{ player.player?.gamertag }}</div>
+                                  </mat-list-item>
+                              </mat-list>
+                          </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

@@ -67,6 +67,7 @@ export class ViewEventsComponent implements OnInit {
                 key: 'buttons',
                 header: 'Actions',
                 buttons: [
+                    new DynamicTableButton('details', 'open_in_new', 'primary'),
                     new DynamicTableButton('edit', 'edit'),
                     new DynamicTableButton('delete', 'delete', 'warn'),
                 ],
@@ -95,6 +96,10 @@ export class ViewEventsComponent implements OnInit {
 
     edit(key?: number): void {
         this.router.navigate(['/event', { key: key }]);
+    }
+
+    details(key?: number): void {
+        this.router.navigate(['/eventdetails', { key: key }]);
     }
 
     delete(event: LanEvent): void {
@@ -140,6 +145,8 @@ export class ViewEventsComponent implements OnInit {
             this.delete(event.row);
         } else if (event.button.name == 'edit') {
             this.edit(event.row.key);
+        } else if (event.button.name == 'details') {
+            this.details(event.row.key);
         }
     }
 }
