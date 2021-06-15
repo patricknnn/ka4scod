@@ -171,25 +171,23 @@ export class DetailEventComponent implements OnInit {
                 entry.statsStart?.lifetime.all.properties &&
                 entry.statsEnd?.lifetime.all.properties
             ) {
-                entry.statsEnd.lifetime.all.properties.gamesPlayed =
-                    entry.statsEnd?.lifetime.all.properties.gamesPlayed + 10;
                 this.tableData.push({
                     Name: entry.player?.name,
                     Games:
                         entry.statsEnd?.lifetime.all.properties.gamesPlayed -
                             entry.statsStart?.lifetime.all.properties
-                                .gamesPlayed || 0,
+                                .gamesPlayed || null,
                     Kills:
                         entry.statsEnd?.lifetime.all.properties.kills -
                             entry.statsStart?.lifetime.all.properties.kills ||
-                        0,
+                            null,
                     Deaths:
                         entry.statsEnd?.lifetime.all.properties.deaths -
                             entry.statsStart?.lifetime.all.properties.deaths ||
-                        0,
+                            null,
                     Hits:
                         entry.statsEnd?.lifetime.all.properties.hits -
-                            entry.statsStart?.lifetime.all.properties.hits || 0,
+                            entry.statsStart?.lifetime.all.properties.hits || null,
                 });
             }
         });
