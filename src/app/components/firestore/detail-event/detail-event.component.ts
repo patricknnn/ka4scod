@@ -194,29 +194,50 @@ export class DetailEventComponent implements OnInit {
     getPlayerStats(player: LanEventPlayer): void {
         // empty
         this.tableData = [];
-        // data
-        for (const property in player.statsStart?.lifetime.all.properties) {
+        let flattenStart = this.flattenObject(player.statsStart);
+        let flattenCurrent = this.flattenObject(player.statsCurrent);
+        let flattenEnd = this.flattenObject(player.statsEnd);
+        //
+        for (const property in flattenStart) {
             if (player.statsCurrent) {
                 this.tableData.push({
                     property: property,
-                    start: player.statsStart?.lifetime.all.properties[property],
-                    current:
-                        player.statsCurrent?.lifetime.all.properties[property],
-                    compared:
-                        player.statsCurrent?.lifetime.all.properties[property] -
-                        player.statsStart?.lifetime.all.properties[property],
+                    start: flattenStart[property],
+                    current: flattenCurrent[property],
+                    compared: flattenCurrent[property] - flattenStart[property],
                 });
             } else {
                 this.tableData.push({
                     property: property,
-                    start: player.statsStart?.lifetime.all.properties[property],
-                    end: player.statsEnd?.lifetime.all.properties[property],
-                    compared:
-                        player.statsEnd?.lifetime.all.properties[property] -
-                        player.statsStart?.lifetime.all.properties[property],
+                    start: flattenStart[property],
+                    end: flattenEnd[property],
+                    compared: flattenEnd[property] - flattenStart[property],
                 });
             }
         }
+        // data
+        // for (const property in player.statsStart?.lifetime.all.properties) {
+        //     if (player.statsCurrent) {
+        //         this.tableData.push({
+        //             property: property,
+        //             start: player.statsStart?.lifetime.all.properties[property],
+        //             current:
+        //                 player.statsCurrent?.lifetime.all.properties[property],
+        //             compared:
+        //                 player.statsCurrent?.lifetime.all.properties[property] -
+        //                 player.statsStart?.lifetime.all.properties[property],
+        //         });
+        //     } else {
+        //         this.tableData.push({
+        //             property: property,
+        //             start: player.statsStart?.lifetime.all.properties[property],
+        //             end: player.statsEnd?.lifetime.all.properties[property],
+        //             compared:
+        //                 player.statsEnd?.lifetime.all.properties[property] -
+        //                 player.statsStart?.lifetime.all.properties[property],
+        //         });
+        //     }
+        // }
         // columns
         this.buildColumns();
         // render table
@@ -311,6 +332,28 @@ export class DetailEventComponent implements OnInit {
                 stats.lifetime.itemData.weapon_marksman.iw8_sn_romeo700
                     .properties.kills,
         });
+    }
+
+    flattenObject(ob: any) {
+        let toReturn: any = {};
+        let flatObject: any;
+        for (var i in ob) {
+            if (!ob.hasOwnProperty(i)) {
+                continue;
+            }
+            if (typeof ob[i] === 'object') {
+                flatObject = this.flattenObject(ob[i]);
+                for (var x in flatObject) {
+                    if (!flatObject.hasOwnProperty(x)) {
+                        continue;
+                    }
+                    toReturn[x] = flatObject[x];
+                }
+            } else {
+                toReturn[i] = ob[i];
+            }
+        }
+        return toReturn;
     }
 
     /**
