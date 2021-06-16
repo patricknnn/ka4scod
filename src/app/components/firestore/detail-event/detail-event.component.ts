@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { LanEvent } from 'src/app/models/event';
+import { LanEvent, LanEventPlayer } from 'src/app/models/event';
 import { LifetimeStats } from 'src/app/models/lifetime-stats';
 import { Player } from 'src/app/models/player';
 import { DynamicTableColumnConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-column-config';
@@ -189,6 +189,41 @@ export class DetailEventComponent implements OnInit {
     }
 
     /**
+     * PLayer stats
+     */
+    getPlayerStats(player: LanEventPlayer): void {
+        // empty
+        this.tableData = [];
+        // data
+        for (const property in player.statsStart?.lifetime.all.properties) {
+            if (player.statsCurrent) {
+                this.tableData.push({
+                    property: property,
+                    start: player.statsStart?.lifetime.all.properties[property],
+                    current:
+                        player.statsCurrent?.lifetime.all.properties[property],
+                    compared:
+                        player.statsCurrent?.lifetime.all.properties[property] -
+                        player.statsStart?.lifetime.all.properties[property],
+                });
+            } else {
+                this.tableData.push({
+                    property: property,
+                    start: player.statsStart?.lifetime.all.properties[property],
+                    end: player.statsEnd?.lifetime.all.properties[property],
+                    compared:
+                        player.statsEnd?.lifetime.all.properties[property] -
+                        player.statsStart?.lifetime.all.properties[property],
+                });
+            }
+        }
+        // columns
+        this.buildColumns();
+        // render table
+        this.renderTable();
+    }
+
+    /**
      * Fetch desired stats
      * @param stats 'statsCurrent' | 'statsStart' | 'statsEnd' | 'statsCompared'
      */
@@ -238,7 +273,8 @@ export class DetailEventComponent implements OnInit {
             Deaths: stats.lifetime.all.properties.deaths,
             KD: Math.round(stats.lifetime.all.properties.kdRatio * 100) / 100,
             Hits: stats.lifetime.all.properties.hits,
-            Accuracy: Math.round(stats.lifetime.all.properties.accuracy * 100) / 100,
+            Accuracy:
+                Math.round(stats.lifetime.all.properties.accuracy * 100) / 100,
         });
     }
 
@@ -264,6 +300,16 @@ export class DetailEventComponent implements OnInit {
             Hits:
                 compareStats.lifetime.all.properties.hits -
                 stats.lifetime.all.properties.hits,
+            Kar98k:
+                compareStats.lifetime.itemData.weapon_marksman.iw8_sn_kilo98
+                    .properties.kills -
+                stats.lifetime.itemData.weapon_marksman.iw8_sn_kilo98.properties
+                    .kills,
+            SPR208:
+                compareStats.lifetime.itemData.weapon_marksman.iw8_sn_romeo700
+                    .properties.kills -
+                stats.lifetime.itemData.weapon_marksman.iw8_sn_romeo700
+                    .properties.kills,
         });
     }
 

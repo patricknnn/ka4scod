@@ -59,14 +59,12 @@
                                         <div mat-line>End Date</div>
                                     </mat-list-item>
                                     <mat-list-item *ngIf="!event.endDate">
-                                      <mat-icon mat-list-icon>
-                                          event
-                                      </mat-icon>
-                                      <div mat-line>
-                                          Ongoing
-                                      </div>
-                                      <div mat-line>End Date</div>
-                                  </mat-list-item>
+                                        <mat-icon mat-list-icon>
+                                            event
+                                        </mat-icon>
+                                        <div mat-line>Ongoing</div>
+                                        <div mat-line>End Date</div>
+                                    </mat-list-item>
                                 </mat-list>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-3">
@@ -120,6 +118,12 @@
                 </mat-button-toggle>
                 <mat-button-toggle (click)="getStats('statsCompared')">
                     Compared
+                </mat-button-toggle>
+                <mat-button-toggle
+                    *ngFor="let player of event.players"
+                    (click)="getPlayerStats(player)"
+                >
+                    {{ player.player?.name }}
                 </mat-button-toggle>
             </mat-button-toggle-group>
         </div>
