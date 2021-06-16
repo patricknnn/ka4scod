@@ -16,17 +16,15 @@
             <mat-card [class]="elevation">
                 <mat-card-content>
                     <div class="container-fluid">
-                        <div class="row">
-                            <app-dynamic-form
-                                *ngIf="formControls"
-                                [appearance]="formAppearance"
-                                [color]="formColor"
-                                [formControls]="formControls"
-                                [allowInvalidSubmit]="allowInvalidSubmit"
-                                (formSubmit)="handleFormSubmit($event)"
-                            >
-                            </app-dynamic-form>
-                        </div>
+                        <app-dynamic-form
+                            *ngIf="formControls"
+                            [appearance]="formAppearance"
+                            [color]="formColor"
+                            [formControls]="formControls"
+                            [allowInvalidSubmit]="allowInvalidSubmit"
+                            (formSubmit)="handleFormSubmit($event)"
+                        >
+                        </app-dynamic-form>
                     </div>
                 </mat-card-content>
             </mat-card>

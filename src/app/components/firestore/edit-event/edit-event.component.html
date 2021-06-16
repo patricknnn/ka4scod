@@ -16,17 +16,26 @@
             <mat-card [class]="elevation">
                 <mat-card-content>
                     <div class="container-fluid">
-                        <div class="row">
-                            <app-dynamic-form
-                                *ngIf="formControls"
-                                [appearance]="formAppearance"
-                                [color]="formColor"
-                                [formControls]="formControls"
-                                [allowInvalidSubmit]="allowInvalidSubmit"
-                                (formSubmit)="handleFormSubmit($event)"
-                            >
-                            </app-dynamic-form>
+                        <div class="row" *ngIf="editEvent">
+                            <div class="col-xs-12" style="margin-bottom: 1rem">
+                                <div class="icon-text">
+                                    <mat-icon>info</mat-icon>
+                                    <span>
+                                        Editing an event will reset the
+                                        starting stats of all players
+                                    </span>
+                                </div>
+                            </div>
                         </div>
+                        <app-dynamic-form
+                            *ngIf="formControls"
+                            [appearance]="formAppearance"
+                            [color]="formColor"
+                            [formControls]="formControls"
+                            [allowInvalidSubmit]="allowInvalidSubmit"
+                            (formSubmit)="handleFormSubmit($event)"
+                        >
+                        </app-dynamic-form>
                     </div>
                 </mat-card-content>
             </mat-card>

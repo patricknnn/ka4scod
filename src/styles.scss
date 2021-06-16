@@ -103,3 +103,14 @@ mat-form-field {
         margin: 5px 0;
     }
 }
+
+// wrappers
+.icon-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  & .mat-icon {
+    margin-right: 0.5rem;
+  }
+}
