@@ -18,16 +18,21 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <!-- Table -->
-            <app-dynamic-table
-                *ngIf="!isLoading"
-                [tableConfig]="tableConfig!"
-                [columnConfig]="columnConfig"
-                [data]="tableData"
-                (selectionChange)="handleSelectionChangeEvent($event)"
-                (buttonClick)="handleButtonClickEvent($event)"
-            >
-            </app-dynamic-table>
+            <!-- Dynamic table outlet -->
+            <ng-container #outlet></ng-container>
         </div>
     </div>
 </div>
+
+<!-- Dynamic table template -->
+<ng-template #content>
+  <app-dynamic-table
+  *ngIf="!isLoading"
+  [tableConfig]="tableConfig!"
+  [columnConfig]="columnConfig"
+  [data]="tableData"
+  (selectionChange)="handleSelectionChangeEvent($event)"
+  (buttonClick)="handleButtonClickEvent($event)"
+>
+</app-dynamic-table>
+</ng-template>

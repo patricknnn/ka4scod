@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    TemplateRef,
+    ViewChild,
+    ViewContainerRef,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { YoutubeVideo } from 'src/app/models/youtube-video';
@@ -20,6 +26,9 @@ export class ViewVideosComponent implements OnInit {
     tableConfig?: DynamicTableConfig;
     columnConfig: DynamicTableColumnConfig[] = [];
     isLoading: boolean = true;
+    @ViewChild('outlet', { read: ViewContainerRef })
+    outletRef?: ViewContainerRef;
+    @ViewChild('content', { read: TemplateRef }) contentRef?: TemplateRef<any>;
 
     constructor(
         private firestore: VideoService,
@@ -75,6 +84,7 @@ export class ViewVideosComponent implements OnInit {
             )
             .subscribe((data) => {
                 this.tableData = data;
+                this.renderTable();
                 this.isLoading = false;
             });
     }
@@ -107,6 +117,18 @@ export class ViewVideosComponent implements OnInit {
                         });
                 }
             });
+    }
+
+    /**
+     * Renders dynamic table
+     */
+    renderTable(): void {
+        if (this.outletRef && this.contentRef) {
+            this.isLoading = true;
+            this.outletRef.clear();
+            this.outletRef.createEmbeddedView(this.contentRef);
+            this.isLoading = false;
+        }
     }
 
     /**

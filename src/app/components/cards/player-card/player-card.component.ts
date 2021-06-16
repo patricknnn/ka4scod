@@ -18,6 +18,7 @@ export class PlayerCardComponent implements OnInit {
     @Input() extended: boolean = false;
     elevation: string = 'mat-elevation-z4';
     dataError: boolean = false;
+    dataErrorText: string = '';
     stats?: LifetimeStats;
     kills?: number;
     level?: number;
@@ -62,6 +63,7 @@ export class PlayerCardComponent implements OnInit {
             .then((res: LifetimeStats) => {
                 if (!res.lifetime) {
                     this.dataError = true;
+                    this.dataErrorText = JSON.stringify(res);
                 }
                 this.stats = res;
                 this.level = res.level;

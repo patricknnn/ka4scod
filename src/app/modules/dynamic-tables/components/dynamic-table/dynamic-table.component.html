@@ -130,7 +130,6 @@
                             *matCellDef="let row"
                             [ngSwitch]="column.type"
                         >
-
                             <!-- text -->
                             <div
                                 *ngSwitchCase="'text'"
@@ -157,7 +156,7 @@
                             >
                                 {{ row[column.key] | date }}
                             </div>
-                            
+
                             <!-- buttons -->
                             <div
                                 *ngIf="column.buttons?.length"

@@ -11,11 +11,12 @@
     <mat-card-content>
         <!-- Private profile -->
         <div *ngIf="dataError">
-            <span
-                >An error occured while retrieving profile data. Check if your
-                profile is set to public or that the maximum requests are
-                exceeded</span
-            >
+            <span>
+              An error occured while retrieving profile data.
+            </span>
+            <p>
+              {{dataErrorText}}
+            </p>
         </div>
         <!-- compact -->
         <mat-list class="card-list" *ngIf="!dataError && !extended">

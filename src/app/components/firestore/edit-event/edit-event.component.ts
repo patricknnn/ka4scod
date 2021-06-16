@@ -120,7 +120,7 @@ export class EditEventComponent implements OnInit {
     }
 
     getCurrentDate(): string {
-      return new Date().toISOString();
+        return new Date().toISOString();
     }
 
     handleFormSubmit(event: any) {
@@ -136,21 +136,28 @@ export class EditEventComponent implements OnInit {
                 playersToFetch.push(key);
             }
         }
-        let processedCount = 0;
-        this.players?.forEach((player) => {
-            if (playersToFetch.includes(player.key)) {
-                this.getLifetimeData(player).then((res) => {
-                    processedCount++;
-                    this.event.players?.push({
-                        player: player,
-                        statsStart: res,
+        // check players
+        if (!playersToFetch.length) {
+            // no players
+            this.editEvent ? this.update() : this.save();
+        } else {
+            // players
+            let processedCount = 0;
+            this.players?.forEach((player) => {
+                if (playersToFetch.includes(player.key)) {
+                    this.getLifetimeData(player).then((res) => {
+                        processedCount++;
+                        this.event.players?.push({
+                            player: player,
+                            statsStart: res,
+                        });
+                        if (processedCount == playersToFetch.length) {
+                            this.editEvent ? this.update() : this.save();
+                        }
                     });
-                    if (processedCount == playersToFetch.length) {
-                        this.editEvent ? this.update() : this.save();
-                    }
-                });
-            }
-        });
+                }
+            });
+        }
     }
 
     getPlayers(): Promise<Player[]> {

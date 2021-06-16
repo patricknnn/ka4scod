@@ -29,6 +29,7 @@ export class DetailEventComponent implements OnInit {
     event: LanEvent = {};
     eventEnded: boolean = true;
     isLoading: boolean = true;
+    isLoadingCurrent: boolean = true;
     elevation: string = 'mat-elevation-z4';
     tableData: any[] = [];
     tableConfig?: DynamicTableConfig;
@@ -63,7 +64,10 @@ export class DetailEventComponent implements OnInit {
             .subscribe((data) => {
                 this.event = data;
                 this.eventEnded = data.endDate ? true : false;
-                this.getStartStats();
+                if (!this.eventEnded) {
+                    this.getCurrentLifetimeData();
+                }
+                this.getStats('statsStart');
             });
     }
 
@@ -85,7 +89,6 @@ export class DetailEventComponent implements OnInit {
                                 count++;
                                 player.statsEnd = res;
                                 if (count == this.event.players?.length) {
-                                    console.log(this.event);
                                     this.save();
                                 }
                             });
@@ -95,10 +98,36 @@ export class DetailEventComponent implements OnInit {
             });
     }
 
+    /**
+     * Current lifetime data for all players
+     */
+    getCurrentLifetimeData(): void {
+        let count = 0;
+        this.event.currentDate = this.getCurrentDate();
+        this.event.players?.forEach((player) => {
+            if (player.player) {
+                this.getLifetimeData(player.player).then((res) => {
+                    count++;
+                    player.statsCurrent = res;
+                    if (count == this.event.players?.length) {
+                        this.isLoadingCurrent = false;
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * Current date string
+     * @returns string
+     */
     getCurrentDate(): string {
         return new Date().toISOString();
     }
 
+    /**
+     * Save to firebase
+     */
     save(): void {
         if (this.event.key) {
             this.firestore
@@ -160,37 +189,38 @@ export class DetailEventComponent implements OnInit {
     }
 
     /**
-     * Compared
+     * Fetch desired stats
+     * @param stats 'statsCurrent' | 'statsStart' | 'statsEnd' | 'statsCompared'
      */
-    getComparedStats(): void {
+    getStats(
+        stats: 'statsCurrent' | 'statsStart' | 'statsEnd' | 'statsCompared'
+    ): void {
         // empty
         this.tableData = [];
         // data
-        this.event.players?.forEach((entry) => {
-            if (
-                entry.statsStart?.lifetime.all.properties &&
-                entry.statsEnd?.lifetime.all.properties
-            ) {
-                this.tableData.push({
-                    Name: entry.player?.name,
-                    Games:
-                        entry.statsEnd?.lifetime.all.properties.gamesPlayed -
-                            entry.statsStart?.lifetime.all.properties
-                                .gamesPlayed || null,
-                    Kills:
-                        entry.statsEnd?.lifetime.all.properties.kills -
-                            entry.statsStart?.lifetime.all.properties.kills ||
-                            null,
-                    Deaths:
-                        entry.statsEnd?.lifetime.all.properties.deaths -
-                            entry.statsStart?.lifetime.all.properties.deaths ||
-                            null,
-                    Hits:
-                        entry.statsEnd?.lifetime.all.properties.hits -
-                            entry.statsStart?.lifetime.all.properties.hits || null,
-                });
-            }
-        });
+        if (stats == 'statsCompared') {
+            // end data
+            this.event.players?.forEach((entry) => {
+                let lifetime = entry.statsStart;
+                let lifetimeCompare = this.eventEnded
+                    ? entry.statsEnd
+                    : entry.statsCurrent;
+                if (entry.player?.name && lifetime && lifetimeCompare) {
+                    this.pushComparedTableData(
+                        entry.player.name,
+                        lifetime,
+                        lifetimeCompare
+                    );
+                }
+            });
+        } else {
+            this.event.players?.forEach((entry) => {
+                let lifetime = entry[stats];
+                if (entry.player?.name && lifetime) {
+                    this.pushTableData(entry.player.name, lifetime);
+                }
+            });
+        }
         // columns
         this.buildColumns();
         // render table
@@ -198,85 +228,43 @@ export class DetailEventComponent implements OnInit {
     }
 
     /**
-     * Start
+     * Push table data
      */
-    getStartStats(): void {
-        // empty
-        this.tableData = [];
-        // data
-        this.event.players?.forEach((entry) => {
-            this.tableData.push({
-                Name: entry.player?.name,
-                Games: entry.statsStart?.lifetime.all.properties
-                    ? entry.statsStart?.lifetime.all.properties.gamesPlayed
-                    : null,
-                Kills: entry.statsStart?.lifetime.all.properties
-                    ? entry.statsStart?.lifetime.all.properties.kills
-                    : null,
-                Deaths: entry.statsStart?.lifetime.all.properties
-                    ? entry.statsStart?.lifetime.all.properties.deaths
-                    : null,
-                KD: entry.statsStart?.lifetime.all.properties
-                    ? Math.round(
-                          entry.statsStart?.lifetime.all.properties.kdRatio *
-                              100
-                      ) / 100
-                    : null,
-                Hits: entry.statsStart?.lifetime.all.properties
-                    ? entry.statsStart?.lifetime.all.properties.hits
-                    : null,
-                Accuracy: entry.statsStart?.lifetime.all.properties
-                    ? Math.round(
-                          entry.statsStart?.lifetime.all.properties.accuracy *
-                              100
-                      ) / 100
-                    : null,
-            });
+    pushTableData(name: string, stats: LifetimeStats): void {
+        this.tableData.push({
+            Name: name,
+            Games: stats.lifetime.all.properties.gamesPlayed,
+            Kills: stats.lifetime.all.properties.kills,
+            Deaths: stats.lifetime.all.properties.deaths,
+            KD: Math.round(stats.lifetime.all.properties.kdRatio * 100) / 100,
+            Hits: stats.lifetime.all.properties.hits,
+            Accuracy: Math.round(stats.lifetime.all.properties.accuracy * 100) / 100,
         });
-        // columns
-        this.buildColumns();
-        // render table
-        this.renderTable();
     }
 
     /**
-     * End
+     * Push compared table data
      */
-    getEndStats(): void {
-        // empty
-        this.tableData = [];
-        // data
-        this.event.players?.forEach((entry) => {
-            this.tableData.push({
-                Name: entry.player?.name,
-                Games: entry.statsEnd?.lifetime.all.properties
-                    ? entry.statsEnd?.lifetime.all.properties.gamesPlayed
-                    : null,
-                Kills: entry.statsEnd?.lifetime.all.properties
-                    ? entry.statsEnd?.lifetime.all.properties.kills
-                    : null,
-                Deaths: entry.statsEnd?.lifetime.all.properties
-                    ? entry.statsEnd?.lifetime.all.properties.deaths
-                    : null,
-                KD: entry.statsEnd?.lifetime.all.properties
-                    ? Math.round(
-                          entry.statsEnd?.lifetime.all.properties.kdRatio * 100
-                      ) / 100
-                    : null,
-                Hits: entry.statsEnd?.lifetime.all.properties
-                    ? entry.statsEnd?.lifetime.all.properties.hits
-                    : null,
-                Accuracy: entry.statsEnd?.lifetime.all.properties
-                    ? Math.round(
-                          entry.statsEnd?.lifetime.all.properties.accuracy * 100
-                      ) / 100
-                    : null,
-            });
+    pushComparedTableData(
+        name: string,
+        stats: LifetimeStats,
+        compareStats: LifetimeStats
+    ): void {
+        this.tableData.push({
+            Name: name,
+            Games:
+                compareStats.lifetime.all.properties.gamesPlayed -
+                stats.lifetime.all.properties.gamesPlayed,
+            Kills:
+                compareStats.lifetime.all.properties.kills -
+                stats.lifetime.all.properties.kills,
+            Deaths:
+                compareStats.lifetime.all.properties.deaths -
+                stats.lifetime.all.properties.deaths,
+            Hits:
+                compareStats.lifetime.all.properties.hits -
+                stats.lifetime.all.properties.hits,
         });
-        // columns
-        this.buildColumns();
-        // render table
-        this.renderTable();
     }
 
     /**

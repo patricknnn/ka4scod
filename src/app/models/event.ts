@@ -7,6 +7,7 @@ export interface LanEvent extends FirebaseEntity {
     location?: string;
     startDate?: string;
     endDate?: string;
+    currentDate?: string;
     players?: LanEventPlayer[];
 }
 
@@ -14,4 +15,5 @@ export interface LanEventPlayer {
     player?: Player;
     statsStart?: LifetimeStats;
     statsEnd?: LifetimeStats;
+    statsCurrent?: LifetimeStats;
 }

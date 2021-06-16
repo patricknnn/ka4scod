@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    TemplateRef,
+    ViewChild,
+    ViewContainerRef,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { LanEvent } from 'src/app/models/event';
@@ -20,6 +26,9 @@ export class ViewEventsComponent implements OnInit {
     tableConfig?: DynamicTableConfig;
     columnConfig: DynamicTableColumnConfig[] = [];
     isLoading: boolean = true;
+    @ViewChild('outlet', { read: ViewContainerRef })
+    outletRef?: ViewContainerRef;
+    @ViewChild('content', { read: TemplateRef }) contentRef?: TemplateRef<any>;
 
     constructor(
         private firestore: EventService,
@@ -59,11 +68,6 @@ export class ViewEventsComponent implements OnInit {
                 draggable: true,
             }),
             new DynamicTableColumnConfig({
-                key: 'players',
-                header: 'Players',
-                expandable: true,
-            }),
-            new DynamicTableColumnConfig({
                 key: 'buttons',
                 header: 'Actions',
                 buttons: [
@@ -90,6 +94,7 @@ export class ViewEventsComponent implements OnInit {
             )
             .subscribe((data) => {
                 this.tableData = data;
+                this.renderTable();
                 this.isLoading = false;
             });
     }
@@ -126,6 +131,18 @@ export class ViewEventsComponent implements OnInit {
                         });
                 }
             });
+    }
+
+    /**
+     * Renders dynamic table
+     */
+    renderTable(): void {
+        if (this.outletRef && this.contentRef) {
+            this.isLoading = true;
+            this.outletRef.clear();
+            this.outletRef.createEmbeddedView(this.contentRef);
+            this.isLoading = false;
+        }
     }
 
     /**
