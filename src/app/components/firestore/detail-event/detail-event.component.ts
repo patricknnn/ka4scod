@@ -125,6 +125,10 @@ export class DetailEventComponent implements OnInit {
                 });
         }
     }
+
+    /**
+     * End event
+     */
     endEvent(): void {
         this.dialog
             .confirmDialog(
@@ -140,14 +144,21 @@ export class DetailEventComponent implements OnInit {
                     this.event.players?.forEach((player) => {
                         if (player.player) {
                             this.getLifetimeData(player.player).then((res) => {
-                                count++;
-                                player.statsEnd =
-                                    this.stats.convertLifetimeStatsToPlayerStatsLifetime(
-                                        res.lifetime
+                                if (!res.lifetime) {
+                                    this.dialog.errorDialog(
+                                        'Error',
+                                        `Unable to fetch data for ${player.player?.gamertag} (${res})`
                                     );
-                                player.statsEndWarzone = res.warzone;
-                                if (count == this.event.players?.length) {
-                                    this.save();
+                                } else {
+                                    count++;
+                                    player.statsEnd =
+                                        this.stats.convertLifetimeStatsToPlayerStatsLifetime(
+                                            res.lifetime
+                                        );
+                                    player.statsEndWarzone = res.warzone;
+                                    if (count == this.event.players?.length) {
+                                        this.save();
+                                    }
                                 }
                             });
                         }
@@ -174,7 +185,10 @@ export class DetailEventComponent implements OnInit {
                 .then((res) => {
                     this.api
                         .getWarzoneStats(apiPlayer)
-                        .then((wz) => resolve({ lifetime: res, warzone: wz.br_all }))
+                        .then((wz: any) => {
+                            delete wz.br_all.title;
+                            resolve({ lifetime: res, warzone: wz.br_all });
+                        })
                         .catch((error) => reject(error));
                 })
                 .catch((error) => reject(error));
@@ -242,7 +256,7 @@ export class DetailEventComponent implements OnInit {
                 ) {
                     let player = this.event.players[index].player?.name || '';
                     let statsList: any = this.event.players[index];
-                    obj[player] = statsList[stats][property];
+                    obj[player] = +(statsList[stats][property] || 0).toFixed(2);
                 }
                 this.tableData.push(obj);
             }
@@ -279,7 +293,7 @@ export class DetailEventComponent implements OnInit {
                 ) {
                     let player = this.event.players[index].player?.name || '';
                     let statsList: any = this.event.players[index];
-                    obj[player] = statsList[stats][property];
+                    obj[player] = +(statsList[stats][property] || 0).toFixed(2);
                 }
                 this.tableDataWarzone.push(obj);
             }

@@ -75,10 +75,14 @@ export class StatsLifetimeWzComponent implements OnInit {
         let count = 0;
         this.players?.forEach((player) => {
             this.getWarzoneData(player).then((res) => {
+                if (res.br_all) {
+                    delete res.br_all.title;
+                    this.playerStats.push({
+                        player: player,
+                        stats: res.br_all,
+                    });
+                }
                 count++;
-                let stats = res.br_all;
-                delete stats.title;
-                this.playerStats.push({ player: player, stats: stats });
                 if (count == this.players?.length) {
                     this.fillTable();
                 }
@@ -112,7 +116,7 @@ export class StatsLifetimeWzComponent implements OnInit {
         this.tableData = [];
         // data
         if (this.players) {
-            let list: any = this.playerStats[0].stats;
+            let list: any = this.playerStats[0]?.stats;
             for (const property in list) {
                 let obj: any = {};
                 obj['statistic'] = property;

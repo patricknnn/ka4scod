@@ -75,10 +75,14 @@ export class StatsLifetimeComponent implements OnInit {
         let count = 0;
         this.players?.forEach((player) => {
             this.getLifetimeData(player).then((res) => {
+                if (res.lifetime) {
+                    let stats =
+                        this.stats.convertLifetimeStatsToPlayerStatsLifetime(
+                            res
+                        );
+                    this.playerStats.push({ player: player, stats: stats });
+                }
                 count++;
-                let stats =
-                    this.stats.convertLifetimeStatsToPlayerStatsLifetime(res);
-                this.playerStats.push({ player: player, stats: stats });
                 if (count == this.players?.length) {
                     this.fillTable();
                 }
@@ -112,7 +116,7 @@ export class StatsLifetimeComponent implements OnInit {
         this.tableData = [];
         // data
         if (this.players) {
-            let list: any = this.playerStats[0].stats;
+            let list: any = this.playerStats[0]?.stats;
             for (const property in list) {
                 let obj: any = {};
                 obj['statistic'] = property;

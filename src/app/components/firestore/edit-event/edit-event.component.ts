@@ -204,7 +204,17 @@ export class EditEventComponent implements OnInit {
                 .then((res) => {
                     this.api
                         .getWarzoneStats(apiPlayer)
-                        .then((wz) => resolve({ lifetime: res, warzone: wz.br_all }))
+                        .then((wz: any) => {
+                            if (!wz.br_all) {
+                                this.dialog.errorDialog(
+                                    'Error',
+                                    `Unable to fetch data for ${player.gamertag} (${res})`
+                                );
+                            } else {
+                                delete wz.br_all.title;
+                                resolve({ lifetime: res, warzone: wz.br_all });
+                            }
+                        })
                         .catch((error) => reject(error));
                 })
                 .catch((error) => reject(error));

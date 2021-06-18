@@ -13,7 +13,10 @@ import { DynamicTableColumnConfig } from 'src/app/modules/dynamic-tables/models/
 import { DynamicTableConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-config';
 import { DialogService } from 'src/app/services/dialog.service';
 import { PlayerService } from 'src/app/services/firestore/player.service';
-import { NodeRestApiService, CodApiPlayer } from 'src/app/services/node-rest-api.service';
+import {
+    NodeRestApiService,
+    CodApiPlayer,
+} from 'src/app/services/node-rest-api.service';
 import { StatsService } from 'src/app/services/stats.service';
 import { TableService } from 'src/app/services/table.service';
 
@@ -68,13 +71,17 @@ export class StatsWeeklyComponent implements OnInit {
     /**
      * Current lifetime data for all players
      */
-     getPlayersWeeklyData(): void {
+    getPlayersWeeklyData(): void {
         let count = 0;
         this.players?.forEach((player) => {
             this.getLifetimeStats(player).then((res) => {
+                if (res.weekly) {
+                    this.playerStats.push({
+                        player: player,
+                        stats: res.weekly.all.properties,
+                    });
+                }
                 count++;
-                let stats = res.weekly.all.properties;
-                this.playerStats.push({ player: player, stats: stats });
                 if (count == this.players?.length) {
                     this.fillTable();
                 }
@@ -108,7 +115,7 @@ export class StatsWeeklyComponent implements OnInit {
         this.tableData = [];
         // data
         if (this.players) {
-            let list: any = this.playerStats[0].stats;
+            let list: any = this.playerStats[0]?.stats;
             for (const property in list) {
                 let obj: any = {};
                 obj['statistic'] = property;
@@ -116,9 +123,7 @@ export class StatsWeeklyComponent implements OnInit {
                     let player = this.playerStats[index].player?.name || '';
                     let statsList: any = this.playerStats[index].stats;
                     if (statsList) {
-                    obj[player] = +((statsList[property] || 0).toFixed(2));
-                    } else {
-                      obj[player] = 0;
+                        obj[player] = +(statsList[property] || 0).toFixed(2);
                     }
                 }
                 this.tableData.push(obj);
