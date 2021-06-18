@@ -119,12 +119,6 @@
                 <mat-button-toggle (click)="getStats('statsCompared')">
                     Compared
                 </mat-button-toggle>
-                <mat-button-toggle
-                    *ngFor="let player of event.players"
-                    (click)="getPlayerStats(player)"
-                >
-                    {{ player.player?.name }}
-                </mat-button-toggle>
             </mat-button-toggle-group>
         </div>
     </div>

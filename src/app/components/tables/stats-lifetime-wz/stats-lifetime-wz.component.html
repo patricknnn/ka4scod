@@ -1,24 +1,11 @@
-<!-- Title -->
-<app-title-section [title]="'Modern Warfare Stats'"></app-title-section>
+<!-- Stats -->
+<app-title-section [title]="'Warzone Lifetime'"></app-title-section>
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-xs-12">
-            <!-- Button toggle -->
-            <mat-button-toggle-group class="button-toggle-full-width">
-                <mat-button-toggle (click)="getLifetime()" checked>
-                    Lifetime
-                </mat-button-toggle>
-                <mat-button-toggle (click)="getWeekly()">
-                    Weekly
-                </mat-button-toggle>
-            </mat-button-toggle-group>
-        </div>
-    </div>
-    <div class="row">
+    <div class="row" *ngIf="isLoading">
         <div class="col-xs-12">
             <!-- Loading -->
-            <app-loading *ngIf="isLoading"></app-loading>
+            <app-loading></app-loading>
         </div>
     </div>
     <div class="row">

@@ -18,6 +18,7 @@ import {
     CodApiPlayer,
     NodeRestApiService,
 } from 'src/app/services/node-rest-api.service';
+import { StatsService } from 'src/app/services/stats.service';
 import { TableService } from 'src/app/services/table.service';
 
 @Component({
@@ -43,7 +44,8 @@ export class DetailEventComponent implements OnInit {
         private api: NodeRestApiService,
         private tables: TableService,
         private dialog: DialogService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private stats: StatsService
     ) {}
 
     ngOnInit(): void {
@@ -71,6 +73,45 @@ export class DetailEventComponent implements OnInit {
             });
     }
 
+    /**
+     * Current lifetime data for all players
+     */
+    getCurrentLifetimeData(): void {
+        let count = 0;
+        this.event.currentDate = this.getCurrentDate();
+        this.event.players?.forEach((player) => {
+            if (player.player) {
+                this.getLifetimeData(player.player).then((res) => {
+                    count++;
+                    player.statsCurrent =
+                        this.stats.convertLifetimeStatsToPlayerStatsLifetime(
+                            res
+                        );
+                    if (count == this.event.players?.length) {
+                        this.getComparedStats();
+                        this.isLoadingCurrent = false;
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * Save to firebase
+     */
+    save(): void {
+        //this.getComparedStats();
+        if (this.event.key) {
+            this.firestore
+                .update(this.event.key, this.event)
+                .then(() => {
+                    this.dialog.succesDialog('Succes', 'Event ended!');
+                })
+                .catch((err) => {
+                    this.dialog.errorDialog('Error', err);
+                });
+        }
+    }
     endEvent(): void {
         this.dialog
             .confirmDialog(
@@ -87,7 +128,10 @@ export class DetailEventComponent implements OnInit {
                         if (player.player) {
                             this.getLifetimeData(player.player).then((res) => {
                                 count++;
-                                player.statsEnd = res;
+                                player.statsEnd =
+                                    this.stats.convertLifetimeStatsToPlayerStatsLifetime(
+                                        res
+                                    );
                                 if (count == this.event.players?.length) {
                                     this.save();
                                 }
@@ -96,49 +140,6 @@ export class DetailEventComponent implements OnInit {
                     });
                 }
             });
-    }
-
-    /**
-     * Current lifetime data for all players
-     */
-    getCurrentLifetimeData(): void {
-        let count = 0;
-        this.event.currentDate = this.getCurrentDate();
-        this.event.players?.forEach((player) => {
-            if (player.player) {
-                this.getLifetimeData(player.player).then((res) => {
-                    count++;
-                    player.statsCurrent = res;
-                    if (count == this.event.players?.length) {
-                        this.isLoadingCurrent = false;
-                    }
-                });
-            }
-        });
-    }
-
-    /**
-     * Current date string
-     * @returns string
-     */
-    getCurrentDate(): string {
-        return new Date().toISOString();
-    }
-
-    /**
-     * Save to firebase
-     */
-    save(): void {
-        if (this.event.key) {
-            this.firestore
-                .update(this.event.key, this.event)
-                .then(() => {
-                    this.dialog.succesDialog('Succes', 'Event ended!');
-                })
-                .catch((err) => {
-                    this.dialog.errorDialog('Error', err);
-                });
-        }
     }
 
     /**
@@ -160,6 +161,66 @@ export class DetailEventComponent implements OnInit {
     }
 
     /**
+     * Compared stats
+     */
+    getComparedStats(): void {
+        this.event.players?.forEach((player) => {
+            player.statsCompared = {};
+            for (const property in player.statsStart) {
+                if (player.statsCurrent) {
+                    player.statsCompared[property] =
+                        player.statsCurrent[property] -
+                        player.statsStart[property];
+                } else if (player.statsEnd) {
+                    player.statsCompared[property] =
+                        player.statsEnd[property] - player.statsStart[property];
+                }
+            }
+        });
+    }
+
+    /**
+     * Fetch desired stats
+     * @param stats 'statsCurrent' | 'statsStart' | 'statsEnd' | 'statsCompared'
+     */
+    getStats(
+        stats: 'statsCurrent' | 'statsStart' | 'statsEnd' | 'statsCompared'
+    ): void {
+        // empty
+        this.tableData = [];
+        // data
+        if (this.event.players) {
+            let list: any = this.event.players[0];
+            for (const property in list[stats]) {
+                let obj: any = {};
+                obj['statistic'] = property;
+                for (
+                    let index = 0;
+                    index < this.event.players.length;
+                    index++
+                ) {
+                    let player = this.event.players[index].player?.name || '';
+                    let statsList: any = this.event.players[index];
+                    obj[player] = statsList[stats][property];
+                }
+                this.tableData.push(obj);
+            }
+        }
+        // columns
+        this.buildColumns();
+        // render table
+        this.renderTable();
+    }
+
+    /**
+     * Current date string
+     * @returns string
+     */
+    getCurrentDate(): string {
+        return new Date().toISOString();
+    }
+
+    /**
      * Renders dynamic table
      */
     renderTable(): void {
@@ -176,184 +237,26 @@ export class DetailEventComponent implements OnInit {
      */
     buildColumns(): void {
         this.columnConfig = [];
-        for (const property in this.tableData[0]) {
-            this.columnConfig.push(
-                new DynamicTableColumnConfig({
-                    key: property,
-                    header: property,
-                    sortable: true,
-                    draggable: true,
-                })
-            );
-        }
-    }
-
-    /**
-     * PLayer stats
-     */
-    getPlayerStats(player: LanEventPlayer): void {
-        // empty
-        this.tableData = [];
-        let flattenStart = this.flattenObject(player.statsStart);
-        let flattenCurrent = this.flattenObject(player.statsCurrent);
-        let flattenEnd = this.flattenObject(player.statsEnd);
-        //
-        for (const property in flattenStart) {
-            if (player.statsCurrent) {
-                this.tableData.push({
-                    property: property,
-                    start: flattenStart[property],
-                    current: flattenCurrent[property],
-                    compared: flattenCurrent[property] - flattenStart[property],
-                });
-            } else {
-                this.tableData.push({
-                    property: property,
-                    start: flattenStart[property],
-                    end: flattenEnd[property],
-                    compared: flattenEnd[property] - flattenStart[property],
-                });
-            }
-        }
-        // data
-        // for (const property in player.statsStart?.lifetime.all.properties) {
-        //     if (player.statsCurrent) {
-        //         this.tableData.push({
-        //             property: property,
-        //             start: player.statsStart?.lifetime.all.properties[property],
-        //             current:
-        //                 player.statsCurrent?.lifetime.all.properties[property],
-        //             compared:
-        //                 player.statsCurrent?.lifetime.all.properties[property] -
-        //                 player.statsStart?.lifetime.all.properties[property],
-        //         });
-        //     } else {
-        //         this.tableData.push({
-        //             property: property,
-        //             start: player.statsStart?.lifetime.all.properties[property],
-        //             end: player.statsEnd?.lifetime.all.properties[property],
-        //             compared:
-        //                 player.statsEnd?.lifetime.all.properties[property] -
-        //                 player.statsStart?.lifetime.all.properties[property],
-        //         });
-        //     }
-        // }
-        // columns
-        this.buildColumns();
-        // render table
-        this.renderTable();
-    }
-
-    /**
-     * Fetch desired stats
-     * @param stats 'statsCurrent' | 'statsStart' | 'statsEnd' | 'statsCompared'
-     */
-    getStats(
-        stats: 'statsCurrent' | 'statsStart' | 'statsEnd' | 'statsCompared'
-    ): void {
-        // empty
-        this.tableData = [];
-        // data
-        if (stats == 'statsCompared') {
-            // end data
-            this.event.players?.forEach((entry) => {
-                let lifetime = entry.statsStart;
-                let lifetimeCompare = this.eventEnded
-                    ? entry.statsEnd
-                    : entry.statsCurrent;
-                if (entry.player?.name && lifetime && lifetimeCompare) {
-                    this.pushComparedTableData(
-                        entry.player.name,
-                        lifetime,
-                        lifetimeCompare
-                    );
-                }
-            });
-        } else {
-            this.event.players?.forEach((entry) => {
-                let lifetime = entry[stats];
-                if (entry.player?.name && lifetime) {
-                    this.pushTableData(entry.player.name, lifetime);
-                }
+        this.columnConfig.push(
+            new DynamicTableColumnConfig({
+                key: 'statistic',
+                header: 'Statistic',
+                sortable: true,
+                draggable: true,
+            })
+        );
+        if (this.event.players) {
+            this.event.players?.forEach((player) => {
+                this.columnConfig.push(
+                    new DynamicTableColumnConfig({
+                        key: player.player?.name || '',
+                        header: player.player?.name || '',
+                        sortable: true,
+                        draggable: true,
+                    })
+                );
             });
         }
-        // columns
-        this.buildColumns();
-        // render table
-        this.renderTable();
-    }
-
-    /**
-     * Push table data
-     */
-    pushTableData(name: string, stats: LifetimeStats): void {
-        this.tableData.push({
-            Name: name,
-            Games: stats.lifetime.all.properties.gamesPlayed,
-            Kills: stats.lifetime.all.properties.kills,
-            Deaths: stats.lifetime.all.properties.deaths,
-            KD: Math.round(stats.lifetime.all.properties.kdRatio * 100) / 100,
-            Hits: stats.lifetime.all.properties.hits,
-            Accuracy:
-                Math.round(stats.lifetime.all.properties.accuracy * 100) / 100,
-        });
-    }
-
-    /**
-     * Push compared table data
-     */
-    pushComparedTableData(
-        name: string,
-        stats: LifetimeStats,
-        compareStats: LifetimeStats
-    ): void {
-        this.tableData.push({
-            Name: name,
-            Games:
-                compareStats.lifetime.all.properties.gamesPlayed -
-                stats.lifetime.all.properties.gamesPlayed,
-            Kills:
-                compareStats.lifetime.all.properties.kills -
-                stats.lifetime.all.properties.kills,
-            Deaths:
-                compareStats.lifetime.all.properties.deaths -
-                stats.lifetime.all.properties.deaths,
-            Hits:
-                compareStats.lifetime.all.properties.hits -
-                stats.lifetime.all.properties.hits,
-            Kar98k:
-                compareStats.lifetime.itemData.weapon_marksman.iw8_sn_kilo98
-                    .properties.kills -
-                stats.lifetime.itemData.weapon_marksman.iw8_sn_kilo98.properties
-                    .kills,
-            SPR208:
-                compareStats.lifetime.itemData.weapon_marksman.iw8_sn_romeo700
-                    .properties.kills -
-                stats.lifetime.itemData.weapon_marksman.iw8_sn_romeo700
-                    .properties.kills,
-        });
-    }
-
-    flattenObject(ob: any) {
-        let toReturn: any = {};
-        let flatObject: any;
-        for (var i in ob) {
-            if (!ob.hasOwnProperty(i)) {
-                continue;
-            }
-            if (typeof ob[i] === 'object') {
-                flatObject = this.flattenObject(ob[i]);
-                for (var x in flatObject) {
-                    if (!flatObject.hasOwnProperty(x)) {
-                        continue;
-                    }
-                    toReturn[x] = flatObject[x];
-                }
-            } else {
-                toReturn[i] = ob[i];
-            }
-        }
-        return toReturn;
     }
 
     /**

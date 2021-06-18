@@ -25,12 +25,17 @@ export class NavlinkService {
                 header: 'Modern Warfare',
                 navlinks: [
                     new Navlink('Stats', 'bar_chart', '/statsmp'),
+                    new Navlink('Lifetime', 'bar_chart', '/mp-lifetime'),
+                    new Navlink('Weekly', 'bar_chart', '/mp-weekly'),
                     new Navlink('Kills', 'plus_one', '/kills'),
                 ],
             },
             {
                 header: 'Warzone',
-                navlinks: [new Navlink('Stats', 'bar_chart', '/statswz')],
+                navlinks: [
+                    new Navlink('Stats', 'bar_chart', '/statswz'),
+                    new Navlink('Lifetime', 'bar_chart', '/wz-lifetime'),
+                ],
             },
             {
                 header: 'Firebase',

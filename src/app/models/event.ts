@@ -16,4 +16,5 @@ export interface LanEventPlayer {
     statsStart?: any;
     statsEnd?: any;
     statsCurrent?: any;
+    statsCompared?: any;
 }

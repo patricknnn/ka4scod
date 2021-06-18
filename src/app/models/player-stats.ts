@@ -100,7 +100,7 @@ export interface PlayerStatsLifetime {
     RAM7: number;
     ASVAL: number;
     // SD
-    SDHours?: string;
+    SDHours?: number;
     SDKills?: number;
     SDDeath?: number;
     SDPlant?: number;

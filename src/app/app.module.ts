@@ -34,6 +34,9 @@ import { PlayerTableComponent } from './components/tables/player-table/player-ta
 import { ViewEventsComponent } from './components/firestore/view-events/view-events.component';
 import { EditEventComponent } from './components/firestore/edit-event/edit-event.component';
 import { DetailEventComponent } from './components/firestore/detail-event/detail-event.component';
+import { StatsLifetimeComponent } from './components/tables/stats-lifetime/stats-lifetime.component';
+import { StatsWeeklyComponent } from './components/tables/stats-weekly/stats-weekly.component';
+import { StatsLifetimeWzComponent } from './components/tables/stats-lifetime-wz/stats-lifetime-wz.component';
 
 @NgModule({
     declarations: [
@@ -66,6 +69,9 @@ import { DetailEventComponent } from './components/firestore/detail-event/detail
         ViewEventsComponent,
         EditEventComponent,
         DetailEventComponent,
+        StatsLifetimeComponent,
+        StatsWeeklyComponent,
+        StatsLifetimeWzComponent,
     ],
     imports: [
         SharedModule,

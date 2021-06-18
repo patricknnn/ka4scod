@@ -14,7 +14,10 @@ import { ViewPlayersComponent } from './components/firestore/view-players/view-p
 import { ViewVideosComponent } from './components/firestore/view-videos/view-videos.component';
 import { KillsTableComponent } from './components/tables/kills-table/kills-table.component';
 import { PlayerTableComponent } from './components/tables/player-table/player-table.component';
+import { StatsLifetimeWzComponent } from './components/tables/stats-lifetime-wz/stats-lifetime-wz.component';
+import { StatsLifetimeComponent } from './components/tables/stats-lifetime/stats-lifetime.component';
 import { StatsMpTableComponent } from './components/tables/stats-mp-table/stats-mp-table.component';
+import { StatsWeeklyComponent } from './components/tables/stats-weekly/stats-weekly.component';
 import { StatsWzTableComponent } from './components/tables/stats-wz-table/stats-wz-table.component';
 
 const routes: Routes = [
@@ -70,11 +73,26 @@ const routes: Routes = [
         component: StatsMpTableComponent,
         canActivate: [AuthGuard],
     },
+    {
+        path: 'mp-lifetime',
+        component: StatsLifetimeComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'mp-weekly',
+        component: StatsWeeklyComponent,
+        canActivate: [AuthGuard],
+    },
     { path: 'kills', component: KillsTableComponent, canActivate: [AuthGuard] },
     // wz
     {
         path: 'statswz',
         component: StatsWzTableComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'wz-lifetime',
+        component: StatsLifetimeWzComponent,
         canActivate: [AuthGuard],
     },
     // Redirects

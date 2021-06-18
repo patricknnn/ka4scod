@@ -15,6 +15,7 @@ import {
     CodApiPlayer,
     NodeRestApiService,
 } from 'src/app/services/node-rest-api.service';
+import { StatsService } from 'src/app/services/stats.service';
 
 @Component({
     selector: 'app-edit-event',
@@ -38,7 +39,8 @@ export class EditEventComponent implements OnInit {
         private api: NodeRestApiService,
         private dialog: DialogService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private stats: StatsService
     ) {}
 
     ngOnInit(): void {
@@ -149,7 +151,7 @@ export class EditEventComponent implements OnInit {
                         processedCount++;
                         this.event.players?.push({
                             player: player,
-                            statsStart: res,
+                            statsStart: this.stats.convertLifetimeStatsToPlayerStatsLifetime(res),
                         });
                         if (processedCount == playersToFetch.length) {
                             this.editEvent ? this.update() : this.save();
