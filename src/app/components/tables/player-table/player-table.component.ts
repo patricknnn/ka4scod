@@ -46,7 +46,7 @@ export class PlayerTableComponent implements OnInit {
         private dialog: DialogService,
         private router: Router,
         private route: ActivatedRoute
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.tableConfig = this.tables.getTableConfig();
