@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 import { LanEvent, LanEventPlayer } from 'src/app/models/event';
 import { LifetimeStats } from 'src/app/models/lifetime-stats';
 import { Player } from 'src/app/models/player';
+import { WarzoneStats } from 'src/app/models/warzone-stats';
 import { DynamicTableColumnConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-column-config';
 import { DynamicTableConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-config';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -30,14 +31,22 @@ export class DetailEventComponent implements OnInit {
     event: LanEvent = {};
     eventEnded: boolean = true;
     isLoading: boolean = true;
+    isLoadingWarzone: boolean = true;
     isLoadingCurrent: boolean = true;
     elevation: string = 'mat-elevation-z4';
     tableData: any[] = [];
+    tableDataWarzone: any[] = [];
     tableConfig?: DynamicTableConfig;
+    tableConfigWarzone?: DynamicTableConfig;
     columnConfig: DynamicTableColumnConfig[] = [];
+    columnConfigWarzone: DynamicTableColumnConfig[] = [];
     @ViewChild('outlet', { read: ViewContainerRef })
     outletRef?: ViewContainerRef;
     @ViewChild('content', { read: TemplateRef }) contentRef?: TemplateRef<any>;
+    @ViewChild('outletWarzone', { read: ViewContainerRef })
+    outletRefWarzone?: ViewContainerRef;
+    @ViewChild('contentWarzone', { read: TemplateRef })
+    contentRefWarzone?: TemplateRef<any>;
 
     constructor(
         private firestore: EventService,
@@ -50,6 +59,7 @@ export class DetailEventComponent implements OnInit {
 
     ngOnInit(): void {
         this.tableConfig = this.tables.getTableConfig();
+        this.tableConfigWarzone = this.tables.getTableConfig();
         let key = this.route.snapshot.paramMap.get('key');
         if (key && key != 'undefined') {
             this.retrieve(key);
@@ -70,6 +80,7 @@ export class DetailEventComponent implements OnInit {
                     this.getCurrentLifetimeData();
                 }
                 this.getStats('statsStart');
+                this.getWarzoneStats('statsStartWarzone');
             });
     }
 
@@ -85,10 +96,12 @@ export class DetailEventComponent implements OnInit {
                     count++;
                     player.statsCurrent =
                         this.stats.convertLifetimeStatsToPlayerStatsLifetime(
-                            res
+                            res.lifetime
                         );
+                    player.statsCurrentWarzone = res.warzone;
                     if (count == this.event.players?.length) {
                         this.getComparedStats();
+                        this.getComparedStatsWarzone();
                         this.isLoadingCurrent = false;
                     }
                 });
@@ -130,8 +143,9 @@ export class DetailEventComponent implements OnInit {
                                 count++;
                                 player.statsEnd =
                                     this.stats.convertLifetimeStatsToPlayerStatsLifetime(
-                                        res
+                                        res.lifetime
                                     );
+                                player.statsEndWarzone = res.warzone;
                                 if (count == this.event.players?.length) {
                                     this.save();
                                 }
@@ -146,7 +160,9 @@ export class DetailEventComponent implements OnInit {
      * Get lifetime data for player
      * @returns Promise<{ name: string, data: any }[]>
      */
-    getLifetimeData(player: Player): Promise<LifetimeStats> {
+    getLifetimeData(
+        player: Player
+    ): Promise<{ lifetime: LifetimeStats; warzone: any }> {
         return new Promise((resolve, reject) => {
             let apiPlayer: CodApiPlayer = {
                 name: player.name || '',
@@ -155,7 +171,12 @@ export class DetailEventComponent implements OnInit {
             };
             this.api
                 .getLifetimeStats(apiPlayer)
-                .then((res) => resolve(res))
+                .then((res) => {
+                    this.api
+                        .getWarzoneStats(apiPlayer)
+                        .then((wz) => resolve({ lifetime: res, warzone: wz.br_all }))
+                        .catch((error) => reject(error));
+                })
                 .catch((error) => reject(error));
         });
     }
@@ -174,6 +195,26 @@ export class DetailEventComponent implements OnInit {
                 } else if (player.statsEnd) {
                     player.statsCompared[property] =
                         player.statsEnd[property] - player.statsStart[property];
+                }
+            }
+        });
+    }
+
+    /**
+     * Compared stats
+     */
+    getComparedStatsWarzone(): void {
+        this.event.players?.forEach((player) => {
+            player.statsComparedWarzone = {};
+            for (const property in player.statsStartWarzone) {
+                if (player.statsCurrentWarzone) {
+                    player.statsComparedWarzone[property] =
+                        player.statsCurrentWarzone[property] -
+                        player.statsStartWarzone[property];
+                } else if (player.statsEndWarzone) {
+                    player.statsComparedWarzone[property] =
+                        player.statsEndWarzone[property] -
+                        player.statsStartWarzone[property];
                 }
             }
         });
@@ -213,6 +254,43 @@ export class DetailEventComponent implements OnInit {
     }
 
     /**
+     * Fetch desired stats
+     * @param stats 'statsCurrent' | 'statsStart' | 'statsEnd' | 'statsCompared'
+     */
+    getWarzoneStats(
+        stats:
+            | 'statsCurrentWarzone'
+            | 'statsStartWarzone'
+            | 'statsEndWarzone'
+            | 'statsComparedWarzone'
+    ): void {
+        // empty
+        this.tableDataWarzone = [];
+        // data
+        if (this.event.players) {
+            let list: any = this.event.players[0];
+            for (const property in list[stats]) {
+                let obj: any = {};
+                obj['statistic'] = property;
+                for (
+                    let index = 0;
+                    index < this.event.players.length;
+                    index++
+                ) {
+                    let player = this.event.players[index].player?.name || '';
+                    let statsList: any = this.event.players[index];
+                    obj[player] = statsList[stats][property];
+                }
+                this.tableDataWarzone.push(obj);
+            }
+        }
+        // columns
+        this.buildColumnsWarzone();
+        // render table
+        this.renderTableWarzone();
+    }
+
+    /**
      * Current date string
      * @returns string
      */
@@ -233,6 +311,18 @@ export class DetailEventComponent implements OnInit {
     }
 
     /**
+     * Renders dynamic table
+     */
+    renderTableWarzone(): void {
+        if (this.outletRefWarzone && this.contentRefWarzone) {
+            this.isLoadingWarzone = true;
+            this.outletRefWarzone.clear();
+            this.outletRefWarzone.createEmbeddedView(this.contentRefWarzone);
+            this.isLoadingWarzone = false;
+        }
+    }
+
+    /**
      * Builds column config based on tableData
      */
     buildColumns(): void {
@@ -248,6 +338,33 @@ export class DetailEventComponent implements OnInit {
         if (this.event.players) {
             this.event.players?.forEach((player) => {
                 this.columnConfig.push(
+                    new DynamicTableColumnConfig({
+                        key: player.player?.name || '',
+                        header: player.player?.name || '',
+                        sortable: true,
+                        draggable: true,
+                    })
+                );
+            });
+        }
+    }
+
+    /**
+     * Builds column config based on tableData
+     */
+    buildColumnsWarzone(): void {
+        this.columnConfigWarzone = [];
+        this.columnConfigWarzone.push(
+            new DynamicTableColumnConfig({
+                key: 'statistic',
+                header: 'Statistic',
+                sortable: true,
+                draggable: true,
+            })
+        );
+        if (this.event.players) {
+            this.event.players?.forEach((player) => {
+                this.columnConfigWarzone.push(
                     new DynamicTableColumnConfig({
                         key: player.player?.name || '',
                         header: player.player?.name || '',

@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { LanEvent } from 'src/app/models/event';
-import { LifetimeStats } from 'src/app/models/lifetime-stats';
+import { LifetimeStats, War } from 'src/app/models/lifetime-stats';
 import { Player } from 'src/app/models/player';
+import { WarzoneStats } from 'src/app/models/warzone-stats';
 import { FormControlBase } from 'src/app/modules/dynamic-forms/models/form-control-base';
 import { FormControlDate } from 'src/app/modules/dynamic-forms/models/form-control-date';
 import { FormControlSlide } from 'src/app/modules/dynamic-forms/models/form-control-slide';
@@ -151,7 +152,11 @@ export class EditEventComponent implements OnInit {
                         processedCount++;
                         this.event.players?.push({
                             player: player,
-                            statsStart: this.stats.convertLifetimeStatsToPlayerStatsLifetime(res),
+                            statsStart:
+                                this.stats.convertLifetimeStatsToPlayerStatsLifetime(
+                                    res.lifetime
+                                ),
+                            statsStartWarzone: res.warzone,
                         });
                         if (processedCount == playersToFetch.length) {
                             this.editEvent ? this.update() : this.save();
@@ -185,7 +190,9 @@ export class EditEventComponent implements OnInit {
      * Get lifetime data for player
      * @returns Promise<{ name: string, data: any }[]>
      */
-    getLifetimeData(player: Player): Promise<LifetimeStats> {
+    getLifetimeData(
+        player: Player
+    ): Promise<{ lifetime: LifetimeStats; warzone: any }> {
         return new Promise((resolve, reject) => {
             let apiPlayer: CodApiPlayer = {
                 name: player.name || '',
@@ -194,6 +201,29 @@ export class EditEventComponent implements OnInit {
             };
             this.api
                 .getLifetimeStats(apiPlayer)
+                .then((res) => {
+                    this.api
+                        .getWarzoneStats(apiPlayer)
+                        .then((wz) => resolve({ lifetime: res, warzone: wz.br_all }))
+                        .catch((error) => reject(error));
+                })
+                .catch((error) => reject(error));
+        });
+    }
+
+    /**
+     * Get lifetime data for player
+     * @returns Promise<{ name: string, data: any }[]>
+     */
+    getWarzoneData(player: Player): Promise<WarzoneStats> {
+        return new Promise((resolve, reject) => {
+            let apiPlayer: CodApiPlayer = {
+                name: player.name || '',
+                gamertag: player.gamertag || '',
+                platform: player.platform || 'battle',
+            };
+            this.api
+                .getWarzoneStats(apiPlayer)
                 .then((res) => resolve(res))
                 .catch((error) => reject(error));
         });

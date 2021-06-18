@@ -1,5 +1,4 @@
 import { FirebaseEntity } from './firebase-entity';
-import { LifetimeStats } from './lifetime-stats';
 import { Player } from './player';
 
 export interface LanEvent extends FirebaseEntity {
@@ -14,7 +13,11 @@ export interface LanEvent extends FirebaseEntity {
 export interface LanEventPlayer {
     player?: Player;
     statsStart?: any;
+    statsStartWarzone?: any;
     statsEnd?: any;
+    statsEndWarzone?: any;
     statsCurrent?: any;
+    statsCurrentWarzone?: any;
     statsCompared?: any;
+    statsComparedWarzone?: any;
 }
