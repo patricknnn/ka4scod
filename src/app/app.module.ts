@@ -37,6 +37,7 @@ import { DetailEventComponent } from './components/firestore/detail-event/detail
 import { StatsLifetimeComponent } from './components/tables/stats-lifetime/stats-lifetime.component';
 import { StatsWeeklyComponent } from './components/tables/stats-weekly/stats-weekly.component';
 import { StatsLifetimeWzComponent } from './components/tables/stats-lifetime-wz/stats-lifetime-wz.component';
+import { EventCardComponent } from './components/cards/event-card/event-card.component';
 
 @NgModule({
     declarations: [
@@ -72,6 +73,7 @@ import { StatsLifetimeWzComponent } from './components/tables/stats-lifetime-wz/
         StatsLifetimeComponent,
         StatsWeeklyComponent,
         StatsLifetimeWzComponent,
+        EventCardComponent,
     ],
     imports: [
         SharedModule,

@@ -85,6 +85,13 @@ export class EditEventComponent implements OnInit {
                     class: 'col-xs-12 col-md-6',
                     order: 2,
                 }),
+                new FormControlText({
+                    key: 'image',
+                    label: 'Image',
+                    value: event ? event.image : '',
+                    class: 'col-xs-12',
+                    order: 2,
+                }),
                 new FormControlDate({
                     key: 'startDate',
                     label: 'Start',
@@ -130,6 +137,7 @@ export class EditEventComponent implements OnInit {
         event = JSON.parse(event);
         this.event.name = event.name;
         this.event.location = event.location;
+        this.event.image = event.image;
         this.event.startDate = event.startDate;
         this.event.endDate = event.endDate;
         this.event.players = [];

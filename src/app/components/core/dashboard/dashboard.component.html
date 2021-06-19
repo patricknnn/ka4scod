@@ -17,6 +17,25 @@
     </div>
 </div>
 
+<!-- Events -->
+<app-title-section [title]="'Events'"></app-title-section>
+<!-- loading -->
+<div class="container-fluid">
+    <div class="row" *ngIf="isLoadingEvents">
+        <div class="col-xs-12">
+            <app-loading></app-loading>
+        </div>
+    </div>
+</div>
+<!-- Cards -->
+<div class="container-fluid">
+    <div class="row" *ngIf="!isLoadingEvents && events">
+        <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let event of events">
+            <app-event-card [event]="event"></app-event-card>
+        </div>
+    </div>
+</div>
+
 <!-- Videos -->
 <app-title-section [title]="'Videos'"></app-title-section>
 <!-- loading -->

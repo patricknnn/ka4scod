@@ -103,7 +103,7 @@ export class ViewEventsComponent implements OnInit {
         this.router.navigate(['/event', { key: key }]);
     }
 
-    details(key?: number): void {
+    details(key?: string): void {
         this.router.navigate(['/eventdetails', { key: key }]);
     }
 

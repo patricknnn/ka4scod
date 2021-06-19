@@ -4,6 +4,7 @@ import { Player } from './player';
 export interface LanEvent extends FirebaseEntity {
     name?: string;
     location?: string;
+    image?: string;
     startDate?: string;
     endDate?: string;
     currentDate?: string;

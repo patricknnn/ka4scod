@@ -94,29 +94,56 @@
 </div>
 
 <!-- Stats -->
-<app-title-section [title]="'Event stats: Multiplayer'"></app-title-section>
+<app-title-section [title]="'Event stats'"></app-title-section>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
-            <!-- Button toggle -->
+            <!-- Button toggle mode -->
             <mat-button-toggle-group class="button-toggle-full-width">
-                <mat-button-toggle (click)="getStats('statsStart')" checked>
+                <mat-button-toggle
+                    (click)="setStatsMode('lifetime')"
+                    [checked]="statsMode == 'lifetime'"
+                >
+                    Lifetime
+                </mat-button-toggle>
+                <mat-button-toggle
+                    (click)="setStatsMode('warzone')"
+                    [checked]="statsMode == 'warzone'"
+                >
+                    Warzone
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 1rem">
+        <div class="col-xs-12">
+            <!-- Button toggle stats -->
+            <mat-button-toggle-group class="button-toggle-full-width">
+                <mat-button-toggle
+                    (click)="getStats('statsStart')"
+                    [checked]="statsViewed == 'statsStart'"
+                >
                     Start
                 </mat-button-toggle>
                 <mat-button-toggle
                     (click)="getStats('statsEnd')"
+                    [checked]="statsViewed == 'statsEnd'"
                     *ngIf="eventEnded"
                 >
                     End
                 </mat-button-toggle>
                 <mat-button-toggle
                     (click)="getStats('statsCurrent')"
+                    [checked]="statsViewed == 'statsCurrent'"
                     *ngIf="!eventEnded && !isLoadingCurrent"
                 >
                     Current
                 </mat-button-toggle>
-                <mat-button-toggle (click)="getStats('statsCompared')">
+                <mat-button-toggle
+                    (click)="getStats('statsCompared')"
+                    [checked]="statsViewed == 'statsCompared'"
+                >
                     Compared
                 </mat-button-toggle>
             </mat-button-toggle-group>
@@ -143,67 +170,6 @@
         [tableConfig]="tableConfig!"
         [columnConfig]="columnConfig"
         [data]="tableData"
-        (selectionChange)="handleSelectionChangeEvent($event)"
-        (buttonClick)="handleButtonClickEvent($event)"
-    >
-    </app-dynamic-table>
-</ng-template>
-
-<!-- WARZONE -->
-<app-title-section [title]="'Event stats: Warzone'"></app-title-section>
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-xs-12">
-            <!-- Button toggle -->
-            <mat-button-toggle-group class="button-toggle-full-width">
-                <mat-button-toggle
-                    (click)="getWarzoneStats('statsStartWarzone')"
-                    checked
-                >
-                    Start
-                </mat-button-toggle>
-                <mat-button-toggle
-                    (click)="getWarzoneStats('statsEndWarzone')"
-                    *ngIf="eventEnded"
-                >
-                    End
-                </mat-button-toggle>
-                <mat-button-toggle
-                    (click)="getWarzoneStats('statsCurrentWarzone')"
-                    *ngIf="!eventEnded && !isLoadingCurrent"
-                >
-                    Current
-                </mat-button-toggle>
-                <mat-button-toggle
-                    (click)="getWarzoneStats('statsComparedWarzone')"
-                >
-                    Compared
-                </mat-button-toggle>
-            </mat-button-toggle-group>
-        </div>
-    </div>
-    <div class="row" *ngIf="isLoading">
-        <div class="col-xs-12">
-            <!-- Loading -->
-            <app-loading></app-loading>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-12">
-            <!-- Dynamic table outlet -->
-            <ng-container #outletWarzone></ng-container>
-        </div>
-    </div>
-</div>
-
-<!-- Dynamic table template -->
-<ng-template #contentWarzone>
-    <app-dynamic-table
-        *ngIf="tableDataWarzone"
-        [tableConfig]="tableConfigWarzone!"
-        [columnConfig]="columnConfigWarzone"
-        [data]="tableDataWarzone"
         (selectionChange)="handleSelectionChangeEvent($event)"
         (buttonClick)="handleButtonClickEvent($event)"
     >
