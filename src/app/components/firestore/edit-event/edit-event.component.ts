@@ -33,6 +33,7 @@ export class EditEventComponent implements OnInit {
     allowInvalidSubmit: boolean = false;
     elevation: string = 'mat-elevation-z4';
     players?: Player[];
+    savedPlayers?: string[];
 
     constructor(
         private firestore: EventService,
@@ -50,6 +51,7 @@ export class EditEventComponent implements OnInit {
             this.editEvent = true;
             this.retrieve(key);
         } else {
+            this.editEvent = false;
             this.isLoading = false;
             this.getFormControls();
         }
@@ -62,6 +64,12 @@ export class EditEventComponent implements OnInit {
             .pipe(map((c) => ({ key: c.payload.id, ...c.payload.data() })))
             .subscribe((data) => {
                 this.event = data;
+                this.savedPlayers = [];
+                data.players?.forEach((player) => {
+                    if (player.player?.name) {
+                        this.savedPlayers?.push(player.player?.name);
+                    }
+                });
                 this.isLoading = false;
                 this.getFormControls(this.event);
             });
@@ -121,6 +129,7 @@ export class EditEventComponent implements OnInit {
                         floatLabel: 'always',
                         class: 'col-xs-6 col-md-3',
                         value: eventPlayers.includes(player.key),
+                        disabled: this.editEvent,
                         order: 5,
                     })
                 );
@@ -140,38 +149,42 @@ export class EditEventComponent implements OnInit {
         this.event.image = event.image;
         this.event.startDate = event.startDate;
         this.event.endDate = event.endDate;
-        this.event.players = [];
-        let playersToFetch: any[] = [];
-        for (const key in event) {
-            if (event[key] == true) {
-                playersToFetch.push(key);
-            }
-        }
-        // check players
-        if (!playersToFetch.length) {
-            // no players
-            this.editEvent ? this.update() : this.save();
+        if (this.editEvent) {
+            // editing so update
+            this.update();
         } else {
-            // players
-            let processedCount = 0;
-            this.players?.forEach((player) => {
-                if (playersToFetch.includes(player.key)) {
-                    this.getLifetimeData(player).then((res) => {
-                        processedCount++;
-                        this.event.players?.push({
-                            player: player,
-                            statsStart:
-                                this.stats.convertLifetimeStatsToPlayerStatsLifetime(
-                                    res.lifetime
-                                ),
-                            statsStartWarzone: res.warzone,
-                        });
-                        if (processedCount == playersToFetch.length) {
-                            this.editEvent ? this.update() : this.save();
-                        }
-                    });
+            let playersToFetch: any[] = [];
+            for (const key in event) {
+                if (event[key] == true) {
+                    playersToFetch.push(key);
                 }
-            });
+            }
+            // check players
+            if (!playersToFetch.length) {
+                // no players so save
+                this.save();
+            } else {
+                // players so retrieve data before save
+                let processedCount = 0;
+                this.players?.forEach((player) => {
+                    if (playersToFetch.includes(player.key)) {
+                        this.getLifetimeData(player).then((res) => {
+                            processedCount++;
+                            this.event.players?.push({
+                                player: player,
+                                statsStart:
+                                    this.stats.convertLifetimeStatsToPlayerStatsLifetime(
+                                        res.lifetime
+                                    ),
+                                statsStartWarzone: res.warzone,
+                            });
+                            if (processedCount == playersToFetch.length) {
+                                this.save();
+                            }
+                        });
+                    }
+                });
+            }
         }
     }
 
