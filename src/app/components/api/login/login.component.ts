@@ -38,6 +38,7 @@ export class LoginComponent {
         this.api
             .login(this.email.value, this.password.value)
             .then((res) => {
+                console.log(res);
                 if (res == 'succes') {
                     this.router.navigate([
                         this.api.redirectUrl

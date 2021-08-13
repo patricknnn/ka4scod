@@ -5,6 +5,7 @@ import {
     Router,
     RouterStateSnapshot,
 } from '@angular/router';
+import { AuthService } from './services/firestore/auth.service';
 import { NodeRestApiService } from './services/node-rest-api.service';
 
 @Injectable({
@@ -16,7 +17,11 @@ export class AuthGuard implements CanActivate {
      * @param api Node api
      * @param router Router
      */
-    constructor(private api: NodeRestApiService, private router: Router) {}
+    constructor(
+        private auth: AuthService,
+        private api: NodeRestApiService,
+        private router: Router
+    ) {}
 
     /**
      * CanActivate
@@ -36,14 +41,13 @@ export class AuthGuard implements CanActivate {
      * @returns boolean
      */
     checkLogin(url: string): boolean {
-        return true;
-        if (this.api.isLoggedIn) {
+        if (this.auth.isLoggedIn) {
             return true;
         } else {
             // Save url for redirect
             this.api.redirectUrl = url;
             // Navigate to login
-            this.router.navigate(['/login']);
+            this.router.navigate(['/fb-login']);
             return false;
         }
     }

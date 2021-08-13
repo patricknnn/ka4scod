@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
 import { LoginComponent } from './components/api/login/login.component';
 import { PlaygroundComponent } from './components/api/playground/playground.component';
+import { FbLoginComponent } from './components/auth/fb-login/fb-login.component';
+import { FbRegisterComponent } from './components/auth/fb-register/fb-register.component';
 import { DashboardComponent } from './components/core/dashboard/dashboard.component';
 import { PageNotFoundComponent } from './components/core/page-not-found/page-not-found.component';
 import { DetailEventComponent } from './components/firestore/detail-event/detail-event.component';
@@ -21,8 +23,10 @@ import { StatsWeeklyComponent } from './components/tables/stats-weekly/stats-wee
 import { StatsWzTableComponent } from './components/tables/stats-wz-table/stats-wz-table.component';
 
 const routes: Routes = [
-    // Paths
+    // login
     { path: 'login', component: LoginComponent },
+    { path: 'fb-login', component: FbLoginComponent },
+    { path: 'fb-register', component: FbRegisterComponent },
     // general
     {
         path: 'dashboard',

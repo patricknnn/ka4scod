@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Player } from 'src/app/models/player';
+import { AuthService } from 'src/app/services/firestore/auth.service';
 import { NodeRestApiService } from 'src/app/services/node-rest-api.service';
 
 @Component({
@@ -27,18 +28,30 @@ export class ToolbarComponent {
     /**
      * Initialize ToolbarComponent
      */
-    constructor(private api: NodeRestApiService, private router: Router) {}
+    constructor(
+        private api: NodeRestApiService,
+        private router: Router,
+        private auth: AuthService
+    ) {}
 
     isLoggedIn(): boolean {
-        return this.api.isLoggedIn;
+        return this.auth.isLoggedIn;
     }
 
     loggedInUser(): string {
-        return this.api.loggedInUser;
+        return this.auth.loggedInUser?.email || 'Not logged in';
     }
 
-    changeUser(): void {
+    loggedInApiUser(): string {
+        return this.api.loggedInUser || 'Not logged in';
+    }
+
+    changeApiUser(): void {
         this.router.navigate(['/login']);
+    }
+
+    logout(): void {
+        this.auth.logout();
     }
 
     /**

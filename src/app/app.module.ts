@@ -38,6 +38,8 @@ import { StatsLifetimeComponent } from './components/tables/stats-lifetime/stats
 import { StatsWeeklyComponent } from './components/tables/stats-weekly/stats-weekly.component';
 import { StatsLifetimeWzComponent } from './components/tables/stats-lifetime-wz/stats-lifetime-wz.component';
 import { EventCardComponent } from './components/cards/event-card/event-card.component';
+import { FbLoginComponent } from './components/auth/fb-login/fb-login.component';
+import { FbRegisterComponent } from './components/auth/fb-register/fb-register.component';
 
 @NgModule({
     declarations: [
@@ -74,6 +76,8 @@ import { EventCardComponent } from './components/cards/event-card/event-card.com
         StatsWeeklyComponent,
         StatsLifetimeWzComponent,
         EventCardComponent,
+        FbLoginComponent,
+        FbRegisterComponent,
     ],
     imports: [
         SharedModule,

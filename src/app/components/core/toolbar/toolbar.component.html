@@ -16,19 +16,38 @@
         <mat-icon>dark_mode</mat-icon>
     </button>
 
-    <!-- API User -->
+    <!-- Firebase User -->
     <button
         mat-icon-button
-        [matMenuTriggerFor]="userMenu"
+        [matMenuTriggerFor]="fbUserMenu"
         *ngIf="isLoggedIn() && loggedInUser()"
     >
         <mat-icon>account_circle</mat-icon>
     </button>
-    <mat-menu #userMenu="matMenu">
+    <mat-menu #fbUserMenu="matMenu">
+        <div mat-subheader>Firebase</div>
         <button mat-menu-item disabled>
             <span>{{ loggedInUser() }}</span>
         </button>
-        <button mat-menu-item (click)="changeUser()">
+        <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+        </button>
+    </mat-menu>
+
+    <!-- API User -->
+    <button
+        mat-icon-button
+        [matMenuTriggerFor]="userMenu"
+    >
+        <mat-icon>account_circle</mat-icon>
+    </button>
+    <mat-menu #userMenu="matMenu">
+        <div mat-subheader>Call of Duty API</div>
+        <button mat-menu-item disabled>
+            <span>{{ loggedInApiUser() }}</span>
+        </button>
+        <button mat-menu-item (click)="changeApiUser()">
             <mat-icon>swap_horizontal_circle</mat-icon>
             <span>Change user</span>
         </button>
