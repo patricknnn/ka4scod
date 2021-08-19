@@ -10,33 +10,18 @@ import { NodeRestApiService } from 'src/app/services/node-rest-api.service';
     styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-    /**
-     * Email form control
-     */
-    email = new FormControl('', [Validators.required]);
-    /**
-     * Password form control
-     */
-    password = new FormControl('', [Validators.required]);
-    /**
-     * Card elevation
-     */
+    sso = new FormControl('', [Validators.required]);
     elevation: string = 'mat-elevation-z4';
-    /**
-     * Initialize login component
-     */
+
     constructor(
         private api: NodeRestApiService,
         private dialog: DialogService,
         private router: Router
     ) {}
 
-    /**
-     * Login to api
-     */
     login(): void {
         this.api
-            .login(this.email.value, this.password.value)
+            .login(this.sso.value)
             .then((res) => {
                 console.log(res);
                 if (res == 'succes') {

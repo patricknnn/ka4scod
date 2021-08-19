@@ -7,6 +7,7 @@ import { FbLoginComponent } from './components/auth/fb-login/fb-login.component'
 import { FbRegisterComponent } from './components/auth/fb-register/fb-register.component';
 import { DashboardComponent } from './components/core/dashboard/dashboard.component';
 import { PageNotFoundComponent } from './components/core/page-not-found/page-not-found.component';
+import { ProfileComponent } from './components/core/profile/profile.component';
 import { DetailEventComponent } from './components/firestore/detail-event/detail-event.component';
 import { EditEventComponent } from './components/firestore/edit-event/edit-event.component';
 import { EditPlayerComponent } from './components/firestore/edit-player/edit-player.component';
@@ -24,9 +25,10 @@ import { StatsWzTableComponent } from './components/tables/stats-wz-table/stats-
 
 const routes: Routes = [
     // login
-    { path: 'login', component: LoginComponent },
     { path: 'fb-login', component: FbLoginComponent },
     { path: 'fb-register', component: FbRegisterComponent },
+    { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
+    { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
     // general
     {
         path: 'dashboard',

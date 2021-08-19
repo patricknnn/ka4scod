@@ -46,29 +46,24 @@ export class NodeRestApiService {
                 this.isLoggedIn = true;
                 this.loggedInUser = res.userInfo.userName;
             } else {
-                this.login('ka4scod@gmail.com', 'Kakbaard1');
+                this.login('MTM3NzIyNTQ6MTYzMDA4NzQ3NDI5NTpmMTQ0YTI4YTYwNDhlZDc2NGFmNTY2OTMwYTU2ZWExZg');
             }
         });
     }
 
     /**
      * Log in
-     * @param email Email
-     * @param password Password
+     * @param sso SSO Token
      * @returns Promise<string>
      */
-    login(email: string, password: string): Promise<string> {
+    login(sso: string): Promise<string> {
         return new Promise((resolve, reject) => {
-            const body = { email: email, password: password };
+            const body = { sso: sso };
             // Login and fetch tokens
             this.postRequest(`${this.apiURL}login`, body)
                 .toPromise()
                 .then((result: any) => {
                     if (result.search('200') >= 0) {
-                        this.getUserinfo().then((res) => {
-                            this.isLoggedIn = true;
-                            this.loggedInUser = res.userInfo.userName;
-                        });
                         resolve('succes');
                     } else {
                         reject(result);

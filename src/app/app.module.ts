@@ -40,6 +40,7 @@ import { StatsLifetimeWzComponent } from './components/tables/stats-lifetime-wz/
 import { EventCardComponent } from './components/cards/event-card/event-card.component';
 import { FbLoginComponent } from './components/auth/fb-login/fb-login.component';
 import { FbRegisterComponent } from './components/auth/fb-register/fb-register.component';
+import { ProfileComponent } from './components/core/profile/profile.component';
 
 @NgModule({
     declarations: [
@@ -78,6 +79,7 @@ import { FbRegisterComponent } from './components/auth/fb-register/fb-register.c
         EventCardComponent,
         FbLoginComponent,
         FbRegisterComponent,
+        ProfileComponent,
     ],
     imports: [
         SharedModule,
