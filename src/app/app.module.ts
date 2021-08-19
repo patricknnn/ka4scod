@@ -4,7 +4,6 @@ import { SidenavComponent } from './components/core/sidenav/sidenav.component';
 import { ToolbarComponent } from './components/core/toolbar/toolbar.component';
 import { PlaygroundComponent } from './components/api/playground/playground.component';
 import { PageNotFoundComponent } from './components/core/page-not-found/page-not-found.component';
-import { LoginComponent } from './components/api/login/login.component';
 import { SuccesDialogComponent } from './components/dialog/succes-dialog/succes-dialog.component';
 import { ErrorDialogComponent } from './components/dialog/error-dialog/error-dialog.component';
 import { RankCardComponent } from './components/cards/rank-card/rank-card.component';
@@ -49,7 +48,6 @@ import { ProfileComponent } from './components/core/profile/profile.component';
         ToolbarComponent,
         PlaygroundComponent,
         PageNotFoundComponent,
-        LoginComponent,
         SuccesDialogComponent,
         ErrorDialogComponent,
         RankCardComponent,

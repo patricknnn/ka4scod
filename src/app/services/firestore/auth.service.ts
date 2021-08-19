@@ -3,22 +3,26 @@ import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { DialogService } from '../dialog.service';
 import { User } from 'src/app/models/user';
+import { UserService } from './user.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
+    redirectUrl?: string;
     loggedInUser: User | null = null;
+    admins: Array<string> = ['YTHqdekzOpON2Y0ggO2Uly8bmKC2'];
 
     constructor(
         private afAuth: AngularFireAuth,
         private router: Router,
+        private user: UserService,
         private dialog: DialogService
     ) {
         this.afAuth.authState.subscribe((user) => {
             if (user) {
                 this.setUserData(user);
-                this.router.navigate(['/']);
             } else {
                 this.loggedInUser = null;
             }
@@ -32,7 +36,7 @@ export class AuthService {
     get isAdmin(): boolean {
         return (
             this.loggedInUser !== null &&
-            this.loggedInUser.uid == 'YTHqdekzOpON2Y0ggO2Uly8bmKC2'
+            this.admins.includes(this.loggedInUser.uid!)
         );
     }
 
@@ -57,7 +61,6 @@ export class AuthService {
                     'Signup succesfull',
                     'Please check your inbox to verify your email'
                 );
-                this.router.navigate(['/']);
             })
             .catch((err) => {
                 this.dialog.errorDialog('Signup failed', err.message);
@@ -80,10 +83,16 @@ export class AuthService {
         const userData: User = {
             uid: user.uid,
             email: user.email,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
             emailVerified: user.emailVerified,
         };
-        this.loggedInUser = userData;
+        this.user.write(userData);
+        this.user
+            .getByKey(user.uid)
+            .snapshotChanges()
+            .pipe(map((c) => ({ key: c.payload.id, ...c.payload.data() })))
+            .subscribe((data) => {
+                this.loggedInUser = data;
+            });
+        this.router.navigate(['/']);
     }
 }

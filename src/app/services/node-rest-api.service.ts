@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { LifetimeStats } from '../models/lifetime-stats';
 import { WarzoneStats } from '../models/warzone-stats';
+import { AuthService } from './firestore/auth.service';
 
 export declare type CodApiPlayer = {
     name: string;
@@ -26,8 +27,6 @@ export declare type CodApiGameType = 'mp' | 'wz' | 'zm';
 })
 export class NodeRestApiService {
     isLoggedIn: boolean = false;
-    loggedInUser: string = '';
-    redirectUrl?: string;
     apiURL: string = 'http://localhost:8000/api/';
     //apiURL: string = 'http://api.klapdekar.nl:8000/api/'
     requestRetries: number = 1;
@@ -40,16 +39,7 @@ export class NodeRestApiService {
      * Initialize CodApiService
      * @param http HttpClient module
      */
-    constructor(private http: HttpClient) {
-        this.getUserinfo().then((res) => {
-            if (res.userInfo) {
-                this.isLoggedIn = true;
-                this.loggedInUser = res.userInfo.userName;
-            } else {
-                this.login('MTM3NzIyNTQ6MTYzMDA4NzQ3NDI5NTpmMTQ0YTI4YTYwNDhlZDc2NGFmNTY2OTMwYTU2ZWExZg');
-            }
-        });
-    }
+    constructor(private http: HttpClient, private auth: AuthService) {}
 
     /**
      * Log in
@@ -77,6 +67,12 @@ export class NodeRestApiService {
 
     getLifetimeStats(player: CodApiPlayer): Promise<LifetimeStats> {
         return new Promise((resolve, reject) => {
+            if (this.auth.loggedInUser?.ssoToken) {
+                this.login(this.auth.loggedInUser.ssoToken);
+            } else {
+                reject('No SSO Token set');
+            }
+
             this.lifetimeCache.forEach((entry) => {
                 if (entry.name == player.name) {
                     resolve(entry.data);
@@ -100,6 +96,12 @@ export class NodeRestApiService {
 
     getWarzoneStats(player: CodApiPlayer): Promise<WarzoneStats> {
         return new Promise((resolve, reject) => {
+            if (this.auth.loggedInUser?.ssoToken) {
+                this.login(this.auth.loggedInUser.ssoToken);
+            } else {
+                reject('No SSO Token set');
+            }
+
             this.warzoneCache.forEach((entry) => {
                 if (entry.name == player.name) {
                     resolve(entry.data);
@@ -122,6 +124,12 @@ export class NodeRestApiService {
 
     getWeeklyStats(player: CodApiPlayer): Promise<any> {
         return new Promise((resolve, reject) => {
+            if (this.auth.loggedInUser?.ssoToken) {
+                this.login(this.auth.loggedInUser.ssoToken);
+            } else {
+                reject('No SSO Token set');
+            }
+            
             this.warzoneCache.forEach((entry) => {
                 if (entry.name == player.name) {
                     resolve(entry.data);
@@ -142,6 +150,12 @@ export class NodeRestApiService {
 
     getRecentMatches(player: CodApiPlayer): Promise<any> {
         return new Promise((resolve, reject) => {
+            if (this.auth.loggedInUser?.ssoToken) {
+                this.login(this.auth.loggedInUser.ssoToken);
+            } else {
+                reject('No SSO Token set');
+            }
+            
             this.recentMatchesCache.forEach((entry) => {
                 if (entry.name == player.name) {
                     resolve(entry.data);
@@ -168,6 +182,12 @@ export class NodeRestApiService {
 
     getAnalysis(player: CodApiPlayer): Promise<any> {
         return new Promise((resolve, reject) => {
+            if (this.auth.loggedInUser?.ssoToken) {
+                this.login(this.auth.loggedInUser.ssoToken);
+            } else {
+                reject('No SSO Token set');
+            }
+            
             let gamertag = encodeURIComponent(player.gamertag);
             let platform = player.platform;
             let requestUrl = this.buildUrl(`analysis/${gamertag}/${platform}`);
@@ -180,6 +200,12 @@ export class NodeRestApiService {
 
     getMaps(): Promise<any> {
         return new Promise((resolve, reject) => {
+            if (this.auth.loggedInUser?.ssoToken) {
+                this.login(this.auth.loggedInUser.ssoToken);
+            } else {
+                reject('No SSO Token set');
+            }
+            
             let requestUrl = this.buildUrl(`maps`);
             this.getRequest(requestUrl)
                 .toPromise()
@@ -190,6 +216,12 @@ export class NodeRestApiService {
 
     getBattlePassLoot(player: CodApiPlayer): Promise<any> {
         return new Promise((resolve, reject) => {
+            if (this.auth.loggedInUser?.ssoToken) {
+                this.login(this.auth.loggedInUser.ssoToken);
+            } else {
+                reject('No SSO Token set');
+            }
+            
             let gamertag = encodeURIComponent(player.gamertag);
             let platform = player.platform;
             let requestUrl = this.buildUrl(`loot/${gamertag}/${platform}`);
@@ -202,6 +234,12 @@ export class NodeRestApiService {
 
     getBattlePassTiers(season: number, platform: CodApiPlatform): Promise<any> {
         return new Promise((resolve, reject) => {
+            if (this.auth.loggedInUser?.ssoToken) {
+                this.login(this.auth.loggedInUser.ssoToken);
+            } else {
+                reject('No SSO Token set');
+            }
+            
             let requestUrl = this.buildUrl(`tiers/${season}/${platform}`);
             this.getRequest(requestUrl)
                 .toPromise()
@@ -212,6 +250,12 @@ export class NodeRestApiService {
 
     getCodPoints(player: CodApiPlayer): Promise<any> {
         return new Promise((resolve, reject) => {
+            if (this.auth.loggedInUser?.ssoToken) {
+                this.login(this.auth.loggedInUser.ssoToken);
+            } else {
+                reject('No SSO Token set');
+            }
+            
             let gamertag = encodeURIComponent(player.gamertag);
             let platform = player.platform;
             let requestUrl = this.buildUrl(`points/${gamertag}/${platform}`);
@@ -224,6 +268,12 @@ export class NodeRestApiService {
 
     getUserinfo(): Promise<any> {
         return new Promise((resolve, reject) => {
+            if (this.auth.loggedInUser?.ssoToken) {
+                this.login(this.auth.loggedInUser.ssoToken);
+            } else {
+                reject('No SSO Token set');
+            }
+            
             let requestUrl = this.buildUrl(`userinfo`);
             this.getRequest(requestUrl)
                 .toPromise()
@@ -234,6 +284,12 @@ export class NodeRestApiService {
 
     getEvents(): Promise<any> {
         return new Promise((resolve, reject) => {
+            if (this.auth.loggedInUser?.ssoToken) {
+                this.login(this.auth.loggedInUser.ssoToken);
+            } else {
+                reject('No SSO Token set');
+            }
+            
             let requestUrl = this.buildUrl(`events`);
             this.getRequest(requestUrl)
                 .toPromise()
@@ -244,6 +300,12 @@ export class NodeRestApiService {
 
     getAccounts(player: CodApiPlayer): Promise<any> {
         return new Promise((resolve, reject) => {
+            if (this.auth.loggedInUser?.ssoToken) {
+                this.login(this.auth.loggedInUser.ssoToken);
+            } else {
+                reject('No SSO Token set');
+            }
+            
             let gamertag = encodeURIComponent(player.gamertag);
             let platform = player.platform;
             let requestUrl = this.buildUrl(`accounts/${gamertag}/${platform}`);
@@ -256,6 +318,12 @@ export class NodeRestApiService {
 
     getIdentities(): Promise<any> {
         return new Promise((resolve, reject) => {
+            if (this.auth.loggedInUser?.ssoToken) {
+                this.login(this.auth.loggedInUser.ssoToken);
+            } else {
+                reject('No SSO Token set');
+            }
+            
             let requestUrl = this.buildUrl(`identities`);
             this.getRequest(requestUrl)
                 .toPromise()
@@ -266,6 +334,12 @@ export class NodeRestApiService {
 
     getSettings(player: CodApiPlayer): Promise<any> {
         return new Promise((resolve, reject) => {
+            if (this.auth.loggedInUser?.ssoToken) {
+                this.login(this.auth.loggedInUser.ssoToken);
+            } else {
+                reject('No SSO Token set');
+            }
+            
             let gamertag = encodeURIComponent(player.gamertag);
             let platform = player.platform;
             let requestUrl = this.buildUrl(`settings/${gamertag}/${platform}`);

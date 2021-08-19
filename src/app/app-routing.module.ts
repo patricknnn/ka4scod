@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
-import { LoginComponent } from './components/api/login/login.component';
 import { PlaygroundComponent } from './components/api/playground/playground.component';
 import { FbLoginComponent } from './components/auth/fb-login/fb-login.component';
 import { FbRegisterComponent } from './components/auth/fb-register/fb-register.component';
@@ -27,8 +26,7 @@ const routes: Routes = [
     // login
     { path: 'fb-login', component: FbLoginComponent },
     { path: 'fb-register', component: FbRegisterComponent },
-    { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
-    { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+    { path: 'fb-profile', component: ProfileComponent, canActivate: [AuthGuard] },
     // general
     {
         path: 'dashboard',

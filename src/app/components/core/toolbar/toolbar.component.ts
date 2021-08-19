@@ -42,10 +42,6 @@ export class ToolbarComponent {
         return this.auth.loggedInUser?.email || 'Not logged in';
     }
 
-    loggedInApiUser(): string {
-        return this.api.loggedInUser || 'Not logged in';
-    }
-
     changeApiUser(): void {
         this.router.navigate(['/login']);
     }
