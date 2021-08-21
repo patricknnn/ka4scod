@@ -117,14 +117,14 @@ export class AuthService {
             .pipe(map((c) => ({ key: c.payload.id, ...c.payload.data() })))
             .subscribe((data) => {
                 this.loggedInUser = data;
+                if (this.loggedInUser.emailVerified) {
+                    this.router.navigate(['/']);
+                } else {
+                    this.dialog.errorDialog(
+                        'Email not verified',
+                        'Please check your inbox to verify your email'
+                    );
+                }
             });
-        if (userData.emailVerified) {
-            this.router.navigate(['/']);
-        } else {
-            this.dialog.errorDialog(
-                'Email not verified',
-                'Please check your inbox to verify your email'
-            );
-        }
     }
 }
