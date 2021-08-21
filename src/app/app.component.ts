@@ -27,11 +27,12 @@ export class AppComponent implements OnInit, OnDestroy {
     @ViewChild('sidenav') public sidenav!: MatSidenav;
     sidenavOpen: boolean = false;
     navLinks$: Observable<{ header: string; navlinks: Navlink[] }[]>;
+    isLoading: boolean = true;
 
     constructor(
-        changeDetectorRef: ChangeDetectorRef,
-        media: MediaMatcher,
-        navlinkService: NavlinkService,
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher,
+        private navlinkService: NavlinkService,
         private authService: AuthService
     ) {
         this.mobileQuery = media.matchMedia('(max-width: 768px)');
@@ -45,6 +46,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.sidenavOpen = !this.mobileQuery.matches;
+        setTimeout(() => {
+            this.isLoading = false;
+        }, 1000);
     }
 
     ngOnDestroy(): void {

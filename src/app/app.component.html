@@ -1,6 +1,13 @@
 <!-- Main container -->
 <div class="main-container">
-    <mat-sidenav-container class="sidenav-container">
+    <!-- Loader -->
+    <app-loading *ngIf="isLoading" class="main-loading"></app-loading>
+
+    <!-- Login landing page -->
+    <app-fb-landing *ngIf="!isLoading && !isLoggedIn()"></app-fb-landing>
+
+    <!-- Main content -->
+    <mat-sidenav-container class="sidenav-container" *ngIf="!isLoading && isLoggedIn()">
         <mat-sidenav
             #sidenav
             [mode]="mobileQuery.matches ? 'push' : 'side'"

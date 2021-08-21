@@ -50,7 +50,7 @@ export class AuthService {
                 this.setUserData(value.user);
             })
             .catch((err) => {
-                this.dialog.errorDialog('Login failed', err.message);
+                this.dialog.errorDialog('Login', err.message);
             });
     }
 
@@ -62,7 +62,7 @@ export class AuthService {
                 this.setUserData(value.user);
             })
             .catch((err) => {
-                this.dialog.errorDialog('Signup failed', err.message);
+                this.dialog.errorDialog('Signup', err.message);
             });
     }
 
@@ -71,13 +71,13 @@ export class AuthService {
             user?.sendEmailVerification()
                 .then(() => {
                     this.dialog.succesDialog(
-                        'Verification mail send succesfull',
+                        'Verify email',
                         'Please check your inbox to verify your email'
                     );
                 })
                 .catch((err) => {
                     this.dialog.errorDialog(
-                        'Verification mail send failed',
+                        'Verify email',
                         err.message
                     );
                 });
@@ -89,12 +89,12 @@ export class AuthService {
             .sendPasswordResetEmail(passwordResetEmail)
             .then(() => {
                 this.dialog.succesDialog(
-                    'Password reset succesfull',
-                    'Please check your inbox for further instructions'
+                    'Password reset',
+                    'Please check your inbox to reset password'
                 );
             })
             .catch((err) => {
-                this.dialog.errorDialog('Password reset failed', err.message);
+                this.dialog.errorDialog('Password reset', err.message);
             });
     }
 

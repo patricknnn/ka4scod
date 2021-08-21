@@ -12,7 +12,6 @@ import { NodeRestApiService } from './services/node-rest-api.service';
     providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-
     constructor(
         private auth: AuthService,
         private api: NodeRestApiService,
@@ -32,8 +31,6 @@ export class AuthGuard implements CanActivate {
         } else {
             // Save url for redirect
             this.auth.redirectUrl = url;
-            // Navigate to login
-            this.router.navigate(['/fb-login']);
             return false;
         }
     }

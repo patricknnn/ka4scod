@@ -1,30 +1,11 @@
-<!-- Title -->
-<app-title-section [title]="'Firebase Register'"></app-title-section>
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-4">
-            <mat-card [class]="elevation">
-                <mat-card-content>
-                    <form (ngSubmit)="register()">
-                        <mat-form-field appearance="fill">
-                            <mat-label>Email</mat-label>
-                            <input matInput type="text" [formControl]="email" />
-                        </mat-form-field>
-                        <mat-form-field appearance="fill">
-                            <mat-label>Password</mat-label>
-                            <input
-                                matInput
-                                type="password"
-                                [formControl]="password"
-                            />
-                        </mat-form-field>
-                        <button mat-raised-button type="submit" color="primary">
-                            Register
-                        </button>
-                    </form>
-                </mat-card-content>
-            </mat-card>
-        </div>
-    </div>
-</div>
+<form (ngSubmit)="register()" style="padding: 2rem;">
+    <mat-form-field appearance="standard">
+        <mat-label>Email</mat-label>
+        <input matInput type="text" [formControl]="email" />
+    </mat-form-field>
+    <mat-form-field appearance="standard">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" [formControl]="password" />
+    </mat-form-field>
+    <button mat-raised-button type="submit" color="primary">Register</button>
+</form>

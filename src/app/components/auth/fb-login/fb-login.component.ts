@@ -17,4 +17,8 @@ export class FbLoginComponent {
     login(): void {
         this.auth.login(this.email.value, this.password.value);
     }
+
+    forgotPassword(): void {
+        this.auth.sendPasswordResetEmail(this.email.value);
+    }
 }

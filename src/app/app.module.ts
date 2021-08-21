@@ -39,6 +39,7 @@ import { FbLoginComponent } from './components/auth/fb-login/fb-login.component'
 import { FbRegisterComponent } from './components/auth/fb-register/fb-register.component';
 import { ProfileComponent } from './components/core/profile/profile.component';
 import { UserInfoComponent } from './components/core/user-info/user-info.component';
+import { FbLandingComponent } from './components/auth/fb-landing/fb-landing.component';
 
 @NgModule({
     declarations: [
@@ -76,6 +77,7 @@ import { UserInfoComponent } from './components/core/user-info/user-info.compone
         FbRegisterComponent,
         ProfileComponent,
         UserInfoComponent,
+        FbLandingComponent,
     ],
     imports: [
         SharedModule,

@@ -149,6 +149,7 @@ export class EditEventComponent implements OnInit {
         this.event.image = event.image;
         this.event.startDate = event.startDate;
         this.event.endDate = event.endDate;
+        this.event.players = [];
         if (this.editEvent) {
             // editing so update
             this.update();
@@ -159,6 +160,8 @@ export class EditEventComponent implements OnInit {
                     playersToFetch.push(key);
                 }
             }
+            console.log(playersToFetch);
+            
             // check players
             if (!playersToFetch.length) {
                 // no players so save
@@ -169,6 +172,8 @@ export class EditEventComponent implements OnInit {
                 this.players?.forEach((player) => {
                     if (playersToFetch.includes(player.key)) {
                         this.getLifetimeData(player).then((res) => {
+                            console.log(res);
+                            
                             processedCount++;
                             this.event.players?.push({
                                 player: player,
@@ -261,6 +266,8 @@ export class EditEventComponent implements OnInit {
     }
 
     save(): void {
+        console.log(this.event);
+        
         this.firestore
             .create(this.event)
             .then(() => {

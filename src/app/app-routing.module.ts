@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
 import { PlaygroundComponent } from './components/api/playground/playground.component';
-import { FbLoginComponent } from './components/auth/fb-login/fb-login.component';
-import { FbRegisterComponent } from './components/auth/fb-register/fb-register.component';
 import { DashboardComponent } from './components/core/dashboard/dashboard.component';
 import { PageNotFoundComponent } from './components/core/page-not-found/page-not-found.component';
 import { ProfileComponent } from './components/core/profile/profile.component';
@@ -21,17 +19,7 @@ import { StatsLifetimeComponent } from './components/tables/stats-lifetime/stats
 import { StatsWeeklyComponent } from './components/tables/stats-weekly/stats-weekly.component';
 
 const routes: Routes = [
-    // login
-    {
-        path: 'fb-login',
-        component: FbLoginComponent,
-        data: { breadcrumb: 'Login' },
-    },
-    {
-        path: 'fb-register',
-        component: FbRegisterComponent,
-        data: { breadcrumb: 'Register' },
-    },
+    // profile
     {
         path: 'fb-profile',
         component: ProfileComponent,
