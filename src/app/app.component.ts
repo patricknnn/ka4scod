@@ -22,7 +22,6 @@ import { NavlinkService } from './services/navlink.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
     title = 'KA4S Klappers';
-    activeTheme: string = 'light';
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
     @ViewChild('sidenav') public sidenav!: MatSidenav;
@@ -73,14 +72,6 @@ export class AppComponent implements OnInit, OnDestroy {
             default:
                 break;
         }
-    }
-
-    public toggleTheme(): void {
-        this.activeTheme = this.activeTheme == 'light' ? 'dark' : 'light';
-    }
-
-    public changeTheme(theme: string) {
-        this.activeTheme = theme;
     }
 
     public getActivatedRoute(outlet: RouterOutlet): ActivatedRoute | undefined {

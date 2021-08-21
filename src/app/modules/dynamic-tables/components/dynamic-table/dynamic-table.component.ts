@@ -287,6 +287,20 @@ export class DynamicTableComponent implements OnInit, AfterViewInit {
             .reduce((acc: number, value: number) => acc + value, 0);
     }
 
+    numericColorClass(value: number): string {
+        let color = '';
+        if (this.tableConfig.coloredNumericValues) {
+            if (value > 0) {
+                color = 'txt-green';
+            } else if (value < 0) {
+                color = 'txt-red';
+            } else {
+                color = '';
+            }
+        }
+        return color;
+    }
+
     /**
      * The label for the checkbox on the passed row
      * @param row Table row to get checkbox label for

@@ -82,11 +82,15 @@ export class DynamicTableConfig {
     /**
      * Horizontal scrolling width
      */
-    scrollX: string; // TODO
+    scrollX: string;
     /**
      * Vertical scrolling width
      */
-    scrollY: string; // TODO
+    scrollY: string;
+    /**
+     * Wheter numeric values should be colored
+     */
+    coloredNumericValues: boolean;
 
     /**
      * Initialize the DynamicTableConfig instance
@@ -114,6 +118,7 @@ export class DynamicTableConfig {
         tableClass?: string;
         scrollX?: string;
         scrollY?: string;
+        coloredNumericValues?: boolean;
     }) {
         this.loader = options.loader || false;
         this.loaderColor = options.loaderColor || 'primary';
@@ -136,5 +141,6 @@ export class DynamicTableConfig {
         this.tableClass = options.tableClass || '';
         this.scrollX = options.scrollX || '';
         this.scrollY = options.scrollY || '';
+        this.coloredNumericValues = options.coloredNumericValues || false;
     }
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
 import { FormControlBase } from 'src/app/modules/dynamic-forms/models/form-control-base';
@@ -45,7 +44,10 @@ export class ProfileComponent implements OnInit {
                     this.formControls = this.getFormControls(this.user);
                 });
         } else {
-            this.dialog.errorDialog('Error', 'Failed to retrieve logged in user');
+            this.dialog.errorDialog(
+                'Error',
+                'Failed to retrieve logged in user'
+            );
         }
     }
 
@@ -97,5 +99,9 @@ export class ProfileComponent implements OnInit {
                     this.dialog.errorDialog('Error', err);
                 });
         }
+    }
+
+    sendVerification(): void {
+        this.auth.sendVerificationMail();
     }
 }

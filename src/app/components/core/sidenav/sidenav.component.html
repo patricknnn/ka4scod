@@ -5,7 +5,8 @@
         mat-list-item
         *ngFor="let link of navgroup.navlinks"
         [routerLink]="link.routerLink"
-        routerLinkActive="active"
+        routerLinkActive="navlink-active"
+        class="navlink"
     >
         <mat-icon matListIcon> {{ link.icon }} </mat-icon>
         <h3 matLine>{{ link.text }}</h3>

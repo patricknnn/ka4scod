@@ -30,7 +30,10 @@ export class AuthService {
     }
 
     get isLoggedIn(): boolean {
-        return this.loggedInUser !== null;
+        return (
+            this.loggedInUser !== null &&
+            this.loggedInUser.emailVerified == true
+        );
     }
 
     get isAdmin(): boolean {
@@ -57,10 +60,6 @@ export class AuthService {
             .then((value) => {
                 this.sendVerificationMail();
                 this.setUserData(value.user);
-                this.dialog.succesDialog(
-                    'Signup succesfull',
-                    'Please check your inbox to verify your email'
-                );
             })
             .catch((err) => {
                 this.dialog.errorDialog('Signup failed', err.message);
@@ -69,7 +68,19 @@ export class AuthService {
 
     sendVerificationMail() {
         return this.afAuth.currentUser.then((user) => {
-            user?.sendEmailVerification();
+            user?.sendEmailVerification()
+                .then(() => {
+                    this.dialog.succesDialog(
+                        'Verification mail send succesfull',
+                        'Please check your inbox to verify your email'
+                    );
+                })
+                .catch((err) => {
+                    this.dialog.errorDialog(
+                        'Verification mail send failed',
+                        err.message
+                    );
+                });
         });
     }
 
@@ -107,6 +118,13 @@ export class AuthService {
             .subscribe((data) => {
                 this.loggedInUser = data;
             });
-        this.router.navigate(['/']);
+        if (userData.emailVerified) {
+            this.router.navigate(['/']);
+        } else {
+            this.dialog.errorDialog(
+                'Email not verified',
+                'Please check your inbox to verify your email'
+            );
+        }
     }
 }

@@ -4,14 +4,12 @@
         <mat-icon>menu</mat-icon>
     </button>
 
-    <!-- Spacer -->
-    <span class="spacer"></span>
-
-    <!-- Themes -->
-    <!-- <button mat-icon-button (click)="emitThemeChange('light')">
-        <mat-icon>light_mode</mat-icon>
+    <!-- Breadcrumbs -->
+    <button
+        mat-button
+        *ngFor="let breadcrumb of breadcrumbs$ | async"
+        [routerLink]="breadcrumb.url"
+    >
+        {{ breadcrumb.label }}
     </button>
-    <button mat-icon-button (click)="emitThemeChange('dark')">
-        <mat-icon>dark_mode</mat-icon>
-    </button> -->
 </mat-toolbar>

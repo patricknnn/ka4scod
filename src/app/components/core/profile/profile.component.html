@@ -10,6 +10,21 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
+            <!-- Email validation -->
+            <mat-card [class]="elevation" *ngIf="user && !user.emailVerified">
+                <mat-card-content>
+                    <span>
+                        Your email has not been verified, please check your
+                        inbox!
+                    </span>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-button (click)="sendVerification()">
+                        Resend verification
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+
             <!-- Form -->
             <mat-card [class]="elevation">
                 <mat-card-content>

@@ -29,7 +29,10 @@
             class="dynamic-table-table-wrapper"
             [ngClass]="tableConfig.tableClass || ''"
         >
-            <div class="dynamic-table-table">
+            <div
+                class="dynamic-table-table"
+                [style.maxHeight]="tableConfig.scrollY"
+            >
                 <!-- Table -->
                 <mat-table
                     [dataSource]="dataSource"
@@ -44,7 +47,6 @@
                     (cdkDropListDropped)="drop($event)"
                     multiTemplateDataRows
                     [style.minWidth]="tableConfig.scrollX"
-                    [style.maxHeight]="tableConfig.scrollY"
                 >
                     <!-- Select column -->
                     <ng-container matColumnDef="selectRowColumn" sticky>
@@ -134,6 +136,7 @@
                             <div
                                 *ngSwitchCase="'text'"
                                 class="dynamic-table-column-text-container"
+                                [ngClass]="numericColorClass(row[column.key])"
                             >
                                 {{ row[column.key] }}
                             </div>

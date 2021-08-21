@@ -1,4 +1,7 @@
-<mat-expansion-panel *ngIf="loggedInUser()" class="user-info-panel mat-elevation-z0">
+<mat-expansion-panel
+    *ngIf="loggedInUser()"
+    class="user-info-panel mat-elevation-z0"
+>
     <mat-expansion-panel-header>
         <mat-card class="mat-elevation-z0 user-info-card">
             <mat-card-header>
@@ -9,11 +12,11 @@
         </mat-card>
     </mat-expansion-panel-header>
     <mat-nav-list class="user-info-navlist">
-        <a mat-list-item routerLink="/fb-profile">
+        <a mat-list-item routerLink="/fb-profile" routerLinkActive="navlink-active" class="navlink">
             <mat-icon matListIcon>manage_accounts</mat-icon>
             <h3 matLine>Profile</h3>
         </a>
-        <a mat-list-item (click)="logout()">
+        <a mat-list-item (click)="logout()" class="navlink">
             <mat-icon matListIcon>logout</mat-icon>
             <h3 matLine>Logout</h3>
         </a>

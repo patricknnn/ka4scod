@@ -1,5 +1,5 @@
 <!-- Main container -->
-<div class="main-container" [class.theme-dark]="activeTheme == 'dark'">
+<div class="main-container">
     <mat-sidenav-container class="sidenav-container">
         <mat-sidenav
             #sidenav
@@ -19,10 +19,7 @@
         </mat-sidenav>
         <mat-sidenav-content class="sidenav-content">
             <!-- Toolbar -->
-            <app-toolbar
-                (sidebarChange)="changeSidebar($event)"
-                (themeChange)="changeTheme($event)"
-            ></app-toolbar>
+            <app-toolbar (sidebarChange)="changeSidebar($event)"></app-toolbar>
 
             <!-- Scroll content wrapper -->
             <div class="scroll-content-wrapper">

@@ -83,3 +83,7 @@
     max-width: min-content;
     padding-right: 24px !important;
 }
+
+mat-cell, mat-header-cell, mat-footer-cell {
+    padding: 0 1rem;
+}

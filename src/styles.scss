@@ -53,6 +53,18 @@ body {
     margin-bottom: 1rem;
 }
 
+// nav
+.navlink {
+    border-radius: 8px;
+    transition: all 280ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navlink-active {
+    background: #009688 !important;
+    box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%),
+        0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+}
+
 // Buttons
 button {
     text-transform: uppercase !important;
@@ -79,7 +91,7 @@ button {
 .mat-card .mat-divider-horizontal {
     position: absolute !important;
     left: 5% !important;
-    width: 90% !important; 
+    width: 90% !important;
 }
 
 .mat-card-avatar.mat-icon {
@@ -113,11 +125,20 @@ mat-form-field {
 
 // wrappers
 .icon-text {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 
-  & .mat-icon {
-    margin-right: 0.5rem;
-  }
+    & .mat-icon {
+        margin-right: 0.5rem;
+    }
+}
+
+// Helpers
+.txt-red {
+    color: #F44336;
+}
+
+.txt-green {
+    color: #4CAF50;
 }

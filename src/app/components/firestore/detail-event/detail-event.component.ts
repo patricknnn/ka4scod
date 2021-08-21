@@ -310,6 +310,9 @@ export class DetailEventComponent implements OnInit {
      */
     renderTable(): void {
         if (this.outletRef && this.contentRef) {
+            if (this.tableConfig) {
+                this.tableConfig.coloredNumericValues = this.statsViewed == 'statsCompared' ? true : false;
+            }
             this.isLoading = true;
             this.outletRef.clear();
             this.outletRef.createEmbeddedView(this.contentRef);

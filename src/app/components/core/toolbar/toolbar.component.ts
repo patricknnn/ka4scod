@@ -1,4 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { Breadcrumb } from 'src/app/models/breadcrumb';
+import { BreadcrumbService } from 'src/app/services/breadcrumb.service';
 
 @Component({
     selector: 'app-toolbar',
@@ -6,26 +10,15 @@ import { Component, EventEmitter, Output } from '@angular/core';
     styleUrls: ['./toolbar.component.scss'],
 })
 export class ToolbarComponent {
-    title: string = 'KA4S Klapdekar';
+    breadcrumbs$: Observable<Breadcrumb[]>;
 
     @Output() sidebarChange = new EventEmitter<string>();
-    @Output() themeChange = new EventEmitter<string>();
 
-    constructor() {}
-
-    /**
-     * Emits event to parent to signal theme change
-     * @param theme Theme to apply
-     */
-    emitSidebarChange(change: string): void {
-        this.sidebarChange.emit(change);
+    constructor(private breadcrumbService: BreadcrumbService) {
+        this.breadcrumbs$ = breadcrumbService.breadcrumbs$;
     }
 
-    /**
-     * Emits event to parent to signal theme change
-     * @param theme Theme to apply
-     */
-    emitThemeChange(theme: string): void {
-        this.themeChange.emit(theme);
+    emitSidebarChange(change: string): void {
+        this.sidebarChange.emit(change);
     }
 }

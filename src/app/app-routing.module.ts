@@ -18,85 +18,116 @@ import { KillsTableComponent } from './components/tables/kills-table/kills-table
 import { PlayerTableComponent } from './components/tables/player-table/player-table.component';
 import { StatsLifetimeWzComponent } from './components/tables/stats-lifetime-wz/stats-lifetime-wz.component';
 import { StatsLifetimeComponent } from './components/tables/stats-lifetime/stats-lifetime.component';
-import { StatsMpTableComponent } from './components/tables/stats-mp-table/stats-mp-table.component';
 import { StatsWeeklyComponent } from './components/tables/stats-weekly/stats-weekly.component';
-import { StatsWzTableComponent } from './components/tables/stats-wz-table/stats-wz-table.component';
 
 const routes: Routes = [
     // login
-    { path: 'fb-login', component: FbLoginComponent },
-    { path: 'fb-register', component: FbRegisterComponent },
-    { path: 'fb-profile', component: ProfileComponent, canActivate: [AuthGuard] },
+    {
+        path: 'fb-login',
+        component: FbLoginComponent,
+        data: { breadcrumb: 'Login' },
+    },
+    {
+        path: 'fb-register',
+        component: FbRegisterComponent,
+        data: { breadcrumb: 'Register' },
+    },
+    {
+        path: 'fb-profile',
+        component: ProfileComponent,
+        data: { breadcrumb: 'Profile' },
+        canActivate: [AuthGuard],
+    },
     // general
     {
         path: 'dashboard',
         component: DashboardComponent,
+        data: { breadcrumb: 'Dashboard' },
         canActivate: [AuthGuard],
     },
     {
         path: 'playground',
         component: PlaygroundComponent,
+        data: { breadcrumb: 'Playground' },
         canActivate: [AuthGuard],
     },
     {
         path: 'players',
         component: ViewPlayersComponent,
+        data: { breadcrumb: 'Players' },
         canActivate: [AuthGuard],
     },
     {
         path: 'player',
         component: EditPlayerComponent,
+        data: { breadcrumb: 'Player details' },
         canActivate: [AuthGuard],
     },
     {
         path: 'playerstats',
         component: PlayerTableComponent,
+        data: { breadcrumb: 'Player statistics' },
         canActivate: [AuthGuard],
     },
     {
         path: 'videos',
         component: ViewVideosComponent,
+        data: { breadcrumb: 'Videos' },
         canActivate: [AuthGuard],
     },
-    { path: 'video', component: EditVideoComponent, canActivate: [AuthGuard] },
+    {
+        path: 'video',
+        component: EditVideoComponent,
+        data: { breadcrumb: 'Video details' },
+        canActivate: [AuthGuard],
+    },
     {
         path: 'events',
         component: ViewEventsComponent,
+        data: { breadcrumb: 'Events' },
         canActivate: [AuthGuard],
     },
-    { path: 'event', component: EditEventComponent, canActivate: [AuthGuard] },
+    {
+        path: 'event',
+        component: EditEventComponent,
+        data: { breadcrumb: 'Event details' },
+        canActivate: [AuthGuard],
+    },
     {
         path: 'eventdetails',
         component: DetailEventComponent,
+        data: { breadcrumb: 'Event statistics' },
         canActivate: [AuthGuard],
     },
-    { path: '404', component: PageNotFoundComponent },
-    // mp
     {
-        path: 'statsmp',
-        component: StatsMpTableComponent,
-        canActivate: [AuthGuard],
+        path: '404',
+        data: { breadcrumb: 'Page not found' },
+        component: PageNotFoundComponent,
     },
+    // mp
     {
         path: 'mp-lifetime',
         component: StatsLifetimeComponent,
+        data: { breadcrumb: 'Lifetime statistics' },
         canActivate: [AuthGuard],
     },
     {
         path: 'mp-weekly',
         component: StatsWeeklyComponent,
+        data: { breadcrumb: 'Weekly statistics' },
         canActivate: [AuthGuard],
     },
-    { path: 'kills', component: KillsTableComponent, canActivate: [AuthGuard] },
-    // wz
     {
-        path: 'statswz',
-        component: StatsWzTableComponent,
+        path: 'kills',
+        component: KillsTableComponent,
+        data: { breadcrumb: 'Kill statistics' },
         canActivate: [AuthGuard],
     },
+    // wz
     {
         path: 'wz-lifetime',
         component: StatsLifetimeWzComponent,
+        data: { breadcrumb: 'Lifetime statistics' },
         canActivate: [AuthGuard],
     },
     // Redirects
