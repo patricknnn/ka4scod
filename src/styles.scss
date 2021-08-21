@@ -32,14 +32,10 @@ body {
     flex: 1;
 }
 
-.sidenav {
-    width: 270px;
-}
-
 .scroll-content-wrapper {
     display: flex;
     flex-grow: 1;
-    height: calc(100vh - 64px);
+    height: 100vh;
     width: 100%;
     overflow: hidden;
 }
@@ -53,13 +49,14 @@ body {
 .content-wrapper {
     display: flex;
     flex-direction: column;
-    padding: 15px;
+    margin-top: 74px;
+    margin-bottom: 1rem;
 }
 
 // Buttons
 button {
     text-transform: uppercase !important;
-    width: 100%;
+    //width: 100%;
 }
 
 .mat-dialog-actions > button {
@@ -75,6 +72,16 @@ button {
 }
 
 // Cards
+.mat-card {
+    border-radius: 8px !important;
+}
+
+.mat-card .mat-divider-horizontal {
+    position: absolute !important;
+    left: 5% !important;
+    width: 90% !important; 
+}
+
 .mat-card-avatar.mat-icon {
     height: 40px;
     width: 40px;

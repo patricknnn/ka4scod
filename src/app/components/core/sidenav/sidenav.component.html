@@ -1,6 +1,6 @@
 <mat-nav-list *ngFor="let navgroup of navgroups">
-    <h3 matSubheader>{{ navgroup.header }}</h3>
     <mat-divider></mat-divider>
+    <h3 matSubheader>{{ navgroup.header }}</h3>
     <a
         mat-list-item
         *ngFor="let link of navgroup.navlinks"

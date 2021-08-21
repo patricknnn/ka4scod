@@ -44,6 +44,8 @@ export class ProfileComponent implements OnInit {
                     this.isLoading = false;
                     this.formControls = this.getFormControls(this.user);
                 });
+        } else {
+            this.dialog.errorDialog('Error', 'Failed to retrieve logged in user');
         }
     }
 
@@ -85,8 +87,6 @@ export class ProfileComponent implements OnInit {
     }
 
     save(): void {
-      console.log(this.user);
-      
         if (this.user) {
             this.firestore
                 .write(this.user)

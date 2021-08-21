@@ -1,0 +1,23 @@
+.menu-buttons {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidenav {
+    width: 280px;
+    border-right: none;
+    background: transparent;
+    box-shadow: none;
+}
+
+.sidenav-card {
+    height: calc(100% - 4rem);
+    overflow: scroll;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background-image: linear-gradient(195deg, #42424a, #191919);
+}

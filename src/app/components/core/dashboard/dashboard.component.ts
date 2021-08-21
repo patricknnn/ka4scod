@@ -3,6 +3,7 @@ import { map } from 'rxjs/operators';
 import { LanEvent } from 'src/app/models/event';
 import { Player } from 'src/app/models/player';
 import { YoutubeVideo } from 'src/app/models/youtube-video';
+import { AuthService } from 'src/app/services/firestore/auth.service';
 import { EventService } from 'src/app/services/firestore/event.service';
 import { PlayerService } from 'src/app/services/firestore/player.service';
 import { VideoService } from 'src/app/services/firestore/video.service';
@@ -19,15 +20,23 @@ export class DashboardComponent implements OnInit {
     isLoadingPlayers: boolean = true;
     events?: LanEvent[];
     isLoadingEvents: boolean = true;
+    isSsoTokenSet: boolean = false;
 
     constructor(
         private firestoreVideos: VideoService,
         private firestorePlayers: PlayerService,
-        private firestoreEvents: EventService
+        private firestoreEvents: EventService,
+        private authService: AuthService
     ) {}
 
     ngOnInit(): void {
-        this.retrievePlayers();
+        if (this.authService.loggedInUser?.ssoToken) {
+            this.isSsoTokenSet = true;
+            this.retrievePlayers();
+        } else {
+            this.isSsoTokenSet = false;
+            this.isLoadingPlayers = false;
+        }
         this.retrieveVideos();
         this.retrieveEvents();
     }

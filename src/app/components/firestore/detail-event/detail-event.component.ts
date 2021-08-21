@@ -71,6 +71,8 @@ export class DetailEventComponent implements OnInit {
                 this.eventEnded = data.endDate ? true : false;
                 if (!this.eventEnded) {
                     this.getCurrentLifetimeData();
+                } else {
+                    this.getComparedStats();
                 }
                 this.getStats('statsStart');
             });
@@ -182,7 +184,6 @@ export class DetailEventComponent implements OnInit {
      * Save to firebase
      */
     save(): void {
-        //this.getComparedStats();
         if (this.event.key) {
             this.firestore
                 .update(this.event.key, this.event)
@@ -201,21 +202,13 @@ export class DetailEventComponent implements OnInit {
     getComparedStats(): void {
         this.event.players?.forEach((player) => {
             player.statsCompared = {};
-            let start =
-                this.statsMode == 'lifetime'
-                    ? 'statsStart'
-                    : 'statsStartWarzone';
-            let end =
-                this.statsMode == 'lifetime' ? 'statsEnd' : 'statsEndWarzone';
-            let current =
-                this.statsMode == 'lifetime'
-                    ? 'statsCurrent'
-                    : 'statsCurrentWarzone';
-            let compared =
-                this.statsMode == 'lifetime'
-                    ? 'statsCompared'
-                    : 'statsComparedWarzone';
+            player.statsComparedWarzone = {};
             let playerAny: any = player;
+            // liftime
+            let start = 'statsStart';
+            let end = 'statsEnd';
+            let current = 'statsCurrent';
+            let compared = 'statsCompared';
             for (const property in playerAny[start]) {
                 if (playerAny[current]) {
                     playerAny[compared][property] =
@@ -224,6 +217,22 @@ export class DetailEventComponent implements OnInit {
                 } else if (playerAny[end]) {
                     playerAny[compared][property] =
                         playerAny[end][property] - playerAny[start][property];
+                }
+            }
+            // warzone
+            let startWz = 'statsStartWarzone';
+            let endWz = 'statsEndWarzone';
+            let currentWz = 'statsCurrentWarzone';
+            let comparedWz = 'statsComparedWarzone';
+            for (const property in playerAny[startWz]) {
+                if (playerAny[currentWz]) {
+                    playerAny[comparedWz][property] =
+                        playerAny[currentWz][property] -
+                        playerAny[startWz][property];
+                } else if (playerAny[endWz]) {
+                    playerAny[comparedWz][property] =
+                        playerAny[endWz][property] -
+                        playerAny[startWz][property];
                 }
             }
         });

@@ -6,18 +6,24 @@
             [mode]="mobileQuery.matches ? 'push' : 'side'"
             [fixedInViewport]="true"
             fixedTopGap="0"
-            class="sidenav mat-elevation-z8"
+            fixedBottomGap="0"
+            class="sidenav theme-dark"
             [opened]="sidenavOpen"
         >
-            <!-- Sidenav -->
-            <app-sidenav [navgroups]="(navLinks$ | async)!"></app-sidenav>
+            <mat-card class="sidenav-card mat-elevation-z8">
+                <!-- User info -->
+                <app-user-info></app-user-info>
+                <!-- Sidenav -->
+                <app-sidenav [navgroups]="(navLinks$ | async)!"></app-sidenav>
+            </mat-card>
         </mat-sidenav>
-        <mat-sidenav-content>
+        <mat-sidenav-content class="sidenav-content">
             <!-- Toolbar -->
             <app-toolbar
                 (sidebarChange)="changeSidebar($event)"
                 (themeChange)="changeTheme($event)"
             ></app-toolbar>
+
             <!-- Scroll content wrapper -->
             <div class="scroll-content-wrapper">
                 <!-- Scroll content -->

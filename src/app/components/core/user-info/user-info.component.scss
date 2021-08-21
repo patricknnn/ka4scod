@@ -1,0 +1,21 @@
+.user-info-panel {
+    background: transparent;
+    
+    & .mat-expansion-panel-header {
+        height: 60px;
+        padding: 0 16px;
+    }
+
+    & ::ng-deep .mat-expansion-panel-body {
+       padding: 0;
+    }
+}
+
+.user-info-card {
+    padding: 0;
+    background: inherit;
+
+    & .mat-card-subtitle {
+        margin-bottom: 0;
+    }
+}

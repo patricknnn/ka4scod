@@ -11,6 +11,7 @@ import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
 import { routeAnimation } from './animations/route-animations';
 import { Navlink } from './models/navlink';
+import { AuthService } from './services/firestore/auth.service';
 import { NavlinkService } from './services/navlink.service';
 
 @Component({
@@ -20,45 +21,19 @@ import { NavlinkService } from './services/navlink.service';
     animations: [routeAnimation],
 })
 export class AppComponent implements OnInit, OnDestroy {
-    /**
-     * Page title
-     */
     title = 'KA4S Klappers';
-    /**
-     * Currently active theme
-     */
     activeTheme: string = 'light';
-    /**
-     * Media query list
-     */
     mobileQuery: MediaQueryList;
-    /**
-     * Mobile query listener
-     */
     private _mobileQueryListener: () => void;
-    /**
-     * Sidenav viewchild
-     */
     @ViewChild('sidenav') public sidenav!: MatSidenav;
-    /**
-     * Sidenav open
-     */
     sidenavOpen: boolean = false;
-    /**
-     * Navlink groups
-     */
     navLinks$: Observable<{ header: string; navlinks: Navlink[] }[]>;
 
-    /**
-     * Constructor
-     * @param changeDetectorRef Change detector
-     * @param media Media
-     * @param sidenavService Sidenav service
-     */
     constructor(
         changeDetectorRef: ChangeDetectorRef,
         media: MediaMatcher,
-        navlinkService: NavlinkService
+        navlinkService: NavlinkService,
+        private authService: AuthService
     ) {
         this.mobileQuery = media.matchMedia('(max-width: 768px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -69,16 +44,10 @@ export class AppComponent implements OnInit, OnDestroy {
         this.navLinks$ = navlinkService.getNavlinkGroups();
     }
 
-    /**
-     * Called aafter
-     */
     ngOnInit(): void {
         this.sidenavOpen = !this.mobileQuery.matches;
     }
 
-    /**
-     * Called on component destroy
-     */
     ngOnDestroy(): void {
         this.mobileQuery.removeEventListener<'change'>(
             'change',
@@ -86,10 +55,10 @@ export class AppComponent implements OnInit, OnDestroy {
         );
     }
 
-    /**
-     * Changes the theme
-     * @param event Theme to apply
-     */
+    public isLoggedIn(): boolean {
+        return this.authService.isLoggedIn;
+    }
+
     public changeSidebar(event: any) {
         switch (event) {
             case 'open':
@@ -106,19 +75,14 @@ export class AppComponent implements OnInit, OnDestroy {
         }
     }
 
-    /**
-     * Changes the theme
-     * @param theme Theme to apply
-     */
+    public toggleTheme(): void {
+        this.activeTheme = this.activeTheme == 'light' ? 'dark' : 'light';
+    }
+
     public changeTheme(theme: string) {
         this.activeTheme = theme;
     }
 
-    /**
-     * Returns activated route
-     * @param outlet Router outlet
-     * @returns Activated route if activated, '' otherwise
-     */
     public getActivatedRoute(outlet: RouterOutlet): ActivatedRoute | undefined {
         return outlet.isActivated ? outlet.activatedRoute : undefined;
     }

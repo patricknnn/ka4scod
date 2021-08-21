@@ -73,6 +73,20 @@ export class AuthService {
         });
     }
 
+    sendPasswordResetEmail(passwordResetEmail: string) {
+        return this.afAuth
+            .sendPasswordResetEmail(passwordResetEmail)
+            .then(() => {
+                this.dialog.succesDialog(
+                    'Password reset succesfull',
+                    'Please check your inbox for further instructions'
+                );
+            })
+            .catch((err) => {
+                this.dialog.errorDialog('Password reset failed', err.message);
+            });
+    }
+
     logout(): void {
         this.afAuth.signOut().then(() => {
             window.location.reload();
