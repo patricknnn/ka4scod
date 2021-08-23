@@ -1,3 +1,17 @@
-.section-title {
-  margin: 16px 0;
+.title-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 32px 16px;
+
+    & .icon {
+        height: 32px;
+        width: 32px;
+        font-size: 32px;
+        margin-right: 1rem;
+    }
+
+    & .title {
+        margin: 0;
+    }
 }

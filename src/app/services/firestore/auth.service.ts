@@ -76,10 +76,7 @@ export class AuthService {
                     );
                 })
                 .catch((err) => {
-                    this.dialog.errorDialog(
-                        'Verify email',
-                        err.message
-                    );
+                    this.dialog.errorDialog('Verify email', err.message);
                 });
         });
     }
@@ -118,7 +115,9 @@ export class AuthService {
             .subscribe((data) => {
                 this.loggedInUser = data;
                 if (this.loggedInUser.emailVerified) {
-                    this.router.navigate(['/']);
+                    setTimeout(() => {
+                        this.router.navigate(['/dashboard']);
+                    }, 1000);
                 } else {
                     this.dialog.errorDialog(
                         'Email not verified',

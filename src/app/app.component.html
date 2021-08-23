@@ -7,7 +7,10 @@
     <app-fb-landing *ngIf="!isLoading && !isLoggedIn()"></app-fb-landing>
 
     <!-- Main content -->
-    <mat-sidenav-container class="sidenav-container" *ngIf="!isLoading && isLoggedIn()">
+    <mat-sidenav-container
+        class="sidenav-container"
+        *ngIf="!isLoading && isLoggedIn()"
+    >
         <mat-sidenav
             #sidenav
             [mode]="mobileQuery.matches ? 'push' : 'side'"

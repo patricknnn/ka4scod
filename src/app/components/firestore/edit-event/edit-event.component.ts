@@ -127,7 +127,7 @@ export class EditEventComponent implements OnInit {
                         key: player.key,
                         label: player.name,
                         floatLabel: 'always',
-                        class: 'col-xs-6 col-md-3',
+                        class: 'col-xs-6 col-md-4',
                         value: eventPlayers.includes(player.key),
                         disabled: this.editEvent,
                         order: 5,

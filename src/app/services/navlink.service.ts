@@ -23,15 +23,15 @@ export class NavlinkService {
             {
                 header: 'Modern Warfare',
                 navlinks: [
-                    new Navlink('Lifetime', 'bar_chart', '/mp-lifetime'),
-                    new Navlink('Weekly', 'bar_chart', '/mp-weekly'),
-                    new Navlink('Kills', 'plus_one', '/kills'),
+                    new Navlink('Lifetime', 'content_paste', '/mp-lifetime'),
+                    new Navlink('Weekly', 'pending_actions', '/mp-weekly'),
+                    new Navlink('Kills', 'fullscreen_exit', '/kills'),
                 ],
             },
             {
                 header: 'Warzone',
                 navlinks: [
-                    new Navlink('Lifetime', 'bar_chart', '/wz-lifetime'),
+                    new Navlink('Lifetime', 'content_paste', '/wz-lifetime'),
                 ],
             },
             {
@@ -39,7 +39,7 @@ export class NavlinkService {
                 navlinks: [
                     new Navlink('Players', 'people', '/players'),
                     new Navlink('Videos', 'videocam', '/videos'),
-                    new Navlink('Events', 'date_range', '/events'),
+                    new Navlink('Events', 'event', '/events'),
                 ],
             },
         ];
