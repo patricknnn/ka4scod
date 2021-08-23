@@ -6,8 +6,6 @@ import { PlaygroundComponent } from './components/api/playground/playground.comp
 import { PageNotFoundComponent } from './components/core/page-not-found/page-not-found.component';
 import { SuccesDialogComponent } from './components/dialog/succes-dialog/succes-dialog.component';
 import { ErrorDialogComponent } from './components/dialog/error-dialog/error-dialog.component';
-import { RankCardComponent } from './components/cards/rank-card/rank-card.component';
-import { RankBpCardComponent } from './components/cards/rank-bp-card/rank-bp-card.component';
 import { KillsTableComponent } from './components/tables/kills-table/kills-table.component';
 import { DashboardComponent } from './components/core/dashboard/dashboard.component';
 import { SharedModule } from './modules/shared/shared.module';
@@ -15,8 +13,6 @@ import { DynamicFormsModule } from './modules/dynamic-forms/dynamic-forms.module
 import { DynamicTablesModule } from './modules/dynamic-tables/dynamic-tables.module';
 import { TitleSectionComponent } from './components/core/title-section/title-section.component';
 import { LoadingComponent } from './components/core/loading/loading.component';
-import { IconCardComponent } from './components/cards/icon-card/icon-card.component';
-import { ImageCardComponent } from './components/cards/image-card/image-card.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
@@ -40,6 +36,7 @@ import { FbRegisterComponent } from './components/auth/fb-register/fb-register.c
 import { ProfileComponent } from './components/core/profile/profile.component';
 import { UserInfoComponent } from './components/core/user-info/user-info.component';
 import { FbLandingComponent } from './components/auth/fb-landing/fb-landing.component';
+import { NotificationCardComponent } from './components/cards/notification-card/notification-card.component';
 
 @NgModule({
     declarations: [
@@ -50,14 +47,10 @@ import { FbLandingComponent } from './components/auth/fb-landing/fb-landing.comp
         PageNotFoundComponent,
         SuccesDialogComponent,
         ErrorDialogComponent,
-        RankCardComponent,
-        RankBpCardComponent,
         KillsTableComponent,
         DashboardComponent,
         TitleSectionComponent,
         LoadingComponent,
-        IconCardComponent,
-        ImageCardComponent,
         EditPlayerComponent,
         ViewPlayersComponent,
         PromptDialogComponent,
@@ -78,6 +71,7 @@ import { FbLandingComponent } from './components/auth/fb-landing/fb-landing.comp
         ProfileComponent,
         UserInfoComponent,
         FbLandingComponent,
+        NotificationCardComponent,
     ],
     imports: [
         SharedModule,

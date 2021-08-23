@@ -10,22 +10,20 @@
 </div>
 <!-- Cards -->
 <div class="container-fluid">
-    <div class="row" *ngIf="!isLoadingPlayers && players">
+    <div class="row" *ngIf="isSsoTokenSet() && !isLoadingPlayers && players">
         <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let player of players">
             <app-player-card [player]="player"></app-player-card>
         </div>
     </div>
-    <div class="row" *ngIf="!isSsoTokenSet">
+    <div class="row" *ngIf="!isSsoTokenSet()">
         <div class="col-xs-12">
-            <mat-card>
-                <mat-card-content>
-                    To access Call of Duty API features, please set your SSO
-                    Token in your profile.
-                </mat-card-content>
-                <mat-card-actions>
-                    <button mat-button routerLink="/fb-profile">Open Profile</button>
-                </mat-card-actions>
-            </mat-card>
+            <app-notification-card
+                type="warning"
+                title="No SSO Token"
+                subtitle="To access Call of Duty API features, please set your SSO Token in your profile."
+                buttonText="Profile"
+                buttonLink="/fb-profile"
+            ></app-notification-card>
         </div>
     </div>
 </div>

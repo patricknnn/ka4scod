@@ -20,7 +20,6 @@ export class DashboardComponent implements OnInit {
     isLoadingPlayers: boolean = true;
     events?: LanEvent[];
     isLoadingEvents: boolean = true;
-    isSsoTokenSet: boolean = false;
 
     constructor(
         private firestoreVideos: VideoService,
@@ -31,14 +30,16 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit(): void {
         if (this.authService.loggedInUser?.ssoToken) {
-            this.isSsoTokenSet = true;
             this.retrievePlayers();
         } else {
-            this.isSsoTokenSet = false;
             this.isLoadingPlayers = false;
         }
         this.retrieveVideos();
         this.retrieveEvents();
+    }
+
+    isSsoTokenSet(): boolean {
+        return !!this.authService.loggedInUser?.ssoToken;
     }
 
     retrieveVideos(): void {

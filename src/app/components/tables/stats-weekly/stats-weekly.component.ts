@@ -12,6 +12,7 @@ import { PlayerStatsLifetime } from 'src/app/models/player-stats';
 import { DynamicTableColumnConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-column-config';
 import { DynamicTableConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-config';
 import { DialogService } from 'src/app/services/dialog.service';
+import { AuthService } from 'src/app/services/firestore/auth.service';
 import { PlayerService } from 'src/app/services/firestore/player.service';
 import {
     NodeRestApiService,
@@ -42,12 +43,17 @@ export class StatsWeeklyComponent implements OnInit {
         private tables: TableService,
         private dialog: DialogService,
         private stats: StatsService,
-        private playerService: PlayerService
+        private playerService: PlayerService,
+        private authService: AuthService
     ) {}
 
     ngOnInit(): void {
         this.tableConfig = this.tables.getTableConfig();
         this.retrievePlayers();
+    }
+
+    isSsoTokenSet(): boolean {
+        return !!this.authService.loggedInUser?.ssoToken;
     }
 
     retrievePlayers(): void {

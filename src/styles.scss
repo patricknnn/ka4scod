@@ -86,12 +86,13 @@ button {
 // Cards
 .mat-card {
     border-radius: 8px !important;
+    margin-bottom: 1rem;
 }
 
 .mat-card .mat-divider-horizontal {
     position: absolute !important;
-    left: 5% !important;
-    width: 90% !important;
+    left: 1rem !important;
+    width: calc(100% - 2rem) !important;
 }
 
 .mat-card-avatar.mat-icon {

@@ -2,13 +2,27 @@
 <app-title-section [title]="'Modern Warfare Lifetime'"></app-title-section>
 
 <div class="container-fluid">
-    <div class="row" *ngIf="isLoading">
+
+    <div class="row" *ngIf="!isSsoTokenSet()">
+        <div class="col-xs-12">
+            <app-notification-card
+                type="warning"
+                title="No SSO Token"
+                subtitle="To access Call of Duty API features, please set your SSO Token in your profile."
+                buttonText="Profile"
+                buttonLink="/fb-profile"
+            ></app-notification-card>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="isSsoTokenSet() && isLoading">
         <div class="col-xs-12">
             <!-- Loading -->
             <app-loading></app-loading>
         </div>
     </div>
-    <div class="row">
+
+    <div class="row" *ngIf="isSsoTokenSet()">
         <div class="col-xs-12">
             <!-- Dynamic table outlet -->
             <ng-container #outlet></ng-container>

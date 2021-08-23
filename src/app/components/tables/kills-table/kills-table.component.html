@@ -2,7 +2,26 @@
 <app-title-section [title]="'Kills'"></app-title-section>
 
 <div class="container-fluid">
-    <div class="row">
+    <div class="row" *ngIf="!isSsoTokenSet()">
+        <div class="col-xs-12">
+            <app-notification-card
+                type="warning"
+                title="No SSO Token"
+                subtitle="To access Call of Duty API features, please set your SSO Token in your profile."
+                buttonText="Profile"
+                buttonLink="/fb-profile"
+            ></app-notification-card>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="isSsoTokenSet() && isLoading">
+        <div class="col-xs-12">
+            <!-- Loading -->
+            <app-loading></app-loading>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="isSsoTokenSet() && !isLoading">
         <div class="col-xs-12">
             <!-- Button toggle -->
             <mat-button-toggle-group class="button-toggle-full-width">
@@ -34,13 +53,6 @@
                     >Sniper</mat-button-toggle
                 >
             </mat-button-toggle-group>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-xs-12">
-            <!-- Loading -->
-            <app-loading *ngIf="isLoading"></app-loading>
         </div>
     </div>
 

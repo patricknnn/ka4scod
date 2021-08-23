@@ -4,6 +4,7 @@
     & .mat-expansion-panel-header {
         height: 60px;
         padding: 0 16px;
+        background: transparent !important;
     }
 
     & ::ng-deep .mat-expansion-panel-body {

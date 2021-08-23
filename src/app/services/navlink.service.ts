@@ -18,7 +18,6 @@ export class NavlinkService {
                 header: 'General',
                 navlinks: [
                     new Navlink('Dashboard', 'dashboard', '/dashboard'),
-                    new Navlink('Playground', 'play_arrow', '/playground'),
                 ],
             },
             {

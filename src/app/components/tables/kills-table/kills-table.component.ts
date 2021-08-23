@@ -11,6 +11,7 @@ import { Player } from 'src/app/models/player';
 import { DynamicTableColumnConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-column-config';
 import { DynamicTableConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-config';
 import { DialogService } from 'src/app/services/dialog.service';
+import { AuthService } from 'src/app/services/firestore/auth.service';
 import { PlayerService } from 'src/app/services/firestore/player.service';
 import {
     CodApiPlayer,
@@ -43,7 +44,8 @@ export class KillsTableComponent implements OnInit {
         private tables: TableService,
         private api: NodeRestApiService,
         private dialog: DialogService,
-        private firestore: PlayerService
+        private firestore: PlayerService,
+        private authService: AuthService
     ) {}
 
     /***
@@ -52,9 +54,14 @@ export class KillsTableComponent implements OnInit {
     ngOnInit(): void {
         this.tableConfig = this.tables.getTableConfig();
         this.getLifetimeData().then((res) => {
+            this.isLoading = false;
             this.data = res;
             this.getMarksmanKillData();
         });
+    }
+
+    isSsoTokenSet(): boolean {
+        return !!this.authService.loggedInUser?.ssoToken;
     }
 
     /**
