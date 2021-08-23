@@ -13,6 +13,10 @@ body {
     overflow: hidden;
 }
 
+.theme-dark input {
+  color: white;
+}
+
 .spacer {
     flex: 1 1 auto;
 }
@@ -137,9 +141,9 @@ mat-form-field {
 
 // Helpers
 .txt-red {
-    color: #F44336;
+    color: #f44336;
 }
 
 .txt-green {
-    color: #4CAF50;
+    color: #4caf50;
 }

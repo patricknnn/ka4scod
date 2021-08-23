@@ -1,3 +1,5 @@
+<app-title-section [title]="'Player details'"></app-title-section>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
@@ -22,12 +24,12 @@
                 class="button-toggle-full-width"
                 style="margin-top: 24px"
             >
-                <mat-button-toggle (click)="getMpData()" checked
-                    >Multiplayer</mat-button-toggle
-                >
-                <mat-button-toggle (click)="getWarzoneData()"
-                    >Warzone</mat-button-toggle
-                >
+                <mat-button-toggle (click)="getMpData()" checked>
+                    Multiplayer
+                </mat-button-toggle>
+                <mat-button-toggle (click)="getWarzoneData()">
+                    Warzone
+                </mat-button-toggle>
             </mat-button-toggle-group>
         </div>
     </div>
