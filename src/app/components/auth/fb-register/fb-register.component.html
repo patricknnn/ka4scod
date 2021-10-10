@@ -1,11 +1,31 @@
-<form (ngSubmit)="register()" style="padding: 2rem;">
+<form (ngSubmit)="register()" style="padding: 2rem">
     <mat-form-field appearance="standard">
         <mat-label>Email</mat-label>
         <input matInput type="text" [formControl]="email" />
+        <mat-error
+            *ngIf="email.hasError('email') && !email.hasError('required')"
+        >
+            Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="email.hasError('required')">
+            Email is <strong>required</strong>
+        </mat-error>
     </mat-form-field>
+
     <mat-form-field appearance="standard">
         <mat-label>Password</mat-label>
         <input matInput type="password" [formControl]="password" />
+        <mat-error *ngIf="password.hasError('required')">
+            Password is <strong>required</strong>
+        </mat-error>
     </mat-form-field>
-    <button mat-raised-button type="submit" color="primary">Register</button>
+
+    <button
+        mat-raised-button
+        type="submit"
+        color="primary"
+        [disabled]="!isFormValid()"
+    >
+        Register
+    </button>
 </form>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/firestore/auth.service';
 
@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/services/firestore/auth.service';
     styleUrls: ['./fb-register.component.scss'],
 })
 export class FbRegisterComponent {
-    email = new FormControl('', [Validators.required]);
+    email = new FormControl('', [Validators.required, Validators.email]);
     password = new FormControl('', [Validators.required]);
     elevation: string = 'mat-elevation-z4';
 
@@ -16,5 +16,9 @@ export class FbRegisterComponent {
 
     register(): void {
         this.auth.signup(this.email.value, this.password.value);
+    }
+
+    isFormValid(): boolean {
+        return this.email.valid && this.password.valid;
     }
 }
