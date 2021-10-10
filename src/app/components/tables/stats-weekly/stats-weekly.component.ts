@@ -8,7 +8,6 @@ import {
 import { map } from 'rxjs/operators';
 import { LifetimeStats } from 'src/app/models/lifetime-stats';
 import { Player } from 'src/app/models/player';
-import { PlayerStatsLifetime } from 'src/app/models/player-stats';
 import { DynamicTableColumnConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-column-config';
 import { DynamicTableConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-config';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -70,7 +69,9 @@ export class StatsWeeklyComponent implements OnInit {
             )
             .subscribe((data) => {
                 this.players = data;
-                this.getPlayersWeeklyData();
+                if (this.isSsoTokenSet()) {
+                    this.getPlayersWeeklyData();
+                }
             });
     }
 

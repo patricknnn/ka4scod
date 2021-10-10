@@ -53,11 +53,13 @@ export class KillsTableComponent implements OnInit {
      */
     ngOnInit(): void {
         this.tableConfig = this.tables.getTableConfig();
-        this.getLifetimeData().then((res) => {
-            this.isLoading = false;
-            this.data = res;
-            this.getMarksmanKillData();
-        });
+        if (this.isSsoTokenSet()) {
+            this.getLifetimeData().then((res) => {
+                this.isLoading = false;
+                this.data = res;
+                this.getMarksmanKillData();
+            });
+        }
     }
 
     isSsoTokenSet(): boolean {

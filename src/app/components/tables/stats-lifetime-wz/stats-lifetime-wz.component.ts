@@ -7,8 +7,6 @@ import {
 } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Player } from 'src/app/models/player';
-import { PlayerStatsLifetime } from 'src/app/models/player-stats';
-import { WarzoneStats } from 'src/app/models/warzone-stats';
 import { DynamicTableColumnConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-column-config';
 import { DynamicTableConfig } from 'src/app/modules/dynamic-tables/models/dynamic-table-config';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -55,7 +53,7 @@ export class StatsLifetimeWzComponent implements OnInit {
     isSsoTokenSet(): boolean {
         return !!this.authService.loggedInUser?.ssoToken;
     }
-    
+
     retrievePlayers(): void {
         this.playerService
             .getAll()
@@ -70,7 +68,9 @@ export class StatsLifetimeWzComponent implements OnInit {
             )
             .subscribe((data) => {
                 this.players = data;
-                this.getPlayersLifetimeData();
+                if (this.isSsoTokenSet()) {
+                    this.getPlayersLifetimeData();
+                }
             });
     }
 

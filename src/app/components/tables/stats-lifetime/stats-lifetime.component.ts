@@ -53,7 +53,7 @@ export class StatsLifetimeComponent implements OnInit {
     isSsoTokenSet(): boolean {
         return !!this.authService.loggedInUser?.ssoToken;
     }
-    
+
     retrievePlayers(): void {
         this.playerService
             .getAll()
@@ -68,7 +68,9 @@ export class StatsLifetimeComponent implements OnInit {
             )
             .subscribe((data) => {
                 this.players = data;
-                this.getPlayersLifetimeData();
+                if (this.isSsoTokenSet()) {
+                    this.getPlayersLifetimeData();
+                }
             });
     }
 

@@ -29,6 +29,15 @@
             <mat-card [class]="elevation">
                 <mat-card-content>
                     <div class="container-fluid">
+                        <mat-form-field appearance="standard">
+                            <mat-label>SSO Token</mat-label>
+                            <input matInput type="text" [(ngModel)]="ssoToken">
+                            <button matSuffix mat-icon-button aria-label="Clear" (click)="validateSsoToken()">
+                              <mat-icon>check</mat-icon>
+                            </button>
+                          </mat-form-field>
+                    </div>
+                    <div class="container-fluid">
                         <app-dynamic-form
                             *ngIf="formControls"
                             [appearance]="formAppearance"

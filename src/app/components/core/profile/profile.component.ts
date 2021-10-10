@@ -6,6 +6,7 @@ import { FormControlText } from 'src/app/modules/dynamic-forms/models/form-contr
 import { DialogService } from 'src/app/services/dialog.service';
 import { AuthService } from 'src/app/services/firestore/auth.service';
 import { UserService } from 'src/app/services/firestore/user.service';
+import { NodeRestApiService } from 'src/app/services/node-rest-api.service';
 
 @Component({
     selector: 'app-profile',
@@ -14,6 +15,7 @@ import { UserService } from 'src/app/services/firestore/user.service';
 })
 export class ProfileComponent implements OnInit {
     user?: User;
+    ssoToken: string = '';
     isLoading: boolean = true;
     formControls?: FormControlBase<any>[];
     formAppearance: 'legacy' | 'standard' | 'fill' | 'outline' = 'standard';
@@ -24,7 +26,8 @@ export class ProfileComponent implements OnInit {
     constructor(
         private firestore: UserService,
         private auth: AuthService,
-        private dialog: DialogService
+        private dialog: DialogService,
+        private api: NodeRestApiService
     ) {}
 
     ngOnInit(): void {
@@ -40,6 +43,7 @@ export class ProfileComponent implements OnInit {
                 .pipe(map((c) => ({ key: c.payload.id, ...c.payload.data() })))
                 .subscribe((data) => {
                     this.user = data;
+                    this.ssoToken = this.user.ssoToken || '';
                     this.isLoading = false;
                     this.formControls = this.getFormControls(this.user);
                 });
@@ -67,15 +71,19 @@ export class ProfileComponent implements OnInit {
                 class: 'col-xs-12',
                 order: 2,
             }),
-            new FormControlText({
-                key: 'ssoToken',
-                label: 'SSO Token',
-                value: user ? user.ssoToken : '',
-                class: 'col-xs-12',
-                order: 3,
-            }),
         ];
         return formControls.sort((a, b) => a.order - b.order);
+    }
+
+    validateSsoToken(): void {
+        this.api.validateSsoToken(this.ssoToken).then(
+            (res) => {
+                this.dialog.succesDialog('SSO Token Status', res);
+            },
+            (error) => {
+                this.dialog.errorDialog('SSO Token Status', error);
+            }
+        );
     }
 
     handleFormSubmit(event: any) {
@@ -83,7 +91,7 @@ export class ProfileComponent implements OnInit {
         if (this.user) {
             this.user.displayName = event.displayName;
             this.user.photoURL = event.photoURL;
-            this.user.ssoToken = event.ssoToken;
+            this.user.ssoToken = this.ssoToken;
             this.save();
         }
     }

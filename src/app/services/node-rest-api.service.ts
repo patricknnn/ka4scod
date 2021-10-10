@@ -42,6 +42,33 @@ export class NodeRestApiService {
     constructor(private http: HttpClient, private auth: AuthService) {}
 
     /**
+     * Validates SSO Token
+     * @param sso SSO Token
+     * @returns Promise<string>
+     */
+    validateSsoToken(sso: string): Promise<string> {
+        return new Promise((resolve, reject) => {
+            this.login(sso).then(
+                (res) => {
+                    this.getIdentities().then(
+                        (res) => {
+                            res.titleIdentities
+                                ? resolve('Valid')
+                                : reject('Invalid');
+                        },
+                        (error) => {
+                            reject('Invalid');
+                        }
+                    );
+                },
+                (error) => {
+                    reject('Invalid');
+                }
+            );
+        });
+    }
+
+    /**
      * Log in
      * @param sso SSO Token
      * @returns Promise<string>
@@ -54,7 +81,7 @@ export class NodeRestApiService {
                 .toPromise()
                 .then((result: any) => {
                     if (result.search('200') >= 0) {
-                        resolve('succes');
+                        resolve(result);
                     } else {
                         reject(result);
                     }
@@ -129,7 +156,7 @@ export class NodeRestApiService {
             } else {
                 reject('No SSO Token set');
             }
-            
+
             this.warzoneCache.forEach((entry) => {
                 if (entry.name == player.name) {
                     resolve(entry.data);
@@ -155,7 +182,7 @@ export class NodeRestApiService {
             } else {
                 reject('No SSO Token set');
             }
-            
+
             this.recentMatchesCache.forEach((entry) => {
                 if (entry.name == player.name) {
                     resolve(entry.data);
@@ -187,7 +214,7 @@ export class NodeRestApiService {
             } else {
                 reject('No SSO Token set');
             }
-            
+
             let gamertag = encodeURIComponent(player.gamertag);
             let platform = player.platform;
             let requestUrl = this.buildUrl(`analysis/${gamertag}/${platform}`);
@@ -205,7 +232,7 @@ export class NodeRestApiService {
             } else {
                 reject('No SSO Token set');
             }
-            
+
             let requestUrl = this.buildUrl(`maps`);
             this.getRequest(requestUrl)
                 .toPromise()
@@ -221,7 +248,7 @@ export class NodeRestApiService {
             } else {
                 reject('No SSO Token set');
             }
-            
+
             let gamertag = encodeURIComponent(player.gamertag);
             let platform = player.platform;
             let requestUrl = this.buildUrl(`loot/${gamertag}/${platform}`);
@@ -239,7 +266,7 @@ export class NodeRestApiService {
             } else {
                 reject('No SSO Token set');
             }
-            
+
             let requestUrl = this.buildUrl(`tiers/${season}/${platform}`);
             this.getRequest(requestUrl)
                 .toPromise()
@@ -255,7 +282,7 @@ export class NodeRestApiService {
             } else {
                 reject('No SSO Token set');
             }
-            
+
             let gamertag = encodeURIComponent(player.gamertag);
             let platform = player.platform;
             let requestUrl = this.buildUrl(`points/${gamertag}/${platform}`);
@@ -273,7 +300,7 @@ export class NodeRestApiService {
             } else {
                 reject('No SSO Token set');
             }
-            
+
             let requestUrl = this.buildUrl(`userinfo`);
             this.getRequest(requestUrl)
                 .toPromise()
@@ -289,7 +316,7 @@ export class NodeRestApiService {
             } else {
                 reject('No SSO Token set');
             }
-            
+
             let requestUrl = this.buildUrl(`events`);
             this.getRequest(requestUrl)
                 .toPromise()
@@ -305,7 +332,7 @@ export class NodeRestApiService {
             } else {
                 reject('No SSO Token set');
             }
-            
+
             let gamertag = encodeURIComponent(player.gamertag);
             let platform = player.platform;
             let requestUrl = this.buildUrl(`accounts/${gamertag}/${platform}`);
@@ -323,7 +350,7 @@ export class NodeRestApiService {
             } else {
                 reject('No SSO Token set');
             }
-            
+
             let requestUrl = this.buildUrl(`identities`);
             this.getRequest(requestUrl)
                 .toPromise()
@@ -339,7 +366,7 @@ export class NodeRestApiService {
             } else {
                 reject('No SSO Token set');
             }
-            
+
             let gamertag = encodeURIComponent(player.gamertag);
             let platform = player.platform;
             let requestUrl = this.buildUrl(`settings/${gamertag}/${platform}`);
