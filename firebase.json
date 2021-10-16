@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "public",
+    "public": "dist/ka4s-cod",
     "ignore": [
       "firebase.json",
       "**/.*",

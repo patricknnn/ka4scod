@@ -37,6 +37,7 @@ import { ProfileComponent } from './components/core/profile/profile.component';
 import { UserInfoComponent } from './components/core/user-info/user-info.component';
 import { FbLandingComponent } from './components/auth/fb-landing/fb-landing.component';
 import { NotificationCardComponent } from './components/cards/notification-card/notification-card.component';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 @NgModule({
     declarations: [
@@ -78,6 +79,7 @@ import { NotificationCardComponent } from './components/cards/notification-card/
         DynamicFormsModule,
         DynamicTablesModule,
         AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule,
         AngularFirestoreModule,
     ],
     providers: [],

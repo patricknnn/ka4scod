@@ -47,7 +47,14 @@ export class AuthService {
         this.afAuth
             .signInWithEmailAndPassword(email, password)
             .then((value) => {
-                this.setUserData(value.user);
+                if (!value.user?.emailVerified) {
+                    this.dialog.errorDialog(
+                        'Email not verified',
+                        'Please check your inbox to verify your email'
+                    );
+                } else {
+                    this.setUserData(value.user);
+                }
             })
             .catch((err) => {
                 this.dialog.errorDialog('Login', err.message);
@@ -114,16 +121,9 @@ export class AuthService {
             .pipe(map((c) => ({ key: c.payload.id, ...c.payload.data() })))
             .subscribe((data) => {
                 this.loggedInUser = data;
-                if (this.loggedInUser.emailVerified) {
-                    setTimeout(() => {
-                        this.router.navigate(['/dashboard']);
-                    }, 1000);
-                } else {
-                    this.dialog.errorDialog(
-                        'Email not verified',
-                        'Please check your inbox to verify your email'
-                    );
-                }
+                setTimeout(() => {
+                    this.router.navigate(['/dashboard']);
+                }, 1500);
             });
     }
 }
