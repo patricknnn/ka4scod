@@ -38,6 +38,8 @@ import { UserInfoComponent } from './components/core/user-info/user-info.compone
 import { FbLandingComponent } from './components/auth/fb-landing/fb-landing.component';
 import { NotificationCardComponent } from './components/cards/notification-card/notification-card.component';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { StatsVanguardComponent } from './components/tables/stats-vanguard/stats-vanguard.component';
+import { StatsVanguardKillsComponent } from './components/tables/stats-vanguard-kills/stats-vanguard-kills.component';
 
 @NgModule({
     declarations: [
@@ -73,6 +75,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
         UserInfoComponent,
         FbLandingComponent,
         NotificationCardComponent,
+        StatsVanguardComponent,
+        StatsVanguardKillsComponent,
     ],
     imports: [
         SharedModule,

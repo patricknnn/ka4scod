@@ -16,8 +16,13 @@ export class NavlinkService {
         const groups = [
             {
                 header: 'General',
+                navlinks: [new Navlink('Dashboard', 'dashboard', '/dashboard')],
+            },
+            {
+                header: 'Vanguard',
                 navlinks: [
-                    new Navlink('Dashboard', 'dashboard', '/dashboard'),
+                    new Navlink('Lifetime', 'content_paste', '/vg-lifetime'),
+                    new Navlink('Kills', 'fullscreen_exit', '/vg-kills'),
                 ],
             },
             {

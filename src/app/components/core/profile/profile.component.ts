@@ -76,6 +76,8 @@ export class ProfileComponent implements OnInit {
     }
 
     validateSsoToken(): void {
+      console.log(this.ssoToken);
+      
         this.api.validateSsoToken(this.ssoToken).then(
             (res) => {
                 this.dialog.succesDialog('SSO Token Status', res);

@@ -1,0 +1,58 @@
+<!-- Title -->
+<app-title-section icon="fullscreen_exit" [title]="'Vanguard: Kills'"></app-title-section>
+
+<div class="container-fluid">
+    <div class="row" *ngIf="!isSsoTokenSet()">
+        <div class="col-xs-12">
+            <app-notification-card
+                type="warning"
+                title="No SSO Token"
+                subtitle="To access Call of Duty API features, please set your SSO Token in your profile."
+                buttonText="Profile"
+                buttonLink="/fb-profile"
+            ></app-notification-card>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="isSsoTokenSet() && isLoading">
+        <div class="col-xs-12">
+            <!-- Loading -->
+            <app-loading></app-loading>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="isSsoTokenSet() && !isLoading">
+        <div class="col-xs-12">
+            <!-- Button toggle -->
+            <mat-button-toggle-group class="button-toggle-full-width">
+                <mat-button-toggle (click)="getMeleeKillData()">Melee</mat-button-toggle>
+                <mat-button-toggle (click)="getPistolData()">Pistol</mat-button-toggle>
+                <mat-button-toggle (click)="getShottyData()">Shotgun</mat-button-toggle>
+                <mat-button-toggle (click)="getSmgKillData()">SMG</mat-button-toggle>
+                <mat-button-toggle (click)="getAssaultKillData()">Assault</mat-button-toggle>
+                <mat-button-toggle (click)="getLmgData()">LMG</mat-button-toggle>
+                <mat-button-toggle (click)="getSniperKillData()">Sniper</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <!-- Dynamic table outlet -->
+            <ng-container #outlet></ng-container>
+        </div>
+    </div>
+</div>
+
+<!-- Dynamic table template -->
+<ng-template #content>
+    <app-dynamic-table
+        *ngIf="tableData"
+        [tableConfig]="tableConfig!"
+        [columnConfig]="columnConfig"
+        [data]="tableData"
+        (selectionChange)="handleSelectionChangeEvent($event)"
+        (buttonClick)="handleButtonClickEvent($event)"
+    >
+    </app-dynamic-table>
+</ng-template>

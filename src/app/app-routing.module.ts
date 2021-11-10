@@ -16,6 +16,8 @@ import { KillsTableComponent } from './components/tables/kills-table/kills-table
 import { PlayerTableComponent } from './components/tables/player-table/player-table.component';
 import { StatsLifetimeWzComponent } from './components/tables/stats-lifetime-wz/stats-lifetime-wz.component';
 import { StatsLifetimeComponent } from './components/tables/stats-lifetime/stats-lifetime.component';
+import { StatsVanguardKillsComponent } from './components/tables/stats-vanguard-kills/stats-vanguard-kills.component';
+import { StatsVanguardComponent } from './components/tables/stats-vanguard/stats-vanguard.component';
 import { StatsWeeklyComponent } from './components/tables/stats-weekly/stats-weekly.component';
 
 const routes: Routes = [
@@ -96,28 +98,41 @@ const routes: Routes = [
     {
         path: 'mp-lifetime',
         component: StatsLifetimeComponent,
-        data: { breadcrumb: 'Lifetime statistics' },
+        data: { breadcrumb: 'Modern Warfare Lifetime' },
         canActivate: [AuthGuard],
     },
     {
         path: 'mp-weekly',
         component: StatsWeeklyComponent,
-        data: { breadcrumb: 'Weekly statistics' },
+        data: { breadcrumb: 'Modern Warfare Weekly' },
         canActivate: [AuthGuard],
     },
     {
         path: 'kills',
         component: KillsTableComponent,
-        data: { breadcrumb: 'Kill statistics' },
+        data: { breadcrumb: 'Modern Warfare Kills' },
         canActivate: [AuthGuard],
     },
     // wz
     {
         path: 'wz-lifetime',
         component: StatsLifetimeWzComponent,
-        data: { breadcrumb: 'Lifetime statistics' },
+        data: { breadcrumb: 'Warzone Lifetime' },
         canActivate: [AuthGuard],
     },
+    // vanguard
+    {
+        path: 'vg-lifetime',
+        component: StatsVanguardComponent,
+        data: { breadcrumb: 'Vanguard Lifetime' },
+        canActivate: [AuthGuard],
+    },
+    {
+      path: 'vg-kills',
+      component: StatsVanguardKillsComponent,
+      data: { breadcrumb: 'Vanguard Kills' },
+      canActivate: [AuthGuard],
+  },
     // Redirects
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     { path: '**', redirectTo: '404' },

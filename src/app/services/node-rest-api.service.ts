@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { LifetimeStats } from '../models/lifetime-stats';
+import { VanguardLifetimeStats } from '../models/vanguard-stats';
 import { WarzoneStats } from '../models/warzone-stats';
 import { AuthService } from './firestore/auth.service';
 
@@ -27,13 +28,14 @@ export declare type CodApiGameType = 'mp' | 'wz' | 'zm';
 })
 export class NodeRestApiService {
     isLoggedIn: boolean = false;
-    //apiURL: string = 'http://localhost:8000/api/';
-    apiURL: string = 'http://api.klapdekar.nl:8000/api/';
+    apiURL: string = 'http://localhost:8000/api/';
+    //apiURL: string = 'http://api.klapdekar.nl:8000/api/';
     requestRetries: number = 1;
     lifetimeCache: { name: string; data: any }[] = [];
     warzoneCache: { name: string; data: any }[] = [];
     weeklyCache: { name: string; data: any }[] = [];
     recentMatchesCache: { name: string; data: any }[] = [];
+    vanguardCache: { name: string; data: any }[] = [];
 
     /**
      * Initialize CodApiService
@@ -92,288 +94,343 @@ export class NodeRestApiService {
         });
     }
 
-    getLifetimeStats(player: CodApiPlayer): Promise<LifetimeStats> {
+    getVanguardStats(player: CodApiPlayer): Promise<VanguardLifetimeStats> {
         return new Promise((resolve, reject) => {
             if (this.auth.loggedInUser?.ssoToken) {
-                this.login(this.auth.loggedInUser.ssoToken);
+                this.login(this.auth.loggedInUser.ssoToken).then((res) => {
+                    this.vanguardCache.forEach((entry) => {
+                        if (entry.name == player.name) {
+                            resolve(entry.data);
+                        }
+                    });
+                    let type = 'mp';
+                    let gamertag = encodeURIComponent(player.gamertag);
+                    let platform = player.platform;
+                    let requestUrl = this.buildUrl(
+                        `vg/${type}/${gamertag}/${platform}`
+                    );
+                    this.getRequest(requestUrl)
+                        .toPromise()
+                        .then((data: any) => {
+                            this.vanguardCache.push({
+                                name: player.name,
+                                data: data,
+                            });
+                            resolve(data);
+                        })
+                        .catch((e) => reject(e));
+                });
             } else {
                 reject('No SSO Token set');
             }
+        });
+    }
 
-            this.lifetimeCache.forEach((entry) => {
-                if (entry.name == player.name) {
-                    resolve(entry.data);
-                }
-            });
-            let type = 'mp';
-            let gamertag = encodeURIComponent(player.gamertag);
-            let platform = player.platform;
-            let requestUrl = this.buildUrl(
-                `lifetime/${type}/${gamertag}/${platform}`
-            );
-            this.getRequest(requestUrl)
-                .toPromise()
-                .then((data: any) => {
-                    this.lifetimeCache.push({ name: player.name, data: data });
-                    resolve(data);
-                })
-                .catch((e) => reject(e));
+    getLifetimeStats(player: CodApiPlayer): Promise<LifetimeStats> {
+        return new Promise((resolve, reject) => {
+            if (this.auth.loggedInUser?.ssoToken) {
+                this.login(this.auth.loggedInUser.ssoToken).then((res) => {
+                    this.lifetimeCache.forEach((entry) => {
+                        if (entry.name == player.name) {
+                            resolve(entry.data);
+                        }
+                    });
+                    let type = 'mp';
+                    let gamertag = encodeURIComponent(player.gamertag);
+                    let platform = player.platform;
+                    let requestUrl = this.buildUrl(
+                        `lifetime/${type}/${gamertag}/${platform}`
+                    );
+                    this.getRequest(requestUrl)
+                        .toPromise()
+                        .then((data: any) => {
+                            this.lifetimeCache.push({
+                                name: player.name,
+                                data: data,
+                            });
+                            resolve(data);
+                        })
+                        .catch((e) => reject(e));
+                });
+            } else {
+                reject('No SSO Token set');
+            }
         });
     }
 
     getWarzoneStats(player: CodApiPlayer): Promise<WarzoneStats> {
         return new Promise((resolve, reject) => {
             if (this.auth.loggedInUser?.ssoToken) {
-                this.login(this.auth.loggedInUser.ssoToken);
+                this.login(this.auth.loggedInUser.ssoToken).then((res) => {
+                    this.warzoneCache.forEach((entry) => {
+                        if (entry.name == player.name) {
+                            resolve(entry.data);
+                        }
+                    });
+                    let gamertag = encodeURIComponent(player.gamertag);
+                    let platform = player.platform;
+                    let requestUrl = this.buildUrl(
+                        `battleroyale/${gamertag}/${platform}`
+                    );
+                    this.getRequest(requestUrl)
+                        .toPromise()
+                        .then((data: any) => {
+                            this.warzoneCache.push({
+                                name: player.name,
+                                data: data,
+                            });
+                            resolve(data);
+                        })
+                        .catch((e) => reject(e));
+                });
             } else {
                 reject('No SSO Token set');
             }
-
-            this.warzoneCache.forEach((entry) => {
-                if (entry.name == player.name) {
-                    resolve(entry.data);
-                }
-            });
-            let gamertag = encodeURIComponent(player.gamertag);
-            let platform = player.platform;
-            let requestUrl = this.buildUrl(
-                `battleroyale/${gamertag}/${platform}`
-            );
-            this.getRequest(requestUrl)
-                .toPromise()
-                .then((data: any) => {
-                    this.warzoneCache.push({ name: player.name, data: data });
-                    resolve(data);
-                })
-                .catch((e) => reject(e));
         });
     }
 
     getWeeklyStats(player: CodApiPlayer): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.auth.loggedInUser?.ssoToken) {
-                this.login(this.auth.loggedInUser.ssoToken);
+                this.login(this.auth.loggedInUser.ssoToken).then((res) => {
+                    this.warzoneCache.forEach((entry) => {
+                        if (entry.name == player.name) {
+                            resolve(entry.data);
+                        }
+                    });
+                    let gamertag = encodeURIComponent(player.gamertag);
+                    let platform = player.platform;
+                    let requestUrl = this.buildUrl(
+                        `weekly/${gamertag}/${platform}`
+                    );
+                    this.getRequest(requestUrl)
+                        .toPromise()
+                        .then((data: any) => {
+                            this.warzoneCache.push({
+                                name: player.name,
+                                data: data,
+                            });
+                            resolve(data);
+                        })
+                        .catch((e) => reject(e));
+                });
             } else {
                 reject('No SSO Token set');
             }
-
-            this.warzoneCache.forEach((entry) => {
-                if (entry.name == player.name) {
-                    resolve(entry.data);
-                }
-            });
-            let gamertag = encodeURIComponent(player.gamertag);
-            let platform = player.platform;
-            let requestUrl = this.buildUrl(`weekly/${gamertag}/${platform}`);
-            this.getRequest(requestUrl)
-                .toPromise()
-                .then((data: any) => {
-                    this.warzoneCache.push({ name: player.name, data: data });
-                    resolve(data);
-                })
-                .catch((e) => reject(e));
         });
     }
 
     getRecentMatches(player: CodApiPlayer): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.auth.loggedInUser?.ssoToken) {
-                this.login(this.auth.loggedInUser.ssoToken);
+                this.login(this.auth.loggedInUser.ssoToken).then((res) => {
+                    this.recentMatchesCache.forEach((entry) => {
+                        if (entry.name == player.name) {
+                            resolve(entry.data);
+                        }
+                    });
+                    let type = 'mp';
+                    let gamertag = encodeURIComponent(player.gamertag);
+                    let platform = player.platform;
+                    let requestUrl = this.buildUrl(
+                        `recentmatches/${type}/${gamertag}/${platform}`
+                    );
+                    this.getRequest(requestUrl)
+                        .toPromise()
+                        .then((data: any) => {
+                            this.recentMatchesCache.push({
+                                name: player.name,
+                                data: data,
+                            });
+                            resolve(data);
+                        })
+                        .catch((e) => reject(e));
+                });
             } else {
                 reject('No SSO Token set');
             }
-
-            this.recentMatchesCache.forEach((entry) => {
-                if (entry.name == player.name) {
-                    resolve(entry.data);
-                }
-            });
-            let type = 'mp';
-            let gamertag = encodeURIComponent(player.gamertag);
-            let platform = player.platform;
-            let requestUrl = this.buildUrl(
-                `recentmatches/${type}/${gamertag}/${platform}`
-            );
-            this.getRequest(requestUrl)
-                .toPromise()
-                .then((data: any) => {
-                    this.recentMatchesCache.push({
-                        name: player.name,
-                        data: data,
-                    });
-                    resolve(data);
-                })
-                .catch((e) => reject(e));
         });
     }
 
     getAnalysis(player: CodApiPlayer): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.auth.loggedInUser?.ssoToken) {
-                this.login(this.auth.loggedInUser.ssoToken);
+                this.login(this.auth.loggedInUser.ssoToken).then((res) => {
+                    let gamertag = encodeURIComponent(player.gamertag);
+                    let platform = player.platform;
+                    let requestUrl = this.buildUrl(
+                        `analysis/${gamertag}/${platform}`
+                    );
+                    this.getRequest(requestUrl)
+                        .toPromise()
+                        .then((data: any) => resolve(data))
+                        .catch((e) => reject(e));
+                });
             } else {
                 reject('No SSO Token set');
             }
-
-            let gamertag = encodeURIComponent(player.gamertag);
-            let platform = player.platform;
-            let requestUrl = this.buildUrl(`analysis/${gamertag}/${platform}`);
-            this.getRequest(requestUrl)
-                .toPromise()
-                .then((data: any) => resolve(data))
-                .catch((e) => reject(e));
         });
     }
 
     getMaps(): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.auth.loggedInUser?.ssoToken) {
-                this.login(this.auth.loggedInUser.ssoToken);
+                this.login(this.auth.loggedInUser.ssoToken).then((res) => {
+                    let requestUrl = this.buildUrl(`maps`);
+                    this.getRequest(requestUrl)
+                        .toPromise()
+                        .then((data: any) => resolve(data))
+                        .catch((e) => reject(e));
+                });
             } else {
                 reject('No SSO Token set');
             }
-
-            let requestUrl = this.buildUrl(`maps`);
-            this.getRequest(requestUrl)
-                .toPromise()
-                .then((data: any) => resolve(data))
-                .catch((e) => reject(e));
         });
     }
 
     getBattlePassLoot(player: CodApiPlayer): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.auth.loggedInUser?.ssoToken) {
-                this.login(this.auth.loggedInUser.ssoToken);
+                this.login(this.auth.loggedInUser.ssoToken).then((res) => {
+                    let gamertag = encodeURIComponent(player.gamertag);
+                    let platform = player.platform;
+                    let requestUrl = this.buildUrl(
+                        `loot/${gamertag}/${platform}`
+                    );
+                    this.getRequest(requestUrl)
+                        .toPromise()
+                        .then((data: any) => resolve(data))
+                        .catch((e) => reject(e));
+                });
             } else {
                 reject('No SSO Token set');
             }
-
-            let gamertag = encodeURIComponent(player.gamertag);
-            let platform = player.platform;
-            let requestUrl = this.buildUrl(`loot/${gamertag}/${platform}`);
-            this.getRequest(requestUrl)
-                .toPromise()
-                .then((data: any) => resolve(data))
-                .catch((e) => reject(e));
         });
     }
 
     getBattlePassTiers(season: number, platform: CodApiPlatform): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.auth.loggedInUser?.ssoToken) {
-                this.login(this.auth.loggedInUser.ssoToken);
+                this.login(this.auth.loggedInUser.ssoToken).then((res) => {
+                    let requestUrl = this.buildUrl(
+                        `tiers/${season}/${platform}`
+                    );
+                    this.getRequest(requestUrl)
+                        .toPromise()
+                        .then((data: any) => resolve(data))
+                        .catch((e) => reject(e));
+                });
             } else {
                 reject('No SSO Token set');
             }
-
-            let requestUrl = this.buildUrl(`tiers/${season}/${platform}`);
-            this.getRequest(requestUrl)
-                .toPromise()
-                .then((data: any) => resolve(data))
-                .catch((e) => reject(e));
         });
     }
 
     getCodPoints(player: CodApiPlayer): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.auth.loggedInUser?.ssoToken) {
-                this.login(this.auth.loggedInUser.ssoToken);
+                this.login(this.auth.loggedInUser.ssoToken).then((res) => {
+                    let gamertag = encodeURIComponent(player.gamertag);
+                    let platform = player.platform;
+                    let requestUrl = this.buildUrl(
+                        `points/${gamertag}/${platform}`
+                    );
+                    this.getRequest(requestUrl)
+                        .toPromise()
+                        .then((data: any) => resolve(data))
+                        .catch((e) => reject(e));
+                });
             } else {
                 reject('No SSO Token set');
             }
-
-            let gamertag = encodeURIComponent(player.gamertag);
-            let platform = player.platform;
-            let requestUrl = this.buildUrl(`points/${gamertag}/${platform}`);
-            this.getRequest(requestUrl)
-                .toPromise()
-                .then((data: any) => resolve(data))
-                .catch((e) => reject(e));
         });
     }
 
     getUserinfo(): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.auth.loggedInUser?.ssoToken) {
-                this.login(this.auth.loggedInUser.ssoToken);
+                this.login(this.auth.loggedInUser.ssoToken).then((res) => {
+                    let requestUrl = this.buildUrl(`userinfo`);
+                    this.getRequest(requestUrl)
+                        .toPromise()
+                        .then((data: any) => resolve(data))
+                        .catch((e) => reject(e));
+                });
             } else {
                 reject('No SSO Token set');
             }
-
-            let requestUrl = this.buildUrl(`userinfo`);
-            this.getRequest(requestUrl)
-                .toPromise()
-                .then((data: any) => resolve(data))
-                .catch((e) => reject(e));
         });
     }
 
     getEvents(): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.auth.loggedInUser?.ssoToken) {
-                this.login(this.auth.loggedInUser.ssoToken);
+                this.login(this.auth.loggedInUser.ssoToken).then((res) => {
+                    let requestUrl = this.buildUrl(`events`);
+                    this.getRequest(requestUrl)
+                        .toPromise()
+                        .then((data: any) => resolve(data))
+                        .catch((e) => reject(e));
+                });
             } else {
                 reject('No SSO Token set');
             }
-
-            let requestUrl = this.buildUrl(`events`);
-            this.getRequest(requestUrl)
-                .toPromise()
-                .then((data: any) => resolve(data))
-                .catch((e) => reject(e));
         });
     }
 
     getAccounts(player: CodApiPlayer): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.auth.loggedInUser?.ssoToken) {
-                this.login(this.auth.loggedInUser.ssoToken);
+                this.login(this.auth.loggedInUser.ssoToken).then((res) => {
+                    let gamertag = encodeURIComponent(player.gamertag);
+                    let platform = player.platform;
+                    let requestUrl = this.buildUrl(
+                        `accounts/${gamertag}/${platform}`
+                    );
+                    this.getRequest(requestUrl)
+                        .toPromise()
+                        .then((data: any) => resolve(data))
+                        .catch((e) => reject(e));
+                });
             } else {
                 reject('No SSO Token set');
             }
-
-            let gamertag = encodeURIComponent(player.gamertag);
-            let platform = player.platform;
-            let requestUrl = this.buildUrl(`accounts/${gamertag}/${platform}`);
-            this.getRequest(requestUrl)
-                .toPromise()
-                .then((data: any) => resolve(data))
-                .catch((e) => reject(e));
         });
     }
 
     getIdentities(): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.auth.loggedInUser?.ssoToken) {
-                this.login(this.auth.loggedInUser.ssoToken);
+                this.login(this.auth.loggedInUser.ssoToken).then((res) => {
+                    let requestUrl = this.buildUrl(`identities`);
+                    this.getRequest(requestUrl)
+                        .toPromise()
+                        .then((data: any) => resolve(data))
+                        .catch((e) => reject(e));
+                });
             } else {
                 reject('No SSO Token set');
             }
-
-            let requestUrl = this.buildUrl(`identities`);
-            this.getRequest(requestUrl)
-                .toPromise()
-                .then((data: any) => resolve(data))
-                .catch((e) => reject(e));
         });
     }
 
     getSettings(player: CodApiPlayer): Promise<any> {
         return new Promise((resolve, reject) => {
             if (this.auth.loggedInUser?.ssoToken) {
-                this.login(this.auth.loggedInUser.ssoToken);
+                this.login(this.auth.loggedInUser.ssoToken).then((res) => {
+                    let gamertag = encodeURIComponent(player.gamertag);
+                    let platform = player.platform;
+                    let requestUrl = this.buildUrl(
+                        `settings/${gamertag}/${platform}`
+                    );
+                    this.getRequest(requestUrl)
+                        .toPromise()
+                        .then((data: any) => resolve(data))
+                        .catch((e) => reject(e));
+                });
             } else {
                 reject('No SSO Token set');
             }
-
-            let gamertag = encodeURIComponent(player.gamertag);
-            let platform = player.platform;
-            let requestUrl = this.buildUrl(`settings/${gamertag}/${platform}`);
-            this.getRequest(requestUrl)
-                .toPromise()
-                .then((data: any) => resolve(data))
-                .catch((e) => reject(e));
         });
     }
 
