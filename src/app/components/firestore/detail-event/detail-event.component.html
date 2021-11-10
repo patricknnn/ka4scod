@@ -113,6 +113,12 @@
                 >
                     Warzone
                 </mat-button-toggle>
+                <mat-button-toggle
+                    (click)="setStatsMode('vanguard')"
+                    [checked]="statsMode == 'vanguard'"
+                >
+                    Vanguard
+                </mat-button-toggle>
             </mat-button-toggle-group>
         </div>
     </div>

@@ -15,10 +15,14 @@ export interface LanEventPlayer {
     player?: Player;
     statsStart?: any;
     statsStartWarzone?: any;
+    statsStartVanguard?: any;
     statsEnd?: any;
     statsEndWarzone?: any;
+    statsEndVanguard?: any;
     statsCurrent?: any;
     statsCurrentWarzone?: any;
+    statsCurrentVanguard?: any;
     statsCompared?: any;
     statsComparedWarzone?: any;
+    statsComparedVanguard?: any;
 }
