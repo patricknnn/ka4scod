@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
     selector: 'app-title-section',
@@ -8,4 +8,11 @@ import { Component, Input } from '@angular/core';
 export class TitleSectionComponent {
     @Input() title!: string;
     @Input() icon?: string;
+    @Input() buttonIcon?: string;
+    
+    @Output() buttonClick = new EventEmitter();
+
+    emitButtonClick() {
+        this.buttonClick.emit();
+    }
 }

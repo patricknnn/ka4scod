@@ -1,19 +1,16 @@
 <!-- Title -->
-<app-title-section icon="videocam" [title]="'Videos'"></app-title-section>
+<app-title-section
+    icon="videocam"
+    title="Videos"
+    buttonIcon="add"
+    (buttonClick)="edit()"
+></app-title-section>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
             <!-- Loading -->
             <app-loading *ngIf="isLoading"></app-loading>
-        </div>
-    </div>
-    <div class="row" *ngIf="!isLoading">
-        <div class="col-xs-12">
-            <!-- Buttons -->
-            <button mat-mini-fab color="accent" (click)="edit()">
-                <mat-icon>add</mat-icon>
-            </button>
         </div>
     </div>
     <div class="row">

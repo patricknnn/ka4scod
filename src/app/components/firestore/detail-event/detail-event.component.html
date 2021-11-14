@@ -1,5 +1,10 @@
 <!-- Title -->
-<app-title-section icon="event" [title]="'Event details'"></app-title-section>
+<app-title-section
+    icon="event"
+    [title]="'Event details'"
+    [buttonIcon]="eventEnded ? '' : 'block'"
+    (buttonClick)="endEvent()"
+></app-title-section>
 
 <div class="container-fluid">
     <div class="row">
@@ -122,7 +127,7 @@
             </mat-button-toggle-group>
         </div>
     </div>
-    <div class="row" style="margin-top: 1rem">
+    <div class="row">
         <div class="col-xs-12">
             <!-- Button toggle stats -->
             <mat-button-toggle-group class="button-toggle-full-width">

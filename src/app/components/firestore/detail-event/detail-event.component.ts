@@ -136,39 +136,45 @@ export class DetailEventComponent implements OnInit {
    * End event
    */
   endEvent(): void {
-    this.dialog
-      .confirmDialog(
-        'Are you sure?',
-        'Ending an event will fetch final stats!',
-        'cancel',
-        'end'
-      )
-      .then((result) => {
-        if (result) {
-          let count = 0;
-          this.event.endDate = this.getCurrentDate();
-          this.event.players?.forEach((player) => {
-            if (player.player) {
-              this.getLifetimeData(player.player).then((res) => {
-                if (!res.lifetime) {
-                  this.dialog.errorDialog(
-                    'Error',
-                    `Unable to fetch data for ${player.player?.gamertag} (${res})`
-                  );
-                } else {
-                  count++;
-                  player.statsEnd = this.stats.convertLifetimeStatsToPlayerStatsLifetime(res.lifetime);
-                  player.statsEndWarzone = res.warzone;
-                  player.statsEndVanguard = res.vanguard;
-                  if (count == this.event.players?.length) {
-                    this.save();
+    if (this.eventEnded) {
+      this.dialog
+        .errorDialog('Error', 'Event already ended')
+    } else {
+      this.dialog
+        .confirmDialog(
+          'Are you sure?',
+          'Ending an event will fetch final stats!',
+          'cancel',
+          'end'
+        )
+        .then((result) => {
+          if (result) {
+            let count = 0;
+            this.event.endDate = this.getCurrentDate();
+            this.event.players?.forEach((player) => {
+              if (player.player) {
+                this.getLifetimeData(player.player).then((res) => {
+                  if (!res.lifetime) {
+                    this.dialog.errorDialog(
+                      'Error',
+                      `Unable to fetch data for ${player.player?.gamertag} (${res})`
+                    );
+                  } else {
+                    count++;
+                    player.statsEnd = this.stats.convertLifetimeStatsToPlayerStatsLifetime(res.lifetime);
+                    player.statsEndWarzone = res.warzone;
+                    player.statsEndVanguard = res.vanguard;
+                    if (count == this.event.players?.length) {
+                      this.save();
+                    }
                   }
-                }
-              });
-            }
-          });
-        }
-      });
+                });
+              }
+            });
+          }
+        });
+    }
+
   }
 
   /**
@@ -248,7 +254,7 @@ export class DetailEventComponent implements OnInit {
       statsKey = statsKey + 'Vanguard'
     }
     console.log(statsKey);
-    
+
     this.tableData = [];
     // data
     if (this.event.players) {
