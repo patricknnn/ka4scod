@@ -1,0 +1,77 @@
+<!-- Card -->
+<mat-card [class]="'player-card ' + elevation">
+  <mat-card-header>
+    <img *ngIf="player.avatar" mat-card-avatar [src]="player.avatar" />
+    <mat-card-title>{{ player.name }}</mat-card-title>
+    <mat-card-subtitle>{{ player.platform }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content *ngIf="data">
+    <div *ngIf="dataError">
+      <span> An error occured while retrieving profile data. </span>
+      <p>
+        {{ dataErrorText }}
+      </p>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-6">
+          <mat-list class="card-list" *ngIf="!dataError">
+            <div mat-subheader>Rank</div>
+            <mat-list-item>
+              <mat-icon mat-list-icon svgIcon="mw"></mat-icon>
+              <div mat-line>{{ data.lifetime.level }}</div>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon mat-list-icon svgIcon="vg"></mat-icon>
+              <div mat-line>{{ data.vanguard.level }}</div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+        <div class="col-xs-6">
+          <mat-list class="card-list" *ngIf="!dataError">
+            <div mat-subheader>Kills</div>
+            <mat-list-item>
+              <mat-icon mat-list-icon svgIcon="mw"></mat-icon>
+              <div mat-line>{{ data.lifetime.lifetime.all.properties.kills }}</div>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon mat-list-icon svgIcon="vg"></mat-icon>
+              <div mat-line>{{ data.vanguard.lifetime.all.properties.kills }}</div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6">
+          <mat-list class="card-list" *ngIf="!dataError">
+            <div mat-subheader>K/D Ratio</div>
+            <mat-list-item>
+              <mat-icon mat-list-icon svgIcon="mw"></mat-icon>
+              <div mat-line>{{ data.lifetime.lifetime.all.properties.kdRatio| number: "1.2-2" }}</div>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon mat-list-icon svgIcon="vg"></mat-icon>
+              <div mat-line>{{ data.vanguard.lifetime.all.properties.kdRatio| number: "1.2-2" }}</div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+        <div class="col-xs-6">
+          <mat-list class="card-list" *ngIf="!dataError">
+            <div mat-subheader>Time Played</div>
+            <mat-list-item>
+              <mat-icon mat-list-icon svgIcon="mw"></mat-icon>
+              <div mat-line>{{ hoursCummulativeMw }}</div>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon mat-list-icon svgIcon="vg"></mat-icon>
+              <div mat-line>{{ hoursCummulativeVg }}</div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-footer *ngIf="!data">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

@@ -1,5 +1,9 @@
 .video-card {
   padding-bottom: 0;
+
+  & iframe {
+    border-radius: 8px;
+  }
 }
 .mat-card-video {
   width: calc(100% + 32px);

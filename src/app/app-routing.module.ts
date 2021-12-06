@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
-import { PlaygroundComponent } from './components/api/playground/playground.component';
 import { DashboardComponent } from './components/core/dashboard/dashboard.component';
 import { PageNotFoundComponent } from './components/core/page-not-found/page-not-found.component';
 import { ProfileComponent } from './components/core/profile/profile.component';
@@ -13,7 +12,6 @@ import { ViewEventsComponent } from './components/firestore/view-events/view-eve
 import { ViewPlayersComponent } from './components/firestore/view-players/view-players.component';
 import { ViewVideosComponent } from './components/firestore/view-videos/view-videos.component';
 import { KillsTableComponent } from './components/tables/kills-table/kills-table.component';
-import { PlayerTableComponent } from './components/tables/player-table/player-table.component';
 import { StatsLifetimeWzComponent } from './components/tables/stats-lifetime-wz/stats-lifetime-wz.component';
 import { StatsLifetimeComponent } from './components/tables/stats-lifetime/stats-lifetime.component';
 import { StatsVanguardKillsComponent } from './components/tables/stats-vanguard-kills/stats-vanguard-kills.component';
@@ -36,12 +34,6 @@ const routes: Routes = [
         canActivate: [AuthGuard],
     },
     {
-        path: 'playground',
-        component: PlaygroundComponent,
-        data: { breadcrumb: 'Playground' },
-        canActivate: [AuthGuard],
-    },
-    {
         path: 'players',
         component: ViewPlayersComponent,
         data: { breadcrumb: 'Players' },
@@ -51,12 +43,6 @@ const routes: Routes = [
         path: 'player',
         component: EditPlayerComponent,
         data: { breadcrumb: 'Player details' },
-        canActivate: [AuthGuard],
-    },
-    {
-        path: 'playerstats',
-        component: PlayerTableComponent,
-        data: { breadcrumb: 'Player statistics' },
         canActivate: [AuthGuard],
     },
     {

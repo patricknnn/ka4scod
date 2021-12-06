@@ -8,11 +8,12 @@
         </div>
     </div>
 </div>
+
 <!-- Cards -->
 <div class="container-fluid">
     <div class="row" *ngIf="isSsoTokenSet() && !isLoadingPlayers && players">
         <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let player of players">
-            <app-player-card [player]="player"></app-player-card>
+            <app-player-stats-card [player]="player"></app-player-stats-card>
         </div>
     </div>
     <div class="row" *ngIf="!isSsoTokenSet()">
@@ -30,6 +31,7 @@
 
 <!-- Events -->
 <app-title-section icon="event" [title]="'Events'"></app-title-section>
+
 <!-- loading -->
 <div class="container-fluid">
     <div class="row" *ngIf="isLoadingEvents">
@@ -38,6 +40,7 @@
         </div>
     </div>
 </div>
+
 <!-- Cards -->
 <div class="container-fluid">
     <div class="row" *ngIf="!isLoadingEvents && events">
@@ -49,6 +52,7 @@
 
 <!-- Videos -->
 <app-title-section icon="videocam" [title]="'Videos'"></app-title-section>
+
 <!-- loading -->
 <div class="container-fluid">
     <div class="row" *ngIf="isLoadingVideos">
@@ -57,6 +61,7 @@
         </div>
     </div>
 </div>
+
 <!-- Cards -->
 <div class="container-fluid">
     <div class="row" *ngIf="!isLoadingVideos && videos">

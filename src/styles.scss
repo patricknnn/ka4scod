@@ -48,6 +48,11 @@ body {
     width: 100%;
     overflow-x: hidden;
     overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.scroll-content::-webkit-scrollbar {
+  display: none;
 }
 
 .content-wrapper {
@@ -105,7 +110,6 @@ button {
 // Cards
 .mat-card {
     border-radius: 8px !important;
-    margin-bottom: 1rem;
 }
 
 .mat-card .mat-divider-horizontal {
@@ -152,6 +156,15 @@ mat-form-field {
     & .mat-icon {
         margin-right: 0.5rem;
     }
+}
+
+// icons
+#mw-icon path {
+  fill: #009688;
+}
+
+#vg-icon g path {
+  fill: #f44336;
 }
 
 // Helpers

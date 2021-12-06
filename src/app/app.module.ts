@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { SidenavComponent } from './components/core/sidenav/sidenav.component';
 import { ToolbarComponent } from './components/core/toolbar/toolbar.component';
-import { PlaygroundComponent } from './components/api/playground/playground.component';
 import { PageNotFoundComponent } from './components/core/page-not-found/page-not-found.component';
 import { SuccesDialogComponent } from './components/dialog/succes-dialog/succes-dialog.component';
 import { ErrorDialogComponent } from './components/dialog/error-dialog/error-dialog.component';
@@ -22,8 +21,6 @@ import { PromptDialogComponent } from './components/dialog/prompt-dialog/prompt-
 import { EditVideoComponent } from './components/firestore/edit-video/edit-video.component';
 import { ViewVideosComponent } from './components/firestore/view-videos/view-videos.component';
 import { VideoCardComponent } from './components/cards/video-card/video-card.component';
-import { PlayerCardComponent } from './components/cards/player-card/player-card.component';
-import { PlayerTableComponent } from './components/tables/player-table/player-table.component';
 import { ViewEventsComponent } from './components/firestore/view-events/view-events.component';
 import { EditEventComponent } from './components/firestore/edit-event/edit-event.component';
 import { DetailEventComponent } from './components/firestore/detail-event/detail-event.component';
@@ -40,13 +37,13 @@ import { NotificationCardComponent } from './components/cards/notification-card/
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { StatsVanguardComponent } from './components/tables/stats-vanguard/stats-vanguard.component';
 import { StatsVanguardKillsComponent } from './components/tables/stats-vanguard-kills/stats-vanguard-kills.component';
+import { PlayerStatsCardComponent } from './components/cards/player-stats-card/player-stats-card.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         SidenavComponent,
         ToolbarComponent,
-        PlaygroundComponent,
         PageNotFoundComponent,
         SuccesDialogComponent,
         ErrorDialogComponent,
@@ -60,8 +57,6 @@ import { StatsVanguardKillsComponent } from './components/tables/stats-vanguard-
         EditVideoComponent,
         ViewVideosComponent,
         VideoCardComponent,
-        PlayerCardComponent,
-        PlayerTableComponent,
         ViewEventsComponent,
         EditEventComponent,
         DetailEventComponent,
@@ -77,6 +72,7 @@ import { StatsVanguardKillsComponent } from './components/tables/stats-vanguard-
         NotificationCardComponent,
         StatsVanguardComponent,
         StatsVanguardKillsComponent,
+        PlayerStatsCardComponent,
     ],
     imports: [
         SharedModule,

@@ -20,6 +20,11 @@
     padding: 1rem;
     border-radius: 8px;
     background-image: linear-gradient(195deg, #42424a, #191919);
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.sidenav-card::-webkit-scrollbar {
+    display: none;
 }
 
 .main-loading {
