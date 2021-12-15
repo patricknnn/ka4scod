@@ -4,7 +4,7 @@ import {
     AngularFirestoreCollection,
     AngularFirestoreDocument,
     DocumentReference,
-} from '@angular/fire/firestore';
+} from '@angular/fire/compat/firestore';
 import { Player } from 'src/app/models/player';
 
 @Injectable({

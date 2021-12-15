@@ -4,7 +4,7 @@ import {
     AngularFirestore,
     DocumentReference,
     AngularFirestoreDocument,
-} from '@angular/fire/firestore';
+} from '@angular/fire/compat/firestore';
 import { LanEvent } from 'src/app/models/event';
 
 @Injectable({

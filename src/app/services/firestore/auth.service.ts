@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { DialogService } from '../dialog.service';
 import { User } from 'src/app/models/user';
 import { UserService } from './user.service';

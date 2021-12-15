@@ -4,7 +4,7 @@ import {
     AngularFirestoreCollection,
     AngularFirestoreDocument,
     DocumentReference,
-} from '@angular/fire/firestore';
+} from '@angular/fire/compat/firestore';
 import { YoutubeVideo } from 'src/app/models/youtube-video';
 
 @Injectable({
