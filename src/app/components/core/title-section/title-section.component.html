@@ -1,17 +1,30 @@
-<div class="container-fluid animate__animated animate__fadeInDown">
+<div class="container-fluid">
     <div class="row">
         <div class="col-xs-12">
-            <div class="title-section">
-                <mat-icon *ngIf="icon" class="icon">{{ icon }}</mat-icon>
-                <h1 class="title">{{ title }}</h1>
-                <button
-                    *ngIf="buttonIcon"
-                    mat-mini-fab
-                    color="accent"
-                    (click)="emitButtonClick()"
-                >
-                    <mat-icon>{{ buttonIcon }}</mat-icon>
-                </button>
+            <div class="title-container">
+                <div class="title-image animate__animated animate__fadeIn"></div>
+                <mat-card class="title-card animate__animated animate__fadeInDown">
+                    <mat-card-header>
+                        <mat-icon mat-card-avatar *ngIf="icon" class="icon">
+                            {{ icon }}
+                        </mat-icon>
+                        <mat-card-title class="title">
+                            {{ title }}
+                        </mat-card-title>
+                        <mat-card-subtitle class="subtitle">
+                            {{ subTitle }}
+                        </mat-card-subtitle>
+                        <button
+                            *ngIf="buttonIcon"
+                            mat-mini-fab
+                            class="button"
+                            color="accent"
+                            (click)="emitButtonClick()"
+                        >
+                            <mat-icon>{{ buttonIcon }}</mat-icon>
+                        </button>
+                    </mat-card-header>
+                </mat-card>
             </div>
         </div>
     </div>

@@ -34,9 +34,9 @@
             <!-- Scroll content wrapper -->
             <div class="scroll-content-wrapper">
                 <!-- Scroll content -->
-                <div class="scroll-content">
+                <div class="scroll-content" (scroll)="onScroll($event)">
                     <!-- Router Outlet -->
-                    <div class="content-wrapper">
+                    <div class="content-wrapper"> 
                         <router-outlet #outlet="outlet"></router-outlet>
                     </div>
                 </div>

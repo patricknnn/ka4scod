@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class TitleSectionComponent {
     @Input() title!: string;
+    @Input() subTitle?: string;
     @Input() icon?: string;
     @Input() buttonIcon?: string;
     

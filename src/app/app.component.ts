@@ -68,6 +68,14 @@ export class AppComponent implements OnInit, OnDestroy {
     );
   }
 
+  public onScroll(event: any): void {
+    if (event.target.scrollTop < 50) {
+      document.getElementById('toolbar')?.classList.remove('mat-elevation-z4');
+    } else {
+      document.getElementById('toolbar')?.classList.add('mat-elevation-z4');
+    }
+  }
+
   public isLoggedIn(): boolean {
     return this.authService.isLoggedIn;
   }

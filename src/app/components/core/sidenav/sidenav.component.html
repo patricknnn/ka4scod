@@ -1,12 +1,14 @@
 <mat-nav-list *ngFor="let navgroup of navgroups">
     <mat-divider></mat-divider>
-    <h3 matSubheader>{{ navgroup.header }}</h3>
+    <h3 matSubheader class="navlink animate__animated animate__fadeInDown">
+        {{ navgroup.header }}
+    </h3>
     <a
         mat-list-item
         *ngFor="let link of navgroup.navlinks"
         [routerLink]="link.routerLink"
         routerLinkActive="navlink-active"
-        class="navlink"
+        class="navlink animate__animated animate__fadeInDown"
     >
         <mat-icon matListIcon> {{ link.icon }} </mat-icon>
         <h3 matLine>{{ link.text }}</h3>

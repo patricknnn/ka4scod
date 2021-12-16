@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Breadcrumb } from 'src/app/models/breadcrumb';
 import { BreadcrumbService } from 'src/app/services/breadcrumb.service';
