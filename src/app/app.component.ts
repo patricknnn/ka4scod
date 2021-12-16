@@ -11,7 +11,6 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { Observable } from 'rxjs';
-import { routeAnimation } from './animations/route-animations';
 import { Navlink } from './models/navlink';
 import { AuthService } from './services/firestore/auth.service';
 import { NavlinkService } from './services/navlink.service';
@@ -20,7 +19,6 @@ import { NavlinkService } from './services/navlink.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  animations: [routeAnimation],
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'KA4S Klappers';
@@ -88,9 +86,5 @@ export class AppComponent implements OnInit, OnDestroy {
       default:
         break;
     }
-  }
-
-  public getActivatedRoute(outlet: RouterOutlet): ActivatedRoute | undefined {
-    return outlet.isActivated ? outlet.activatedRoute : undefined;
   }
 }

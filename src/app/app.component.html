@@ -37,13 +37,7 @@
                 <div class="scroll-content">
                     <!-- Router Outlet -->
                     <div class="content-wrapper">
-                        <div
-                            [@routeAnimation]="getActivatedRoute(routerOutlet)"
-                        >
-                            <router-outlet
-                                #routerOutlet="outlet"
-                            ></router-outlet>
-                        </div>
+                        <router-outlet #outlet="outlet"></router-outlet>
                     </div>
                 </div>
             </div>

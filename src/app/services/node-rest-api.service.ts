@@ -28,8 +28,8 @@ export declare type CodApiGameType = 'mp' | 'wz' | 'zm';
 })
 export class NodeRestApiService {
     isLoggedIn: boolean = false;
-    //apiURL: string = 'http://localhost:8000/api/';
-    apiURL: string = 'http://api.klapdekar.nl:8000/api/';
+    apiURL: string = 'http://localhost:8000/api/';
+    //apiURL: string = 'http://api.klapdekar.nl:8000/api/';
     requestRetries: number = 1;
     lifetimeCache: { name: string; data: any }[] = [];
     warzoneCache: { name: string; data: any }[] = [];
