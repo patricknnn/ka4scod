@@ -2,7 +2,9 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="title-container">
-                <div class="title-image animate__animated animate__fadeIn"></div>
+                <div [class]="imageClass" class="title-image animate__animated animate__fadeIn">
+                    <div class="overlay"></div>
+                </div>
                 <mat-card class="title-card animate__animated animate__fadeInDown">
                     <mat-card-header>
                         <mat-icon mat-card-avatar *ngIf="icon" class="icon">

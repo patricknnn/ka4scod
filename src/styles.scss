@@ -52,7 +52,7 @@ body {
     scrollbar-width: none;
 }
 .scroll-content::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
 .content-wrapper {
@@ -160,11 +160,11 @@ mat-form-field {
 
 // icons
 #mw-icon path {
-  fill: #009688;
+    fill: #009688;
 }
 
 #vg-icon g path {
-  fill: #f44336;
+    fill: #f44336;
 }
 
 // Helpers
@@ -177,4 +177,23 @@ mat-form-field {
 
 .txt-green {
     color: #4caf50;
+}
+
+.bg-mw-1 {
+    background-image: url("../src/assets/img/mw_bg_1.jpeg");
+}
+.bg-mw-2 {
+    background-image: url("../src/assets/img/mw_bg_2.jpeg");
+}
+.bg-wz-1 {
+    background-image: url("../src/assets/img/wz_bg_1.jpeg");
+}
+.bg-wz-2 {
+    background-image: url("../src/assets/img/wz_bg_2.jpeg");
+}
+.bg-vg-1 {
+    background-image: url("../src/assets/img/vg_bg_1.jpeg");
+}
+.bg-vg-2 {
+    background-image: url("../src/assets/img/vg_bg_2.jpeg");
 }

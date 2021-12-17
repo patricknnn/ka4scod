@@ -10,6 +10,7 @@ export class TitleSectionComponent {
     @Input() subTitle?: string;
     @Input() icon?: string;
     @Input() buttonIcon?: string;
+    @Input() imageClass: string = 'bg-mw-2';
     
     @Output() buttonClick = new EventEmitter();
 
