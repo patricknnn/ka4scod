@@ -1,15 +1,16 @@
 .video-card {
-  padding-bottom: 0;
+    padding-bottom: 0;
+    margin-bottom: 16px;
 
-  & iframe {
-    border-radius: 8px;
-  }
+    & iframe {
+        border-radius: 8px;
+    }
 }
 .mat-card-video {
-  width: calc(100% + 32px);
-  margin: 0 -16px 16px -16px;
+    width: calc(100% + 32px);
+    margin: 0 -16px 16px -16px;
 }
 
 .mat-card-video iframe {
-  display: flex;
+    display: flex;
 }
