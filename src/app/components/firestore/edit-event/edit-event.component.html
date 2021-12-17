@@ -1,6 +1,8 @@
 <!-- Title -->
-<app-title-section icon="event"
+<app-title-section
+    icon="event"
     [title]="editEvent ? 'Edit event' : 'New event'"
+    [subTitle]="event.name"
 ></app-title-section>
 
 <div class="container-fluid">
@@ -13,7 +15,10 @@
     <div class="row">
         <div class="col-xs-12">
             <!-- Form -->
-            <mat-card [class]="elevation" class="animate__animated animate__fadeIn">
+            <mat-card
+                [class]="elevation"
+                class="animate__animated animate__fadeIn"
+            >
                 <mat-card-content>
                     <div class="container-fluid">
                         <app-dynamic-form

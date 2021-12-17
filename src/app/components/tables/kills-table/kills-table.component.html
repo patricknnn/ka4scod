@@ -1,5 +1,9 @@
 <!-- Title -->
-<app-title-section icon="fullscreen_exit" [title]="'Kills'"></app-title-section>
+<app-title-section
+    icon="fullscreen_exit"
+    [title]="'Kills'"
+    subTitle="Modern Warfare"
+></app-title-section>
 
 <div class="container-fluid">
     <div class="row" *ngIf="!isSsoTokenSet()">
@@ -21,7 +25,10 @@
         </div>
     </div>
 
-    <div class="row animate__animated animate__fadeIn" *ngIf="isSsoTokenSet() && !isLoading">
+    <div
+        class="row animate__animated animate__fadeIn"
+        *ngIf="isSsoTokenSet() && !isLoading"
+    >
         <div class="col-xs-12">
             <!-- Button toggle -->
             <mat-button-toggle-group class="button-toggle-full-width">

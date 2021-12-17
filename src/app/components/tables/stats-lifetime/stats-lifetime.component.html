@@ -1,8 +1,11 @@
 <!-- Stats -->
-<app-title-section icon="content_paste" [title]="'Modern Warfare Lifetime'"></app-title-section>
+<app-title-section
+    icon="content_paste"
+    [title]="'Lifetime'"
+    subTitle="Modern Warfare"
+></app-title-section>
 
 <div class="container-fluid">
-
     <div class="row" *ngIf="!isSsoTokenSet()">
         <div class="col-xs-12">
             <app-notification-card

@@ -2,6 +2,7 @@
 <app-title-section
     icon="event"
     [title]="'Event details'"
+    [subTitle]="event.name"
     [buttonIcon]="eventEnded ? '' : 'block'"
     (buttonClick)="endEvent()"
 ></app-title-section>
