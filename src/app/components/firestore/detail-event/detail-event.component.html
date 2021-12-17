@@ -24,7 +24,7 @@
     <div class="row" *ngIf="!isLoading">
         <div class="col-xs-12">
             <!-- Form -->
-            <mat-card [class]="elevation" style="margin-top: 1rem">
+            <mat-card [class]="elevation" class="animate__animated animate__fadeIn" style="margin-top: 1rem">
                 <mat-card-content>
                     <div class="container-fluid">
                         <div class="row">
@@ -102,7 +102,7 @@
 <app-title-section [title]="'Event stats'"></app-title-section>
 
 <div class="container-fluid">
-    <div class="row">
+    <div class="row animate__animated animate__fadeIn">
         <div class="col-xs-12">
             <!-- Button toggle mode -->
             <mat-button-toggle-group class="button-toggle-full-width">
@@ -127,7 +127,7 @@
             </mat-button-toggle-group>
         </div>
     </div>
-    <div class="row">
+    <div class="row animate__animated animate__fadeIn">
         <div class="col-xs-12">
             <!-- Button toggle stats -->
             <mat-button-toggle-group class="button-toggle-full-width">
@@ -166,7 +166,7 @@
             <app-loading></app-loading>
         </div>
     </div>
-    <div class="row">
+    <div class="row animate__animated animate__fadeIn">
         <div class="col-xs-12">
             <!-- Dynamic table outlet -->
             <ng-container #outlet></ng-container>

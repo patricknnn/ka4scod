@@ -10,7 +10,10 @@
     <!-- Table row -->
     <div class="dynamic-table-table-row" *ngIf="!isLoadingResults">
         <!-- Filter -->
-        <div class="dynamic-table-filter" *ngIf="tableConfig.filter">
+        <div
+            class="dynamic-table-filter"
+            *ngIf="tableConfig.filter"
+        >
             <mat-form-field
                 [appearance]="tableConfig.filterAppearance"
                 [color]="tableConfig.filterColor"
@@ -35,6 +38,7 @@
             >
                 <!-- Table -->
                 <mat-table
+                    class="animate__animated animate__fadeIn"
                     [dataSource]="dataSource"
                     matSort
                     [matSortActive]="tableConfig.sortingActiveField || ''"
